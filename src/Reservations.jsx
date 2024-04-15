@@ -14,6 +14,7 @@ const Reservations = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(name);
         // Add your reservation submission logic here
     };
 
