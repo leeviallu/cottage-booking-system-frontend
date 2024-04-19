@@ -28,4 +28,11 @@ const Areas = () => {
                     <input type="text" value={areaName} onChange={handleAreaNameChange} />
                 </label>
                 <br />
-               
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    );
+};
+
+
+export default Areas;
