@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 const Areas = () => {
     const [areaName, setAreaName] = useState('');
@@ -9,7 +10,11 @@ const Areas = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log('Area Name:', areaName);
+        axios.post('http://localhost:8080/api/areas',
+            {
+                "name": areaName
+            }
+        )
         setAreaName('');
     };
 
@@ -23,11 +28,4 @@ const Areas = () => {
                     <input type="text" value={areaName} onChange={handleAreaNameChange} />
                 </label>
                 <br />
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    );
-};
-
-
-export default Areas;
+               
