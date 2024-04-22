@@ -1,6 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Cottages = () => {
+    const [areas, setAreas] = useState([]);
+    const [areaSearchTerm, setAreaSearchTerm] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
     const [formData, setFormData] = useState({
         areaId: '',
         postalcode: 0,
@@ -19,7 +23,22 @@ const Cottages = () => {
     const handleSubmit = (e) => {
         const { areaId, postalcode, name, address, price, description, capacity, equipment } = formData;
         e.preventDefault();
-        console.log(areaId, postalcode, name, address, price, description, capacity, equipment);
+        axios.post('http://localhost:8080/api/cottages',
+            {
+                "description": description,
+                "address": address,
+                "postal": {
+                            "postalcode": postalcode
+                        },
+                "name": name,
+                "price": price,
+                "equipment": equipment,
+                "area": {
+                            "areaId": areaId
+                        },
+                "capacity": capacity
+            }
+        )
         setFormData({
             areaId: '',
             postalcode: 0,
@@ -31,16 +50,47 @@ const Cottages = () => {
             equipment: ''
         })
     };
-  
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const fetchedAreas = await axios.get('http://localhost:8080/api/areas');
+                setAreas(fetchedAreas.data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const filteredAreas = areas.filter(area =>
+            area.name == null ? null :
+            area.name.toLowerCase().includes(areaSearchTerm)
+        );
+        setSearchResults(filteredAreas);
+      }, [areas, areaSearchTerm]);
+
     return (
         <div>
             <h1>Cottages</h1>
             <h2>Create a cottage</h2>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="areaId">Area ID:</label>
-                <input type="text" id="areaId" name="areaId" value={formData.areaId} onChange={handleChange} />
+            
+                
+                <label htmlFor="items">Area:</label>
                 <br />
-
+                <input value={areaSearchTerm} onChange={event => setAreaSearchTerm(event.target.value)} />
+                <br />
+                
+                <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
+                    {searchResults.map((area) => (
+                        <option key={area.areaId} value={area.areaId}>
+                            {area.name}
+                        </option>
+                    ))}
+                </select>
+                <br />
 
                 <label htmlFor="postalcode">Postal Code:</label>
                 <input type="number" id="postalcode" name="postalcode" value={formData.postalcode} onChange={handleChange} min="10000" max="99999" />
