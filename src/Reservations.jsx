@@ -4,8 +4,11 @@ import axios from 'axios';
 const Reservations = () => {
   
     const [cottageSearchTerm, setCottageSearchTerm] = useState("");
+    const [customerSearchTerm, setCustomerSearchTerm] = useState("");
+    const [customerResults, setCustomerResults] = useState([]);
+    const [customers, setCustomers] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
-    const [cottages, setCottage] = useState([]);
+    const [cottages, setCottages] = useState([]);
     const [formData, setFormData] = useState({
         cottageId: 0,
         customerId: 0,
@@ -20,7 +23,10 @@ const Reservations = () => {
     };
 
     const handleSubmit = (event) => {
+
         const { cottageId, customerId, reservationCreationDate, confirmationDate, startDate, endDate } = formData;
+        console.log("hei", formData);
+
         event.preventDefault();
         axios.post('http://localhost:8080/api/reservations',
             {
@@ -50,8 +56,9 @@ const Reservations = () => {
         const fetchData = async () => {
             try {
                 const fetchedCottages = await axios.get('http://localhost:8080/api/cottages');
-                console.log(fetchedCottages.data);
-                setCottage(fetchedCottages.data);
+                const fetchedCustomers = await axios.get('http://localhost:8080/api/customers');
+                setCottages(fetchedCottages.data);
+                setCustomers(fetchedCustomers.data);
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -65,7 +72,16 @@ const Reservations = () => {
             cottages.name.toLowerCase().includes(cottageSearchTerm.toLowerCase())
         );
         setSearchResults(filteredCottages);
-      }, [cottages, cottageSearchTerm]);
+
+        const filteredCustomers = customers.filter(customers =>
+            customers.email == null ? null :
+            customers.email.toLowerCase().includes(customerSearchTerm.toLowerCase())
+        );
+        setCustomerResults(filteredCustomers);
+      }, [cottages, cottageSearchTerm, customers, customerSearchTerm]);
+
+    
+
 
 
     return (
@@ -73,17 +89,30 @@ const Reservations = () => {
             <h1>Make a Reservation</h1>
             <form onSubmit={handleSubmit}>
                 <label>
-                    Customer Id: 
-                    <input type="number" name="customerId" value={formData.customerId} onChange={handleChange} />
+                <br />
+                    Etsi asiakasta sähköpostiosoitteella:
+                    <br />
+                    <input type="text" value={customerSearchTerm} onChange={event => setCustomerSearchTerm(event.target.value)} />
+                    <br />
+                    <select name="customerId" value={formData.customerId} onChange={handleChange}>
+                    {customerResults.map((customer) => (
+                        <option key={customer.customerId} value={customer.customerId}>
+                            {customer.email}
+                        </option>
+                    )).slice(0,5)}
+                    </select>
                 </label>
                 <br />
                 <label>
-                    Search cottages by name: 
+                <br />
+                    Etsi mökkiä nimellä: 
+                    <br />
                     <input value={cottageSearchTerm} onChange={event => setCottageSearchTerm(event.target.value)} />
+                    <br />
                     <select id="cottageId" name="cottageId" value={formData.cottageId} onChange={handleChange}>
-                    {searchResults.map((cottages) => (
-                        <option key={cottages.cottageId} value={cottages.cottageId}>
-                            {cottages.name}
+                    {searchResults.map((cottage) => (
+                        <option key={cottage.cottageId} value={cottage.cottageId}>
+                            {cottage.name}
                         </option>
                     )).slice(0,5)}
                     </select>
@@ -91,24 +120,33 @@ const Reservations = () => {
                 </label>
                 <br />
                 <label>
-                    Reservation Creation Date: 
+                <br />
+                    Varauksen luontipäivä:
+                    <br />
                     <input type="date" name="reservationCreationDate" value={formData.reservationCreationDate} onChange={handleChange} />
                 </label>
                 <br />
                 <label>
-                    Confirmation Date: 
+                <br />
+                    Varauksen vahvistuspäivä:
+                    <br />
                     <input type="date" name="confirmationDate" value={formData.confirmationDate} onChange={handleChange} />
                 </label>
                 <br />
                 <label>
-                    Start Date: 
+                <br />
+                    Varauksen alkamispäivä:
+                    <br />
                     <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} />
                 </label>
                 <br />
                 <label>
-                    End Date: 
+                <br />
+                    Varauksen päättymispäivä: 
+                    <br />
                     <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} />
                 </label>
+                <br />
                 <br />
                 <button type="submit">Submit</button>
             </form>
