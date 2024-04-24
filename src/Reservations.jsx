@@ -19,16 +19,9 @@ const Reservations = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-  
-
-
-
     const handleSubmit = (event) => {
         const { cottageId, customerId, reservationCreationDate, confirmationDate, startDate, endDate } = formData;
         event.preventDefault();
-        console.log(cottageId, customerId, reservationCreationDate, confirmationDate, startDate, endDate);
-        console.log(cottageId, );
-        console.log( customerId, );
         axios.post('http://localhost:8080/api/reservations',
             {
                 "customer": {
