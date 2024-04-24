@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const Cottages = () => {
     const [areas, setAreas] = useState([]);
+    const [cottages, setCottages] = useState([]);
     const [areaSearchTerm, setAreaSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [formData, setFormData] = useState({
@@ -52,7 +53,7 @@ const Cottages = () => {
     };
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchAreas = async () => {
             try {
                 const fetchedAreas = await axios.get('http://localhost:8080/api/areas');
                 setAreas(fetchedAreas.data);
@@ -60,7 +61,18 @@ const Cottages = () => {
                 console.error('Error:', error);
             }
         };
-        fetchData();
+
+        const fetchCottages = async () => {
+            try {
+                const fetchedCottages = await axios.get('http://localhost:8080/api/cottages');
+                setCottages(fetchedCottages.data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        fetchAreas();
+        fetchCottages();
     }, []);
 
     useEffect(() => {
@@ -127,6 +139,29 @@ const Cottages = () => {
 
                 <button type="submit">Submit</button>
             </form>
+
+            <h2>All cottages</h2>
+            <div>
+                {
+                    cottages.map(cottage => 
+                    
+                    
+                        cottage.name != null 
+                            ?    
+                            <div key={cottage.id}>
+                                <p>{cottage.name}</p>
+                                <p>{cottage.name}</p>
+                                <p>{cottage.name}</p>
+                                <p>{cottage.name}</p>
+                                <p>{cottage.name}</p>
+                                
+                            </div>
+                            :
+                            null
+                        )
+                    
+                }
+            </div>
         </div>
     );
 };
