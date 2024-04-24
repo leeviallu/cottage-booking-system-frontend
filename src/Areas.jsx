@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Area from "./Area";
 
 const Areas = () => {
     const [areas, setAreas] = useState([]);
@@ -20,14 +21,7 @@ const Areas = () => {
         fetchData();
     };
 
-    const handleDelete = (event, id) => {
-        event.preventDefault();
-        try {
-            axios.delete(`http://localhost:8080/api/areas/${id}`)
-        } catch (error) {
-            console.error('Error deleting data:', error);
-        }
-    }
+    
 
     const fetchData = async () => {
         try {
@@ -61,20 +55,25 @@ const Areas = () => {
             <div>
 
             {
-                areas.map(area => (
+                
+                areas.map(area => 
+                
+                
                     area.name == null 
                         ? 
                         null 
                         :
-                        <ul key={area.areaId}>
-                            <li>
-                                {area.name} 
-                                <button onClick={(event) => handleDelete(event, area.areaId)}>Remove</button>
+                        
+                           <Area key={area.areaId} area={area} />
 
-                            </li>
-                        </ul>
+
+                        
+                               
+                       
+                        
+                        
                     )
-                )
+                
             }
             </div>
           
