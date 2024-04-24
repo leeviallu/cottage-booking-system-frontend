@@ -11,7 +11,7 @@ const Area = ({area}) => {
         setAreaName(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handlePut = (event) => {
         event.preventDefault();
         axios.put(`http://localhost:8080/api/areas/${id}`,
             {
@@ -19,6 +19,7 @@ const Area = ({area}) => {
             }
         )
         setAreaName('');
+        window.location.reload();
     };
 
     const handleDelete = (event, id) => {
@@ -28,8 +29,9 @@ const Area = ({area}) => {
         } catch (error) {
             console.error('Error deleting data:', error);
         }
+        window.location.reload();
     }
-    
+
     return (
         <div>
             {
@@ -44,7 +46,7 @@ const Area = ({area}) => {
                         <button onClick={(event) => handleDelete(event, id)}>Remove</button>
                     </div>
 
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handlePut}>
                         <label>
                             Area Name:
                             <input type="text" value={areaName} onChange={handleAreaNameChange} />
