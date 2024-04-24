@@ -1,31 +1,37 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import Cottage from './Cottage';
+import axios from "axios";
+import { useState, useEffect } from "react";
 
-const Cottages = () => {
+const Cottage = ({cottage}) => {
     const [areas, setAreas] = useState([]);
-    const [cottages, setCottages] = useState([]);
     const [areaSearchTerm, setAreaSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-    const [formData, setFormData] = useState({
-        areaId: '',
-        postalcode: 0,
-        name: '',
-        address: '',
-        price: 0,
-        description: '',
-        capacity: '',
-        equipment: ''
-    });
 
+
+    const [editing, setEditing] = useState(false);
+    
+    const [formData, setFormData] = useState({
+        areaId: cottage.areaId,
+        postalcode: cottage.postalcode,
+        name: cottage.name,
+        address: cottage.address,
+        price: cottage.price,
+        description: cottage.description,
+        capacity: cottage.capacity,
+        equipment: cottage.equipment
+    });
+    
+
+    
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = (e) => {
         const { areaId, postalcode, name, address, price, description, capacity, equipment } = formData;
+        const id = cottage.cottageId;
         e.preventDefault();
-        axios.post('http://localhost:8080/api/cottages',
+        console.log(formData)
+        axios.put(`http://localhost:8080/api/cottages/${id}`,
             {
                 "description": description,
                 "address": address,
@@ -41,17 +47,18 @@ const Cottages = () => {
                 "capacity": capacity
             }
         )
-        setFormData({
-            areaId: '',
-            postalcode: 0,
-            name: '',
-            address: '',
-            price: 0,
-            description: '',
-            capacity: '',
-            equipment: ''
-        })
     };
+
+    const handleDelete = (event, id) => {
+        event.preventDefault();
+        try {
+            axios.delete(`http://localhost:8080/api/cottages/${id}`)
+        } catch (error) {
+            console.error('Error deleting data:', error);
+        }
+        window.location.reload();
+    }
+
 
     useEffect(() => {
         const fetchAreas = async () => {
@@ -63,17 +70,7 @@ const Cottages = () => {
             }
         };
 
-        const fetchCottages = async () => {
-            try {
-                const fetchedCottages = await axios.get('http://localhost:8080/api/cottages');
-                setCottages(fetchedCottages.data);
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
         fetchAreas();
-        fetchCottages();
     }, []);
 
     useEffect(() => {
@@ -84,10 +81,12 @@ const Cottages = () => {
         setSearchResults(filteredAreas);
       }, [areas, areaSearchTerm]);
 
+
     return (
         <div>
-            <h1>Cottages</h1>
-            <h2>Create a cottage</h2>
+            {
+                editing
+            ?
             <form onSubmit={handleSubmit}>
             
                 
@@ -106,11 +105,11 @@ const Cottages = () => {
                 <br />
 
                 <label htmlFor="postalcode">Postal Code:</label><br/>
-                <input type="number" id="postalcode" name="postalcode" value={formData.postalcode} onChange={handleChange} min="10000" max="99999" />
+                <input placeholder={cottage.postalcode} type="number" id="postalcode" name="postalcode" value={formData.postalcode} onChange={handleChange} min="10000" max="99999" />
                 <br />
 
                 <label htmlFor="name">Name:</label><br/>
-                <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
+                <input placeholder={cottage.postalcode} type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
                 <br />
 
                 <label htmlFor="address">Address:</label><br/>
@@ -139,22 +138,45 @@ const Cottages = () => {
 
 
                 <button type="submit">Submit</button>
+                <br/>
+                <br/>
+                <button onClick={() => setEditing(!editing)}>Edit</button>
+
+                <button onClick={(event) => handleDelete(event, cottage.cottageId)}>Remove</button>
+                <br/>
             </form>
 
-            <h2>All cottages</h2>
-            <div>
-                {
-                    cottages.map(cottage => 
-                        cottage.name != null 
-                            ?    
-                            <Cottage key={cottage.cottageId} cottage={cottage} />
-                            :
-                            null   
-                    )
-                }
+            :
+            <div key={cottage.cottageId}>
+                <p>
+                <b>Area:</b> {cottage.area.name}
+                <br/>
+                <b>Name:</b> {cottage.name}
+                <br/>            
+                <b>Price:</b> {cottage.price}
+                <br/>
+                <b>Address:</b> {cottage.address}
+                <br/>
+                <b>Description:</b> {cottage.description}
+                <br/>
+                <b>Capacity:</b> {cottage.capacity}
+                <br/>
+                <b>Equipment:</b> {cottage.equipment}
+                <br/>
+                </p>
+                <button onClick={() => setEditing(!editing)}>Edit</button>
+
+                <button onClick={(event) => handleDelete(event, cottage.cottageId)}>Remove</button>
+                <br/>
+                <br/>
+                <br/>
             </div>
+        
+       
+            }
         </div>
+            
     );
 };
 
-export default Cottages;
+export default Cottage;
