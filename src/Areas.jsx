@@ -53,28 +53,18 @@ const Areas = () => {
 
             <h2>All areas</h2>
             <div>
-
-            {
-                
-                areas.map(area => 
-                
-                
-                    area.name == null 
-                        ? 
-                        null 
-                        :
-                        
-                           <Area key={area.areaId} area={area} />
-
-
-                        
-                               
-                       
-                        
-                        
-                    )
-                
-            }
+                {
+                    areas.map(area => 
+                    
+                    
+                        area.name != null 
+                            ?    
+                            <Area key={area.areaId} area={area} />  
+                            :
+                            null
+                        )
+                    
+                }
             </div>
           
         </div>

@@ -29,42 +29,38 @@ const Area = ({area}) => {
             console.error('Error deleting data:', error);
         }
     }
+    
     return (
         <div>
             {
                 editing 
                 ?
-                <ul key={id}>
-                    <li>
-                        <div>
-                            {name} 
-                            <button onClick={() => setEditing(!editing)}>
-                            Edit
-                            </button>
-                            <button onClick={(event) => handleDelete(event, id)}>Remove</button>
-                        </div>
-
-                        <form onSubmit={handleSubmit}>
-                            <label>
-                                Area Name:
-                                <input type="text" value={areaName} onChange={handleAreaNameChange} />
-                            </label>
-                            <br />
-                            <button type="submit">Submit</button>
-                        </form>
-                    </li>
-                </ul>
-                :
-                <ul key={id}>
-                    <li>
+                <div>
+                    <div>
                         {name} 
                         <button onClick={() => setEditing(!editing)}>
                         Edit
                         </button>
                         <button onClick={(event) => handleDelete(event, id)}>Remove</button>
+                    </div>
 
-                    </li>
-                </ul>
+                    <form onSubmit={handleSubmit}>
+                        <label>
+                            Area Name:
+                            <input type="text" value={areaName} onChange={handleAreaNameChange} />
+                        </label>
+                        <br />
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+                :
+                <div>
+                    {name} 
+                    <button onClick={() => setEditing(!editing)}>
+                    Edit
+                    </button>
+                    <button onClick={(event) => handleDelete(event, id)}>Remove</button>
+                </div>  
             }
         </div>
     );
