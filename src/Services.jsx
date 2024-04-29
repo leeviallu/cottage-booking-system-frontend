@@ -1,76 +1,64 @@
-
 import axios from "axios";
 import React, { useState, useEffect } from 'react';
+import Service from "./Service";
 
 const Services = () => {
-    const[areas,setAreas]=useState([]);
+    const [areas, setAreas] = useState([]);
     const [services, setServices] = useState([]);
     const [formData, setFormData] = useState({
-        serviceId:'',
         areaId: '',
         name: '',
-        type: '',
         description: '',
-        price:'',
+        price: '',
     });
 
     const handleChange = (e) => {
-
         setFormData({ ...formData, [e.target.name]: e.target.value });
-    
     };
-    
 
-    const handleCreate = (e) => {
-        const { serviceId,areaId, name, type, description, price}=formData;
-    
+    const handleCreate = async (e) => {
         e.preventDefault();
-        axios.post('http://localhost:8080/api/services',
-            {
-            
-                "serviceId":serviceId,
-                "area": {
-                    "areaId": areaId
-                },
-                "name":name,
-                "type": type,
-                "description":description,
-                "price": price,
-    
-            }
-        )
-        setFormData({
-            serviceId:'',
-        areaId: '',
-        name: '',
-        type: '',
-        description: '',
-        price:'',
-        })
-    };
-    const handleDelete = (event, id) => {
-        event.preventDefault();
+        const { areaId, name, description, price } = formData;
         try {
-            axios.delete(`http://localhost:8080/api/services/${id}`)
+            await axios.post('http://localhost:8080/api/services', {
+                area: { areaId: areaId },
+                name: name,
+                description: description,
+                price: price,
+            });
+            setFormData({
+                areaId: '',
+                name: '',
+                description: '',
+                price: '',
+            });
+            fetchServices();
         } catch (error) {
-            console.error('Error deleting data:', error);
+            console.error('Error creating service:', error);
         }
-    }
-    
+        window.location.reload();
+    };
+
+
+    const fetchServices = async () => {
+        try {
+            const fetchedServices = await axios.get('http://localhost:8080/api/services');
+            setServices(fetchedServices.data);
+        } catch (error) {
+            console.error('Error fetching services:', error);
+        }
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const fetchedAreas = await axios.get('http://localhost:8080/api/areas');
                 setAreas(fetchedAreas.data);
-                setFormData({areaId: fetchedAreas.data[0].areaId});
-
-                const fetchedServices = await axios.get('http://localhost:8080/api/services');
-                setServices(fetchedServices.data);
-
+                setFormData({ areaId: fetchedAreas.data[0].areaId });
+                fetchServices();
             } catch (error) {
                 console.error('Error:', error);
             }
-        
         };
         fetchData();
     }, []);
@@ -79,69 +67,47 @@ const Services = () => {
         <div>
             <h1>Create Service</h1>
             <form onSubmit={handleCreate}>
-            <label>
-                    ServiceId:
-                    <input type="number" name="serviceId"value={formData.serviceId}onChange={handleChange}/>
-                <br />
+                <label>
+                    Area:
+                    <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
+                        {areas.map((area) => (
+                            <option key={area.areaId} value={area.areaId}>
+                                {area.name}
+                            </option>
+                        ))}
+                    </select>
                 </label>
-                Area:
-                <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
-                    {areas.map((area) => (
-                        <option key={area.areaId} value={area.areaId}>
-                            {area.name}
-                        </option>
-                    ))}
-                </select>
                 <br />
                 <label>
                     Name:
-                    <input type="text" name="name"value={formData.name}onChange={handleChange}/>
+                    <input type="text" name="name" value={formData.name} onChange={handleChange} />
                 </label>
-                <br/>
-                <label>
-                    Type:
-                    <input type="number" name="type"value={formData.type}onChange={handleChange}/>
-                </label>
-                <br/>
-            
+                <br />
                 <label>
                     Description:
-                    <input type="text"name="description" value={formData.description}onChange={handleChange}/>
+                    <input type="text" name="description" value={formData.description} onChange={handleChange} />
                 </label>
-                <br/>
+                <br />
                 <label>
-                Price:
-                    <input type="number" name="price" value={formData.price}onChange={handleChange}/>
+                    Price:
+                    <input type="number" name="price" value={formData.price} onChange={handleChange} />
                 </label>
-                <br/>
-            
+                <br />
                 <button type="create">Create</button>
             </form>
-
             <h2>All services</h2>
-            <div>
-
-            {
-                services.map(service=> (
-                    service == null 
-                        ? 
-                        null 
+        <div>
+                {
+                    services.map(service=>
+                        service.name !=null?
+                        <Service key={service.serviceId} service={service}/>
                         :
-                        <ul key={service.serviceId}>
-                            <li>
-                                {service.name} 
-                                <button onClick={(event) => handleDelete(event, service.serviceId)}>Remove</button>
-                            </li>
-                        </ul>
+                        null
                     )
-                )
-            }
-            </div>
+                }
         </div>
+    </div>
     );
 };
 
 export default Services;
-
-
-

@@ -16,6 +16,7 @@ const Area = ({area}) => {
         axios.put(`http://localhost:8080/api/areas/${id}`,
             {
                 "name": areaName
+                
             }
         )
         setAreaName('');
