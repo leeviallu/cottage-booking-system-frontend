@@ -126,7 +126,7 @@ const Cottages = () => {
 
     useEffect(() => {
         const filteredAreas = areas.filter(area =>
-            area.name == null 
+            area.name != null 
             ? 
             area.name.toLowerCase().includes(areaSearchTerm.toLowerCase()) 
             :
