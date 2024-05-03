@@ -10,6 +10,7 @@ const Cottages = () => {
     const [formData, setFormData] = useState({
         areaId: '',
         postalcode: 0,
+        position: '',
         name: '',
         address: '',
         price: 0,
@@ -23,35 +24,79 @@ const Cottages = () => {
     };
 
     const handleSubmit = (e) => {
-        const { areaId, postalcode, name, address, price, description, capacity, equipment } = formData;
         e.preventDefault();
-        axios.post('http://localhost:8080/api/cottages',
-            {
-                "description": description,
-                "address": address,
-                "postal": {
-                            "postalcode": postalcode
-                        },
-                "name": name,
-                "price": price,
-                "equipment": equipment,
-                "area": {
-                            "areaId": areaId
-                        },
-                "capacity": capacity
-            }
-        )
-        setFormData({
-            areaId: '',
-            postalcode: 0,
-            name: '',
-            address: '',
-            price: 0,
-            description: '',
-            capacity: '',
-            equipment: ''
-        })
+        const { areaId, postalcode, position, name, address, price, description, capacity, equipment } = formData;
+        if (validPostalCode(postalcode) == null) {
+            console.error("Postalcode not given")
+        } else {
+
+            axios.get('http://localhost:8080/api/postal/' + postalcode)
+                .then(response => {
+                    if(response.data == "") {
+                        axios.post('http://localhost:8080/api/postal', 
+                                    {
+                                        "postalcode": postalcode,
+                                        "position": position
+                                    }
+                        // eslint-disable-next-line no-unused-vars
+                        ).then(_response => {
+                            axios.post('http://localhost:8080/api/cottages',
+                                {
+                                    "description": description,
+                                    "address": address,
+                                    "postal": {
+                                                "postalcode": postalcode
+                                            },
+                                    "name": name,
+                                    "price": price,
+                                    "equipment": equipment,
+                                    "area": {
+                                                "areaId": areaId
+                                            },
+                                    "capacity": capacity
+                                }
+                            )
+                        })
+                    }
+                    else {
+                        axios.post('http://localhost:8080/api/cottages',
+                            {
+                                "description": description,
+                                "address": address,
+                                "postal": {
+                                            "postalcode": postalcode
+                                        },
+                                "name": name,
+                                "price": price,
+                                "equipment": equipment,
+                                "area": {
+                                            "areaId": areaId
+                                        },
+                                "capacity": capacity
+                            }
+                        )
+                    }
+                })
+                
+            
+            setFormData({
+                areaId: '',
+                postalcode: 0,
+                position: '',
+                name: '',
+                address: '',
+                price: 0,
+                description: '',
+                capacity: '',
+                equipment: ''
+            })
+        }
     };
+
+    const validPostalCode = (code) => {
+        return code.match(/^[/\d]{5}?$/) !== null      
+    }
+      
 
     useEffect(() => {
         const fetchAreas = async () => {
@@ -82,7 +127,7 @@ const Cottages = () => {
             area.name.toLowerCase().includes(areaSearchTerm.toLowerCase())
         );
         setSearchResults(filteredAreas);
-      }, [areas, areaSearchTerm]);
+    }, [areas, areaSearchTerm]);
 
     return (
         <div>
@@ -91,11 +136,12 @@ const Cottages = () => {
             <form onSubmit={handleSubmit}>
             
                 
-                <label htmlFor="items">Area:</label>
+                <label htmlFor="areasearchterm">Search Area:</label>
                 <br />
-                <input value={areaSearchTerm} onChange={event => setAreaSearchTerm(event.target.value)} />
+                <input id="areasearchterm" value={areaSearchTerm} onChange={event => setAreaSearchTerm(event.target.value)} />
                 <br />
-                
+                <label htmlFor="areaId">Select Area:</label>
+                <br />
                 <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
                     {searchResults.map((area) => (
                         <option key={area.areaId} value={area.areaId}>
@@ -103,10 +149,17 @@ const Cottages = () => {
                         </option>
                     ))}
                 </select>
+                   
+                
+                    
                 <br />
 
                 <label htmlFor="postalcode">Postal Code:</label><br/>
-                <input type="number" id="postalcode" name="postalcode" value={formData.postalcode} onChange={handleChange} min="10000" max="99999" />
+                <input type="number" id="postalcode" name="postalcode" value={formData.postalcode} onChange={handleChange} />
+                <br />
+
+                <label htmlFor="position">Position:</label><br/>
+                <input type="text" id="position" name="position" value={formData.position} onChange={handleChange} />
                 <br />
 
                 <label htmlFor="name">Name:</label><br/>
