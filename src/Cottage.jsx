@@ -10,8 +10,9 @@ const Cottage = ({cottage}) => {
     const [editing, setEditing] = useState(false);
     
     const [formData, setFormData] = useState({
-        areaId: cottage.areaId,
-        postalcode: cottage.postalcode,
+        areaId: cottage.area.areaId,
+        postalcode: cottage.postal.postalcode,
+        position: cottage.postal.position,
         name: cottage.name,
         address: cottage.address,
         price: cottage.price,
@@ -27,26 +28,64 @@ const Cottage = ({cottage}) => {
     };
 
     const handleSubmit = (e) => {
-        const { areaId, postalcode, name, address, price, description, capacity, equipment } = formData;
-        const id = cottage.cottageId;
         e.preventDefault();
-        console.log(formData)
-        axios.put(`http://localhost:8080/api/cottages/${id}`,
-            {
-                "description": description,
-                "address": address,
-                "postal": {
-                            "postalcode": postalcode
-                        },
-                "name": name,
-                "price": price,
-                "equipment": equipment,
-                "area": {
-                            "areaId": areaId
-                        },
-                "capacity": capacity
-            }
-        )
+        const { areaId, postalcode, position, name, address, price, description, capacity, equipment } = formData;
+        const id = cottage.cottageId;
+
+        axios.get('http://localhost:8080/api/postal/' + postalcode)
+            .then(response => {
+                if(response.data == "") {
+                    axios.post('http://localhost:8080/api/postal', 
+                                {
+                                    "postalcode": postalcode,
+                                    "position": position
+                                }
+                    // eslint-disable-next-line no-unused-vars
+                    ).then(_response => {
+                        axios.put(`http://localhost:8080/api/cottages/${id}`,
+                            {
+                                "description": description,
+                                "address": address,
+                                "postal": {
+                                            "postalcode": postalcode
+                                        },
+                                "name": name,
+                                "price": price,
+                                "equipment": equipment,
+                                "area": {
+                                            "areaId": areaId
+                                        },
+                                "capacity": capacity
+                            }
+                        )
+                    })
+                }
+                else {
+                    axios.put(`http://localhost:8080/api/cottages/${id}`,
+                        {
+                            "description": description,
+                            "address": address,
+                            "postal": {
+                                        "postalcode": postalcode
+                                    },
+                            "name": name,
+                            "price": price,
+                            "equipment": equipment,
+                            "area": {
+                                        "areaId": areaId
+                                    },
+                            "capacity": capacity
+                        }
+                    )
+                }
+
+                
+            }).catch(error => {
+                console.error(error);
+            })
+    
+        window.location.reload();
+        
     };
 
     const handleDelete = (event, id) => {
@@ -92,7 +131,7 @@ const Cottage = ({cottage}) => {
                 
                 <label htmlFor="items">Area:</label>
                 <br />
-                <input value={areaSearchTerm} onChange={event => setAreaSearchTerm(event.target.value)} />
+                <input id="areasearchterm" value={areaSearchTerm} onChange={event => setAreaSearchTerm(event.target.value)} />
                 <br />
                 
                 <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
@@ -105,11 +144,15 @@ const Cottage = ({cottage}) => {
                 <br />
 
                 <label htmlFor="postalcode">Postal Code:</label><br/>
-                <input placeholder={cottage.postalcode} type="number" id="postalcode" name="postalcode" value={formData.postalcode} onChange={handleChange} min="10000" max="99999" />
+                <input placeholder={cottage.postalcode} type="number" id="postalcode" name="postalcode" value={formData.postalcode} onChange={handleChange} />
+                <br />
+
+                <label htmlFor="position">Position:</label><br/>
+                <input placeholder={cottage.position} type="text" id="position" name="position" value={formData.position} onChange={handleChange} />
                 <br />
 
                 <label htmlFor="name">Name:</label><br/>
-                <input placeholder={cottage.postalcode} type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
+                <input placeholder={cottage.name} type="text" id="cottagename" name="cottagename" value={formData.name} onChange={handleChange} />
                 <br />
 
                 <label htmlFor="address">Address:</label><br/>
