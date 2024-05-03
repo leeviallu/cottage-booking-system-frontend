@@ -6,7 +6,10 @@ const Cottages = () => {
     const [areas, setAreas] = useState([]);
     const [cottages, setCottages] = useState([]);
     const [areaSearchTerm, setAreaSearchTerm] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
+    const [areaSearchResults, setAreaSearchResults] = useState([]);
+    const [cottageSearchTerm, setCottageSearchTerm] = useState("");
+    const [cottageSearchResults, setCottageSearchResults] = useState([]);
+
     const [formData, setFormData] = useState({
         areaId: '',
         postalcode: 0,
@@ -123,11 +126,24 @@ const Cottages = () => {
 
     useEffect(() => {
         const filteredAreas = areas.filter(area =>
-            area.name == null ? null :
-            area.name.toLowerCase().includes(areaSearchTerm.toLowerCase())
+            area.name == null 
+            ? 
+            area.name.toLowerCase().includes(areaSearchTerm.toLowerCase()) 
+            :
+            null
         );
-        setSearchResults(filteredAreas);
+        setAreaSearchResults(filteredAreas);
     }, [areas, areaSearchTerm]);
+
+    useEffect(() => {
+        const filteredCottages = cottages.filter(cottage => 
+            cottage.name != null 
+            ?
+            cottage.name.toLowerCase().includes(cottageSearchTerm.toLowerCase())
+            : null
+        );
+        setCottageSearchResults(filteredCottages);
+    }, [cottages, cottageSearchTerm])
 
     return (
         <div>
@@ -143,7 +159,7 @@ const Cottages = () => {
                 <label htmlFor="areaId">Select Area:</label>
                 <br />
                 <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
-                    {searchResults.map((area) => (
+                    {areaSearchResults.map((area) => (
                         <option key={area.areaId} value={area.areaId}>
                             {area.name}
                         </option>
@@ -194,10 +210,11 @@ const Cottages = () => {
                 <button type="submit">Submit</button>
             </form>
 
-            <h2>All cottages</h2>
+            <h2>Search Cottage:</h2>
+            <input id="cottagesearchterm" value={cottageSearchTerm} onChange={event => setCottageSearchTerm(event.target.value)} />
             <div>
                 {
-                    cottages.map(cottage => 
+                    cottageSearchResults.map(cottage => 
                         cottage.name != null 
                             ?    
                             <Cottage key={cottage.cottageId} cottage={cottage} />
