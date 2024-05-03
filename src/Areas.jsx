@@ -5,6 +5,8 @@ import Area from "./Area";
 const Areas = () => {
     const [areas, setAreas] = useState([]);
     const [areaName, setAreaName] = useState('');
+    const [areaSearchTerm, setAreaSearchTerm] = useState('');
+    const [areaSearchResults, setAreaSearchResults] = useState([]);
 
     const handleAreaNameChange = (event) => {
         setAreaName(event.target.value);
@@ -32,6 +34,17 @@ const Areas = () => {
         }
     };
 
+    useEffect(() => {
+        const filteredAreas = areas.filter(area =>
+            area.name != null 
+            ? 
+            area.name.toLowerCase().includes(areaSearchTerm.toLowerCase()) 
+            :
+            null
+        );
+        setAreaSearchResults(filteredAreas);
+    }, [areas, areaSearchTerm]);
+
     
     useEffect(() => {
         fetchData();
@@ -45,16 +58,21 @@ const Areas = () => {
             <form onSubmit={handleSubmit}>
                 <label>
                     Area Name:
+                    <br/>
                     <input type="text" value={areaName} onChange={handleAreaNameChange} />
                 </label>
                 <br />
                 <button type="submit">Submit</button>
             </form>
 
-            <h2>All areas</h2>
+            <h2>Areas:</h2>
+            <input id="areasearchterm" value={areaSearchTerm} onChange={event => setAreaSearchTerm(event.target.value)} />
+            <br />
+            <h3>Results:</h3>
+
             <div>
                 {
-                    areas.map(area => 
+                    areaSearchResults.map(area => 
                     
                     
                         area.name != null 
