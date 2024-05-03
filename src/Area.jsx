@@ -66,6 +66,7 @@ const Area = ({area}) => {
                     <button onClick={(event) => handleDelete(event, id)}>Remove</button>
                 </div>  
             }
+        <br/>
         </div>
     );
 };

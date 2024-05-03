@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 const Service = ({service}) => {
     const [areas, setAreas] = useState([]);
     const [editing, setEditing] = useState(false);
@@ -19,7 +19,7 @@ const handleDelete = async (event, id) => {
     event.preventDefault();
     try {
         axios.delete(`http://localhost:8080/api/services/${id}`);
-        fetchServices();
+        // fetchServices();
     } catch (error) {
         console.error('Error deleting service:', error);
     }
