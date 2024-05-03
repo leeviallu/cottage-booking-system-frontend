@@ -40,25 +40,26 @@ const Area = ({area}) => {
                 ?
                 <div>
                     <div>
-                        {name} 
-                        <button onClick={() => setEditing(!editing)}>
-                        Edit
-                        </button>
-                        <button onClick={(event) => handleDelete(event, id)}>Remove</button>
-                    </div>
-
-                    <form onSubmit={handlePut}>
-                        <label>
-                            Area Name:
-                            <input type="text" value={areaName} onChange={handleAreaNameChange} />
-                        </label>
+                        <form onSubmit={handlePut}>
+                            <label>
+                                Area Name:
+                                <br />
+                                <input type="text" value={areaName} onChange={handleAreaNameChange} />
+                            </label>
+                            <br />
+                            <button type="button" onClick={() => setEditing(!editing)}>
+                            Undo                        
+                            </button>
+                            <button type="submit">Submit</button>
+                        </form>
                         <br />
-                        <button type="submit">Submit</button>
-                    </form>
+                    </div>
                 </div>
                 :
                 <div>
                     {name} 
+                    <br />
+
                     <button onClick={() => setEditing(!editing)}>
                     Edit
                     </button>

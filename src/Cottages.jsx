@@ -212,6 +212,7 @@ const Cottages = () => {
 
             <h2>Search Cottage:</h2>
             <input id="cottagesearchterm" value={cottageSearchTerm} onChange={event => setCottageSearchTerm(event.target.value)} />
+            <h3>Results:</h3>
             <div>
                 {
                     cottageSearchResults.map(cottage => 

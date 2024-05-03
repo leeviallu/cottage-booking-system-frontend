@@ -129,7 +129,7 @@ const Cottage = ({cottage}) => {
             <form onSubmit={handleSubmit}>
             
                 
-                <label htmlFor="items">Area:</label>
+                <label htmlFor="areasearchterm">Area:</label>
                 <br />
                 <input id="areasearchterm" value={areaSearchTerm} onChange={event => setAreaSearchTerm(event.target.value)} />
                 <br />
@@ -180,12 +180,12 @@ const Cottage = ({cottage}) => {
                 <br />
 
 
-                <button type="submit">Submit</button>
-                <br/>
-                <br/>
-                <button onClick={() => setEditing(!editing)}>Edit</button>
+            
+                <button type="button" onClick={() => setEditing(!editing)}>
+                Undo                        
+                </button>
 
-                <button onClick={(event) => handleDelete(event, cottage.cottageId)}>Remove</button>
+                <button type="submit">Submit</button>
                 <br/>
             </form>
 
