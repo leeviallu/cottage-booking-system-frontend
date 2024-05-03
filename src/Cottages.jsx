@@ -5,8 +5,6 @@ import Cottage from './Cottage';
 const Cottages = () => {
     const [areas, setAreas] = useState([]);
     const [cottages, setCottages] = useState([]);
-    const [areaSearchTerm, setAreaSearchTerm] = useState("");
-    const [areaSearchResults, setAreaSearchResults] = useState([]);
     const [cottageSearchTerm, setCottageSearchTerm] = useState("");
     const [cottageSearchResults, setCottageSearchResults] = useState([]);
 
@@ -125,17 +123,6 @@ const Cottages = () => {
     }, []);
 
     useEffect(() => {
-        const filteredAreas = areas.filter(area =>
-            area.name != null 
-            ? 
-            area.name.toLowerCase().includes(areaSearchTerm.toLowerCase()) 
-            :
-            null
-        );
-        setAreaSearchResults(filteredAreas);
-    }, [areas, areaSearchTerm]);
-
-    useEffect(() => {
         const filteredCottages = cottages.filter(cottage => 
             cottage.name != null 
             ?
@@ -150,16 +137,11 @@ const Cottages = () => {
             <h1>Cottages</h1>
             <h2>Create a cottage</h2>
             <form onSubmit={handleSubmit}>
-            
-                
-                <label htmlFor="areasearchterm">Search Area:</label>
-                <br />
-                <input id="areasearchterm" value={areaSearchTerm} onChange={event => setAreaSearchTerm(event.target.value)} />
-                <br />
-                <label htmlFor="areaId">Select Area:</label>
+        
+                <label htmlFor="areaId">Area:</label>
                 <br />
                 <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
-                    {areaSearchResults.map((area) => (
+                    {areas.map((area) => (
                         <option key={area.areaId} value={area.areaId}>
                             {area.name}
                         </option>

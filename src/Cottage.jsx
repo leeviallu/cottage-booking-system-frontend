@@ -3,9 +3,6 @@ import { useState, useEffect } from "react";
 
 const Cottage = ({cottage}) => {
     const [areas, setAreas] = useState([]);
-    const [areaSearchTerm, setAreaSearchTerm] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
-
 
     const [editing, setEditing] = useState(false);
     
@@ -112,15 +109,6 @@ const Cottage = ({cottage}) => {
         fetchAreas();
     }, []);
 
-    useEffect(() => {
-        const filteredAreas = areas.filter(area =>
-            area.name == null ? null :
-            area.name.toLowerCase().includes(areaSearchTerm.toLowerCase())
-        );
-        setSearchResults(filteredAreas);
-      }, [areas, areaSearchTerm]);
-
-
     return (
         <div>
             {
@@ -131,11 +119,9 @@ const Cottage = ({cottage}) => {
                 
                 <label htmlFor="areasearchterm">Area:</label>
                 <br />
-                <input id="areasearchterm" value={areaSearchTerm} onChange={event => setAreaSearchTerm(event.target.value)} />
-                <br />
                 
                 <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
-                    {searchResults.map((area) => (
+                    {areas.map((area) => (
                         <option key={area.areaId} value={area.areaId}>
                             {area.name}
                         </option>
