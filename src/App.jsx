@@ -7,6 +7,7 @@ import Reservations from './Reservations';
 import Services from './Services';
 import Customers from './Customers';
 import Billings from './Billings';
+import Reports from './Reports';
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
           <Route path="reservations" element={<Reservations />} />
           <Route path="services" element={<Services />} />
           <Route path="customers" element={<Customers />} />
-          <Route path="Billings" element={<Billings/>} />
+          <Route path="billings" element={<Billings/>} />
+          <Route path="reports" element={<Reports/>} />
 
         </Route>
       </Routes>
