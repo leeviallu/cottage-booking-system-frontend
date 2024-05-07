@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cottage from './Cottage';
+import postalcodes from 'datasets-fi-postalcodes';
 
 const Cottages = () => {
     const [areas, setAreas] = useState([]);
@@ -11,7 +12,6 @@ const Cottages = () => {
     const [formData, setFormData] = useState({
         areaId: '',
         postalcode: '',
-        position: '',
         name: '',
         address: '',
         price: 0,
@@ -26,9 +26,10 @@ const Cottages = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const { areaId, postalcode, position, name, address, price, description, capacity, equipment } = formData;
-        if (validPostalCode(postalcode) == null) {
-            console.error("Postalcode not given")
+        const { areaId, postalcode, name, address, price, description, capacity, equipment } = formData;
+        const position = postalcodes[postalcode];
+        if (position == null) {
+            console.error("Given postalcode doesn't exist.")
         } else {
             axios.get('http://localhost:8080/api/postal/' + postalcode)
                 .then(response => {
@@ -58,7 +59,6 @@ const Cottages = () => {
                                 setFormData({
                                     areaId: '',
                                     postalcode: 0,
-                                    position: '',
                                     name: '',
                                     address: '',
                                     price: 0,
@@ -102,7 +102,6 @@ const Cottages = () => {
                             setFormData({
                                 areaId: '',
                                 postalcode: 0,
-                                position: '',
                                 name: '',
                                 address: '',
                                 price: 0,
@@ -128,10 +127,6 @@ const Cottages = () => {
                 })
         }
     };
-
-    const validPostalCode = (code) => {
-        return code.match(/^[/\d]{5}?$/) !== null      
-    }      
 
     useEffect(() => {
         axios.get('http://localhost:8080/api/areas')
@@ -214,17 +209,6 @@ const Cottages = () => {
                     onChange={handleChange} 
                     onInvalid={e => e.target.setCustomValidity('Postalcode required (5 digits)')} 
                     onInput={e => e.target.setCustomValidity('')} pattern="[0-9]{5}" 
-                    required 
-                />
-                <br />
-
-                <label htmlFor="position">Postal Position:</label><br/>
-                <input 
-                    type="text" 
-                    id="position" name="position" 
-                    value={formData.position} 
-                    onChange={handleChange} 
-                    onInvalid={e => e.target.setCustomValidity('Postal position required')} onInput={e => e.target.setCustomValidity('')} 
                     required 
                 />
                 <br />
