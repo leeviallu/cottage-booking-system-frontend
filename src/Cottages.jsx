@@ -104,6 +104,7 @@ const Cottages = () => {
             try {
                 const fetchedAreas = await axios.get('http://localhost:8080/api/areas');
                 setAreas(fetchedAreas.data);
+                setFormData({...formData, areaId: fetchedAreas.data[0].areaId})
             } catch (error) {
                 console.error('Error:', error);
             }
