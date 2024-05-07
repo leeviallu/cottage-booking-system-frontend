@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import postalcodes from 'datasets-fi-postalcodes';
 
 const Cottage = ({cottage}) => {
     const [areas, setAreas] = useState([]);
@@ -9,7 +10,6 @@ const Cottage = ({cottage}) => {
     const [formData, setFormData] = useState({
         areaId: cottage.area.areaId,
         postalcode: cottage.postal.postalcode,
-        position: cottage.postal.position,
         name: cottage.name,
         address: cottage.address,
         price: cottage.price,
@@ -26,18 +26,49 @@ const Cottage = ({cottage}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const { areaId, postalcode, position, name, address, price, description, capacity, equipment } = formData;
+        const { areaId, postalcode, name, address, price, description, capacity, equipment } = formData;
         const id = cottage.cottageId;
-
-        axios.get('http://localhost:8080/api/postal/' + postalcode)
-            .then(response => {
-                if(response.data == "") {
-                    axios.post('http://localhost:8080/api/postal', 
+        const position = postalcodes[postalcode];
+        if (position == null) {
+            console.error("Given postalcode doesn't exist.")
+        } else {
+            axios.get('http://localhost:8080/api/postal/' + postalcode)
+                .then(response => {
+                    if(response.data == "") {
+                        axios.post('http://localhost:8080/api/postal', 
+                                    {
+                                        "postalcode": postalcode,
+                                        "position": position
+                                    }
+                        ).then(() => {
+                            axios.put(`http://localhost:8080/api/cottages/${id}`,
                                 {
-                                    "postalcode": postalcode,
-                                    "position": position
+                                    "description": description,
+                                    "address": address,
+                                    "postal": {
+                                                "postalcode": postalcode
+                                            },
+                                    "name": name,
+                                    "price": price,
+                                    "equipment": equipment,
+                                    "area": {
+                                                "areaId": areaId
+                                            },
+                                    "capacity": capacity
                                 }
-                    ).then(() => {
+                            )
+                            .then(() => {
+                                window.location.reload();
+                            })
+                            .catch(err => {
+                                console.error("Error while editing cottage", err)
+                            })
+                        })
+                        .catch(err => {
+                            console.error("Error while posting postal", err)
+                        })
+                    }
+                    else {
                         axios.put(`http://localhost:8080/api/cottages/${id}`,
                             {
                                 "description": description,
@@ -60,38 +91,11 @@ const Cottage = ({cottage}) => {
                         .catch(err => {
                             console.error("Error while editing cottage", err)
                         })
-                    })
-                    .catch(err => {
-                        console.error("Error while posting postal", err)
-                    })
-                }
-                else {
-                    axios.put(`http://localhost:8080/api/cottages/${id}`,
-                        {
-                            "description": description,
-                            "address": address,
-                            "postal": {
-                                        "postalcode": postalcode
-                                    },
-                            "name": name,
-                            "price": price,
-                            "equipment": equipment,
-                            "area": {
-                                        "areaId": areaId
-                                    },
-                            "capacity": capacity
-                        }
-                    )
-                    .then(() => {
-                        window.location.reload();
-                    })
-                    .catch(err => {
-                        console.error("Error while editing cottage", err)
-                    })
-                }
-            }).catch(err => {
-                console.error("Error while fetching postal", err)
-            })
+                    }
+                }).catch(err => {
+                    console.error("Error while fetching postal", err)
+                })
+        }
     };
 
     const handleDelete = (event, id) => {
@@ -169,17 +173,6 @@ const Cottage = ({cottage}) => {
                     onChange={handleChange} 
                     onInvalid={e => e.target.setCustomValidity('Postalcode required (5 digits)')} 
                     onInput={e => e.target.setCustomValidity('')} pattern="[0-9]{5}" 
-                    required 
-                />
-                <br />
-
-                <label htmlFor="position">Postal Position:</label><br/>
-                <input 
-                    type="text" 
-                    id="position" name="position" 
-                    value={formData.position} 
-                    onChange={handleChange} 
-                    onInvalid={e => e.target.setCustomValidity('Postal position required')} onInput={e => e.target.setCustomValidity('')} 
                     required 
                 />
                 <br />
