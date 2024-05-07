@@ -16,21 +16,24 @@ const Area = ({area}) => {
         axios.put(`http://localhost:8080/api/areas/${id}`,
             {
                 "name": areaName
-                
             }
-        )
-        setAreaName('');
-        window.location.reload();
+        ).then(() => {
+            setAreaName('');
+            window.location.reload();
+        }).catch(err => {
+            console.error("Error while editing area: ", err)
+        })
     };
 
     const handleDelete = (event, id) => {
         event.preventDefault();
-        try {
-            axios.delete(`http://localhost:8080/api/areas/${id}`)
-        } catch (error) {
-            console.error('Error deleting data:', error);
-        }
-        window.location.reload();
+        axios.delete(`http://localhost:8080/api/areas/${id}`)
+            .then(() => {
+                window.location.reload();
+            })
+            .catch(err => {
+                console.error('Error deleting data:', err);
+            })
     }
 
     return (

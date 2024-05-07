@@ -37,8 +37,7 @@ const Cottage = ({cottage}) => {
                                     "postalcode": postalcode,
                                     "position": position
                                 }
-                    // eslint-disable-next-line no-unused-vars
-                    ).then(_response => {
+                    ).then(() => {
                         axios.put(`http://localhost:8080/api/cottages/${id}`,
                             {
                                 "description": description,
@@ -55,6 +54,15 @@ const Cottage = ({cottage}) => {
                                 "capacity": capacity
                             }
                         )
+                        .then(() => {
+                            window.location.reload();
+                        })
+                        .catch(err => {
+                            console.error("Error while editing cottage", err)
+                        })
+                    })
+                    .catch(err => {
+                        console.error("Error while posting postal", err)
                     })
                 }
                 else {
@@ -74,39 +82,38 @@ const Cottage = ({cottage}) => {
                             "capacity": capacity
                         }
                     )
+                    .then(() => {
+                        window.location.reload();
+                    })
+                    .catch(err => {
+                        console.error("Error while editing cottage", err)
+                    })
                 }
-
-                
-            }).catch(error => {
-                console.error(error);
+            }).catch(err => {
+                console.error("Error while fetching postal", err)
             })
-    
-        window.location.reload();
-        
     };
 
     const handleDelete = (event, id) => {
         event.preventDefault();
-        try {
-            axios.delete(`http://localhost:8080/api/cottages/${id}`)
-        } catch (error) {
-            console.error('Error deleting data:', error);
-        }
-        window.location.reload();
+        axios.delete(`http://localhost:8080/api/cottages/${id}`)
+            .then(() => {
+                window.location.reload();
+            })
+            .catch(err => {
+                console.error('Error while deleting cottage:', err);
+            })
     }
 
 
     useEffect(() => {
-        const fetchAreas = async () => {
-            try {
-                const fetchedAreas = await axios.get('http://localhost:8080/api/areas');
-                setAreas(fetchedAreas.data);
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        fetchAreas();
+        axios.get('http://localhost:8080/api/areas')
+            .then(res => {
+                setAreas(res.data);
+            })
+            .catch(err => {
+                console.error("Error while fetching areas: ", err)
+            })
     }, []);
 
     return (
