@@ -18,20 +18,23 @@ const Areas = () => {
             {
                 "name": areaName
             }
-        )
-        setAreaName('');
-        fetchData();
+        ).then(() => {
+            setAreaName('');
+            fetchData();
+        })
+        .catch(err => {
+            console.error("Error while submitting area:", err);
+        })
     };
 
-    
-
     const fetchData = async () => {
-        try {
-            const fetchedAreas = await axios.get('http://localhost:8080/api/areas');
-            setAreas(fetchedAreas.data);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
+        axios.get('http://localhost:8080/api/areas')
+            .then((res) => {
+                setAreas(res.data);
+            })
+            .catch((err) => {
+                console.error('Error fetching areas:', err);
+            })
     };
 
     useEffect(() => {

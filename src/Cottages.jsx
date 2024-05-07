@@ -30,7 +30,6 @@ const Cottages = () => {
         if (validPostalCode(postalcode) == null) {
             console.error("Postalcode not given")
         } else {
-
             axios.get('http://localhost:8080/api/postal/' + postalcode)
                 .then(response => {
                     if(response.data == "") {
@@ -39,8 +38,7 @@ const Cottages = () => {
                                         "postalcode": postalcode,
                                         "position": position
                                     }
-                        // eslint-disable-next-line no-unused-vars
-                        ).then(_response => {
+                        ).then(() => {
                             axios.post('http://localhost:8080/api/cottages',
                                 {
                                     "description": description,
@@ -56,7 +54,32 @@ const Cottages = () => {
                                             },
                                     "capacity": capacity
                                 }
-                            )
+                            ).then(() => {
+                                setFormData({
+                                    areaId: '',
+                                    postalcode: 0,
+                                    position: '',
+                                    name: '',
+                                    address: '',
+                                    price: 0,
+                                    description: '',
+                                    capacity: '',
+                                    equipment: ''
+                                });
+                                axios.get('http://localhost:8080/api/cottages')
+                                    .then(res => {
+                                        setCottages(res.data);
+                                    })
+                                    .catch(err => {
+                                        console.error('Error while fetching cottages:', err);
+                                    })
+                            })
+                            .catch(err => {
+                                console.error("Error while posting cottage", err)
+                            })
+                        })
+                        .catch(err => {
+                            console.error("Error while posting postal", err)
                         })
                     }
                     else {
@@ -75,53 +98,60 @@ const Cottages = () => {
                                         },
                                 "capacity": capacity
                             }
-                        )
+                        ).then(() => {
+                            setFormData({
+                                areaId: '',
+                                postalcode: 0,
+                                position: '',
+                                name: '',
+                                address: '',
+                                price: 0,
+                                description: '',
+                                capacity: '',
+                                equipment: ''
+                            });
+                            axios.get('http://localhost:8080/api/cottages')
+                                .then(res => {
+                                    setCottages(res.data);
+                                })
+                                .catch(err => {
+                                    console.error('Error while fetching cottages:', err);
+                                })
+                        })
+                        .catch(err => {
+                            console.error("Error while posting cottage", err)
+                        })
                     }
                 })
-                
-            
-            setFormData({
-                areaId: '',
-                postalcode: 0,
-                position: '',
-                name: '',
-                address: '',
-                price: 0,
-                description: '',
-                capacity: '',
-                equipment: ''
-            })
+                .catch(err => {
+                    console.error("Error while getting postalcode", err)
+                })
         }
     };
 
     const validPostalCode = (code) => {
         return code.match(/^[/\d]{5}?$/) !== null      
-    }
-      
+    }      
 
     useEffect(() => {
-        const fetchAreas = async () => {
-            try {
-                const fetchedAreas = await axios.get('http://localhost:8080/api/areas');
-                setAreas(fetchedAreas.data);
-                setFormData({...formData, areaId: fetchedAreas.data[0].areaId})
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        const fetchCottages = async () => {
-            try {
-                const fetchedCottages = await axios.get('http://localhost:8080/api/cottages');
-                setCottages(fetchedCottages.data);
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        fetchAreas();
-        fetchCottages();
+        axios.get('http://localhost:8080/api/areas')
+            .then(res => {
+                setAreas(res.data);
+                setFormData({...formData, areaId: res.data[0].areaId})
+            })
+            .catch(err => {
+                console.error('Error while fetching areas:', err);
+            })
+        axios.get('http://localhost:8080/api/cottages')
+            .then(res => {
+                setCottages(res.data);
+            })
+            .catch(err => {
+                console.error('Error while fetching cottages:', err);
+            })   
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
 
     useEffect(() => {
         const filteredCottages = cottages.filter(cottage => 
