@@ -123,10 +123,8 @@ const Cottage = ({cottage}) => {
             ?
             <form onSubmit={handleSubmit}>
             
-                
-                <label htmlFor="areasearchterm">Area:</label>
+                <label htmlFor="areaId">Area:</label>
                 <br />
-                
                 <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
                     {areas.map((area) => (
                         <option key={area.areaId} value={area.areaId}>
@@ -135,45 +133,42 @@ const Cottage = ({cottage}) => {
                     ))}
                 </select>
                 <br />
-
-                <label htmlFor="postalcode">Postal Code:</label><br/>
-                <input placeholder={cottage.postalcode} type="number" id="postalcode" name="postalcode" value={formData.postalcode} onChange={handleChange} />
-                <br />
-
-                <label htmlFor="position">Position:</label><br/>
-                <input placeholder={cottage.position} type="text" id="position" name="position" value={formData.position} onChange={handleChange} />
                 <br />
 
                 <label htmlFor="name">Name:</label><br/>
-                <input placeholder={cottage.name} type="text" id="cottagename" name="cottagename" value={formData.name} onChange={handleChange} />
+                <input type="text" required id="name" name="name" value={formData.name} onChange={handleChange} />
                 <br />
 
                 <label htmlFor="address">Address:</label><br/>
-                <input type="text" id="address" name="address" value={formData.address} onChange={handleChange} />
+                <input type="text" required id="address" name="address" value={formData.address} onChange={handleChange} />
                 <br />
 
-
-                
-                <label htmlFor="price">Price:</label><br/>
-                <input type="number" id="price" name="price" value={formData.price} onChange={handleChange} />
+                <label htmlFor="postalcode">Postal Code:</label><br/>
+                <input type="text" required pattern="[0-9]{5}" id="postalcode" name="postalcode" value={formData.postalcode} onChange={handleChange} />
                 <br />
 
+                <label htmlFor="position">Postal Position:</label><br/>
+                <input type="text" required id="position" name="position" value={formData.position} onChange={handleChange} />
+                <br />
 
                 <label htmlFor="description">Description:</label><br/>
-                <input type="text" id="description" name="description" value={formData.description} onChange={handleChange} />
+                <textarea type="text" cols="30" rows="5" id="description" name="description" value={formData.description} onChange={handleChange} />
+                <br />
+
+                <label htmlFor="equipment">Equipment:</label><br/>
+                <textarea type="text" cols="30" rows="5" id="equipment" name="equipment" value={formData.equipment} onChange={handleChange} />
+                <br />
                 <br />
 
                 <label htmlFor="capacity">Capacity:</label><br/>
-                <input type="number" id="capacity" name="capacity" value={formData.capacity} onChange={handleChange} />
+                <input type="number" required min="1" max="100000" id="capacity" name="capacity" value={formData.capacity} onChange={handleChange} />
                 <br />
 
-
-                <label htmlFor="equipment">Equipment:</label><br/>
-                <input type="text" id="equipment" name="equipment" value={formData.equipment} onChange={handleChange} />
+                <label htmlFor="price">Price:</label><br/>
+                <input type="number" required min="1" max="100000" id="price" name="price" value={formData.price} onChange={handleChange} />
                 <br />
-
-
-            
+                <br />  
+                
                 <button type="button" onClick={() => setEditing(!editing)}>
                 Undo                        
                 </button>
@@ -189,15 +184,15 @@ const Cottage = ({cottage}) => {
                 <br/>
                 <b>Name:</b> {cottage.name}
                 <br/>            
-                <b>Price:</b> {cottage.price}
-                <br/>
                 <b>Address:</b> {cottage.address}
                 <br/>
                 <b>Description:</b> {cottage.description}
                 <br/>
+                <b>Equipment:</b> {cottage.equipment}
+                <br/>
                 <b>Capacity:</b> {cottage.capacity}
                 <br/>
-                <b>Equipment:</b> {cottage.equipment}
+                <b>Price:</b> {cottage.price}
                 <br/>
                 </p>
                 <button onClick={() => setEditing(!editing)}>Edit</button>

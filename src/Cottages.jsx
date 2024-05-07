@@ -10,13 +10,13 @@ const Cottages = () => {
 
     const [formData, setFormData] = useState({
         areaId: '',
-        postalcode: 0,
+        postalcode: '',
         position: '',
         name: '',
         address: '',
         price: 0,
         description: '',
-        capacity: '',
+        capacity: 0,
         equipment: ''
     });
 
@@ -178,47 +178,42 @@ const Cottages = () => {
                         </option>
                     ))}
                 </select>
-                   
-                
-                    
                 <br />
-
-                <label htmlFor="postalcode">Postal Code:</label><br/>
-                <input type="number" id="postalcode" name="postalcode" value={formData.postalcode} onChange={handleChange} />
-                <br />
-
-                <label htmlFor="position">Position:</label><br/>
-                <input type="text" id="position" name="position" value={formData.position} onChange={handleChange} />
                 <br />
 
                 <label htmlFor="name">Name:</label><br/>
-                <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
+                <input type="text" required id="name" name="name" value={formData.name} onChange={handleChange} />
                 <br />
 
                 <label htmlFor="address">Address:</label><br/>
-                <input type="text" id="address" name="address" value={formData.address} onChange={handleChange} />
+                <input type="text" required id="address" name="address" value={formData.address} onChange={handleChange} />
                 <br />
 
-
-                
-                <label htmlFor="price">Price:</label><br/>
-                <input type="number" id="price" name="price" value={formData.price} onChange={handleChange} />
+                <label htmlFor="postalcode">Postal Code:</label><br/>
+                <input type="text" required pattern="[0-9]{5}" id="postalcode" name="postalcode" value={formData.postalcode} onChange={handleChange} />
                 <br />
 
+                <label htmlFor="position">Postal Position:</label><br/>
+                <input type="text" required id="position" name="position" value={formData.position} onChange={handleChange} />
+                <br />
 
                 <label htmlFor="description">Description:</label><br/>
-                <input type="text" id="description" name="description" value={formData.description} onChange={handleChange} />
+                <textarea type="text" cols="30" rows="5" id="description" name="description" value={formData.description} onChange={handleChange} />
+                <br />
+
+                <label htmlFor="equipment">Equipment:</label><br/>
+                <textarea type="text" cols="30" rows="5" id="equipment" name="equipment" value={formData.equipment} onChange={handleChange} />
+                <br />
                 <br />
 
                 <label htmlFor="capacity">Capacity:</label><br/>
-                <input type="number" id="capacity" name="capacity" value={formData.capacity} onChange={handleChange} />
+                <input type="number" required min="1" max="100000" id="capacity" name="capacity" value={formData.capacity} onChange={handleChange} />
                 <br />
 
-
-                <label htmlFor="equipment">Equipment:</label><br/>
-                <input type="text" id="equipment" name="equipment" value={formData.equipment} onChange={handleChange} />
+                <label htmlFor="price">Price:</label><br/>
+                <input type="number" required min="1" max="100000" id="price" name="price" value={formData.price} onChange={handleChange} />
                 <br />
-
+                <br />
 
                 <button type="submit">Submit</button>
             </form>
