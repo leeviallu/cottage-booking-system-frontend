@@ -44,11 +44,18 @@ const Area = ({area}) => {
                 <div>
                     <div>
                         <form onSubmit={handlePut}>
-                            <label>
-                                Area Name:
-                                <br />
-                                <input type="text" value={areaName} onChange={handleAreaNameChange} />
-                            </label>
+                            <label htmlFor="areaName">Area Name:</label>
+                            <br/>
+                            <input 
+                                type="text" 
+                                id="areaName"
+                                name="areaName"
+                                value={areaName} 
+                                onChange={handleAreaNameChange} 
+                                onInvalid={e => e.target.setCustomValidity('Area name is required')} 
+                                onInput={e => e.target.setCustomValidity('')} pattern="[0-9]{5}"
+                                required
+                            />           
                             <br />
                             <button type="button" onClick={() => setEditing(!editing)}>
                             Undo                        
