@@ -2,17 +2,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Customer from "./Customer";
+import postalcodes from "datasets-fi-postalcodes"
 
 const Customers = () => {
+  const postals = Object.keys(postalcodes).map((key) => [key, postalcodes[key]]);
   const [customers, setCustomers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [formData, setFormData] = useState({
     postalcode: 0,
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     address: "",
     email: "",
-    phoneNumber: ""
+    phonenumber: ""
   });
   console.log(customers)
 
@@ -24,6 +26,7 @@ const Customers = () => {
       } catch (error) {
         console.error('Error fetching customers:', error);
       }
+      
     };
     fetchData();
   }, []);
@@ -35,29 +38,105 @@ const Customers = () => {
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
-
-  const handleSubmit = async (e) => {
+  
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      await axios.post('http://localhost:8080/api/customers', formData);
-      // Assuming the backend endpoint accepts formData directly
-      console.log('Customer created successfully');
-      setFormData({
-        postalCode: 0,
-        firstName: "",
-        lastName: "",
-        address: "",
-        email: "",
-        phoneNumber: ""
-      });
-    } catch (error) {
-      console.error('Failed to create customer:', error);
-    }
+    const { postalcode, firstname, lastname, address, email, phonenumber } = formData;
+    const position = postalcodes[postalcode];
+    console.log(formData)
+    console.log(postalcode)
+    console.log(position)
+  if (position == null) {
+    console.error("Given postalcode doesn't exist.")
+} else {
+    axios.get('http://localhost:8080/api/postal/' + postalcode)
+        .then(response => {
+            if(response.data == "") {
+                axios.post('http://localhost:8080/api/postal', 
+                            {
+                                "postalcode": postalcode,
+                                "position": position
+                            }
+                ).then(() => {
+                    axios.post('http://localhost:8080/api/customers',
+                        {
+                            "postal": {
+                                        "postalcode": postalcode
+                                    },
+                            "firstname": firstname,
+                            "lastname": lastname,
+                            "address": address,
+                            "email": email,
+                            "phonenumber": phonenumber
+                        }
+                    ).then(() => {
+                        setFormData({
+                          postalCode: "",
+                          firstname: "",
+                          lastname: "",
+                          address: "",
+                          email: "",
+                          phonenumber: ""
+                        });
+                        axios.get('http://localhost:8080/api/customers')
+                            .then(res => {
+                                setCustomers(res.data);
+                            })
+                            .catch(err => {
+                                console.error('Error while fetching customers:', err);
+                            })
+                    })
+                    .catch(err => {
+                        console.error("Error while posting customer", err)
+                    })
+                })
+                .catch(err => {
+                    console.error("Error while posting postal", err)
+                })
+            }
+            else {
+                axios.post('http://localhost:8080/api/customers',
+                    {
+                      "postal": {
+                        "postalcode": postalcode
+                    },
+                      "firstname": firstname,
+                      "lastname": lastname,
+                      "address": address,
+                      "email": email,
+                      "phonenumber": phonenumber
+                    }
+                ).then(() => {
+                    setFormData({
+                      postalCode: "",
+                      firstname: "",
+                      lastname: "",
+                      address: "",
+                      email: "",
+                      phonenumber: ""
+                    });
+                    axios.get('http://localhost:8080/api/customers')
+                        .then(res => {
+                            setCustomers(res.data);
+                        })
+                        .catch(err => {
+                            console.error('Error while fetching customers:', err);
+                        })
+                })
+                .catch(err => {
+                    console.error("Error while posting customer", err)
+                })
+            }
+        })
+        .catch(err => {
+            console.error("Error while getting postalcode", err)
+        })
+}
   };
 
   const filteredCustomers = customers.filter(customer =>
-    (customer.firstName && customer.firstName.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (customer.lastName && customer.lastName.toLowerCase().includes(searchTerm.toLowerCase()))
+    (customer.firstname && customer.firstname.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (customer.lastname && customer.lastname.toLowerCase().includes(searchTerm.toLowerCase()))
 
   );
 
@@ -71,8 +150,8 @@ const Customers = () => {
         <label htmlFor="firstname">First Name:</label><br />
         <input type="text" id="firstname" name="firstname" value={formData.firstname} onChange={handleChange} /><br />
 
-        <label htmlFor="lastName">Last Name:</label><br />
-        <input type="text" id="lastName" name="lastName" value={formData.lastName} onChange={handleChange} /><br />
+        <label htmlFor="lastname">Last Name:</label><br />
+        <input type="text" id="lastname" name="lastname" value={formData.lastname} onChange={handleChange} /><br />
 
         <label htmlFor="address">Address:</label><br />
         <input type="text" id="address" name="address" value={formData.address} onChange={handleChange} /><br />
@@ -80,8 +159,8 @@ const Customers = () => {
         <label htmlFor="email">Email:</label><br />
         <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} /><br />
 
-        <label htmlFor="phoneNumber">Phone Number:</label><br />
-        <input type="tel" id="phoneNumber" name="phoneNumber" pattern="\d{7}" maxLength="7" value={formData.phoneNumber} onChange={handleChange} /><br />
+        <label htmlFor="phonenumber">Phone Number:</label><br />
+        <input type="tel" id="phonenumber" name="phonenumber" pattern="\d{7}" maxLength="7" value={formData.phonenumber} onChange={handleChange} /><br />
 
         <button type="submit">Create Customer</button>
       </form>
@@ -97,6 +176,5 @@ const Customers = () => {
 
     </div>
   );
-};
-
+}
 export default Customers;
