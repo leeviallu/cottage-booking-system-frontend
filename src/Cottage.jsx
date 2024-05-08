@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 import postalcodes from 'datasets-fi-postalcodes';
 
 const Cottage = ({cottage}) => {
+    const postals = Object.keys(postalcodes).map((key) => [key, postalcodes[key]]);
     const [areas, setAreas] = useState([]);
-
     const [editing, setEditing] = useState(false);
-    
+    const [postalSearchTerm, setPostalSearchTerm] = useState("");
+    const [filteredPostalcodes, setFilteredPostalcodes] = useState([]);   
     const [formData, setFormData] = useState({
         areaId: cottage.area.areaId,
         postalcode: cottage.postal.postalcode,
@@ -16,9 +17,7 @@ const Cottage = ({cottage}) => {
         description: cottage.description,
         capacity: cottage.capacity,
         equipment: cottage.equipment
-    });
-    
-
+    });    
     
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -109,6 +108,16 @@ const Cottage = ({cottage}) => {
             })
     }
 
+    useEffect(() => {
+        const filteredPostals = postals.filter(postal => 
+            postal[0].includes(postalSearchTerm)
+        );
+        setFilteredPostalcodes(filteredPostals);
+        if (filteredPostals.length != 0 && filteredPostals.length != postals.length) {
+            setFormData({...formData, postalcode: filteredPostals[0][0]})
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [postalSearchTerm])
 
     useEffect(() => {
         axios.get('http://localhost:8080/api/areas')
@@ -164,17 +173,24 @@ const Cottage = ({cottage}) => {
                 />
                 <br />
 
-                <label htmlFor="postalcode">Postal Code:</label><br/>
+                <label htmlFor="postalSearchTerm">Postalcode:</label><br/>
                 <input 
-                    type="text" 
-                    id="postalcode" 
-                    name="postalcode" 
-                    value={formData.postalcode} 
-                    onChange={handleChange} 
-                    onInvalid={e => e.target.setCustomValidity('Postalcode required (5 digits)')} 
-                    onInput={e => e.target.setCustomValidity('')} pattern="[0-9]{5}" 
-                    required 
+                    type="number"
+                    id="postalSearchTerm" 
+                    value={postalSearchTerm} 
+                    onChange={event => setPostalSearchTerm(event.target.value)} 
                 />
+                <br />
+                <select id="postalcode" name="postalcode" value={formData.postalcode} onChange={handleChange}>
+                    {
+                        filteredPostalcodes.map((postalcode) => (
+                                <option key={postalcode[0]} value={postalcode[0]}>
+                                    {postalcode[0]} {postalcode[1]}
+                                </option>
+                            )
+                        )        
+                    }
+                </select>
                 <br />
 
                 <label htmlFor="description">Description:</label><br/>
