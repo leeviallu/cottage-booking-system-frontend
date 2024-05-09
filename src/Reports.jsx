@@ -6,6 +6,7 @@ const Reports = () => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [services, setServices] = useState([]);
+    const [servicesOfReservation, setServicesOfReservation] = useState([]);
     const [formData, setFormData] = useState({
         areaId: 0,
         startDate: '',
@@ -20,7 +21,11 @@ const Reports = () => {
         setEndDate(formData.endDate);
         axios.get(`http://localhost:8080/api/reservations/services/${formData.areaId}?startDate=${formData.startDate}&endDate=${formData.endDate}`)
             .then(res => {
-                console.log(res.data)
+                setServicesOfReservation(res.data);
+            })
+        
+        axios.get(`http://localhost:8080/api/services/area/${formData.areaId}`)
+            .then(res => {
                 setServices(res.data);
             })
     }
@@ -72,16 +77,24 @@ const Reports = () => {
             {
                 services[0] ? 
                 <div>
-                    <h2>{services[0].service.area.name} service report between {startDate} and {endDate}</h2>
+                    <h2>{services[0].area.name} service report between {startDate} and {endDate}</h2>
 
-                    {services.map(item => {
-                        total += item.count * item.service.price;
+                    {services.map(service => {
+                        let serviceTotal = 0;
+                        let serviceCount = 0
+                        servicesOfReservation.map(sor => {
+                            if(sor.service.serviceId == service.serviceId) {
+                                serviceTotal += sor.count * service.price;
+                                serviceCount += sor.count;
+                            }
+                        })
+                        total += serviceTotal;
                         return (
-                            <div key={item.service.serviceId}>
-                                <h3>{item.service.name}</h3>
-                                <p>{item.service.description}</p>
-                                <p>Sold services: {item.count}</p>
-                                <p>Total: {item.count * item.service.price} €</p>
+                            <div key={service.serviceId}>
+                                <h3>{service.name}</h3>
+                                <p>{service.description}</p>
+                                <p>Sold services: {serviceCount}</p>
+                                <p>Total: {serviceTotal}</p>
                                 <br/>
                             </div>
                         )
