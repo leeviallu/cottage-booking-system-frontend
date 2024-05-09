@@ -68,7 +68,7 @@ const Areas = () => {
                     value={areaName} 
                     onChange={handleAreaNameChange} 
                     onInvalid={e => e.target.setCustomValidity('Area name is required')} 
-                    onInput={e => e.target.setCustomValidity('')} pattern="[0-9]{5}"
+                    onInput={e => e.target.setCustomValidity('')}
                     required
                 />                
                 <br />
