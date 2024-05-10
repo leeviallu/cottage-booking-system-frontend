@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+import Billing from "./Billing";
 const Billings=()=>{
     const [billings, setBillings] = useState([]);
     const[formData, setFormData]=useState({
@@ -15,7 +16,7 @@ const Billings=()=>{
         const {reservationId, sum, isPaid} = formData;
         try {
             await axios.post('http://localhost:8080/api/billings', {
-                reservationId:{reservationId: reservationId},
+                reservationId:reservationId,
                 sum:sum,
                 isPaid:isPaid,
             });
@@ -27,7 +28,7 @@ const Billings=()=>{
             });
             fetchBillings();
         } catch (error) {
-            console.error('Error creating service:', error);
+            console.error('Error creating billing:', error);
         }
         window.location.reload();
     }
@@ -36,11 +37,25 @@ const Billings=()=>{
         try {
             const fetchedBillings = await axios.get('http://localhost:8080/api/billings');
             setBillings(fetchedBillings.data);
+            console.log(fetchBillings.data);
         } catch (error) {
             console.error('Error fetching Billings:', error);
         }
     };
+    useEffect(() => {
+        const fetchBillings = async () => {
+            try {
+                const fetchedBillings = await axios.get('http://localhost:8080/api/billings');
+                setBillings(fetchedBillings.data);
+                console.log(fetchBillings.data);
+            } catch (error) {
+                console.error('Error fetching Billings:', error);
+            }
+        }
+        fetchBillings();
+    }, []);
 
+    
     return (
         <div>
             <h1>Create Billing</h1>
@@ -65,13 +80,11 @@ const Billings=()=>{
             </form>
             <h2>All billings</h2>
             <ul>
-                {billings.map(billing => (
-                    <li key={billing.id}>
-                        <p>ReservationId: {billing.reservationId}</p>
-                        <p>Sum: {billing.sum}</p>
-                        <p>Is Paid: {billing.isPaid}</p>
-                    </li>
-                ))}
+            {
+                    billings.map(billing=>
+                        <Billing key={billing.billingId} billing={billing}/>
+                    )
+                }
             </ul>
     </div>
     );
