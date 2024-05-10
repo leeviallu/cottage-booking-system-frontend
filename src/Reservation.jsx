@@ -3,30 +3,28 @@ import axios from 'axios';
 
 const Reservation = ({reservation}) => {
     const [editing, setEditing] = useState(false);
-    const [customer, setCustomer] = useState([]);
-    const [cottage, setCottage] = useState([]);
+    const [customers, setCustomers] = useState([]);
+    const [cottages, setCottages] = useState([]);
     const [customerSearchTerm, setCustomerSearchTerm] = useState("");
     const [cottageSearchTerm, setCottageSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [customerResults, setCustomerResults] = useState([]);
-
    
     const [formData, setFormData] = useState({
         cottageId: reservation.cottage.cottageId,
         customerId: reservation.customer.customerId,
-        reservationCreationDate: reservation.reservationCreationDate,
-        confirmationDate: reservation.confirmationDate,
-        startDate: reservation.startDate,
-        endDate: reservation.endDate
+        reservationDate: new Date(reservation.reservationDate).toISOString().split('T')[0],
+        confirmationDate: new Date(reservation.confirmationDate).toISOString().split('T')[0],
+        reservationStartingDate: new Date(reservation.reservationStartingDate).toISOString().split('T')[0],
+        reservationEndingDate: new Date(reservation.reservationEndingDate).toISOString().split('T')[0]
     });
-    
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
-        const { cottageId, customerId, reservationCreationDate, confirmationDate, startDate, endDate } = formData;
+    const handleEdit = (e) => {
+        const { cottageId, customerId, reservationDate, confirmationDate, reservationStartingDate, reservationEndingDate } = formData;
         const id = reservation.reservationId;
         e.preventDefault();        
         axios.put(`http://localhost:8080/api/reservations/${id}`,
@@ -37,10 +35,10 @@ const Reservation = ({reservation}) => {
             "cottage": {
                     "cottageId": cottageId,
                 },
-            "reservationDate": reservationCreationDate,
+            "reservationDate": reservationDate,
             "confirmationDate": confirmationDate,
-            "reservationStartingDate": startDate,
-            "reservationEndingDate": endDate
+            "reservationStartingDate": reservationStartingDate,
+            "reservationEndingDate": reservationEndingDate
             }
         )
     };
@@ -56,96 +54,48 @@ const Reservation = ({reservation}) => {
             })
     }
 
-    const confirmationDate = new Date(reservation.confirmationDate);
-    const formattedConfirmationDate = `${confirmationDate.getDate()}.${confirmationDate.getMonth() + 1}.${confirmationDate.getFullYear()}`;
-
-    const creationDate = new Date(reservation.reservationDate);
-    const formattedCreationDate = `${creationDate.getDate()}.${creationDate.getMonth() + 1}.${creationDate.getFullYear()}`;
-
-    const startDate = new Date(reservation.reservationStartingDate);
-    const formattedStartDate = `${startDate.getDate()}.${startDate.getMonth() + 1}.${startDate.getFullYear()}`;
-
-    const endDate = new Date(reservation.reservationEndingDate);
-    const formattedEndDate = `${endDate.getDate()}.${endDate.getMonth() + 1}.${endDate.getFullYear()}`;
-
-
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const fetchedCottages = await axios.get('http://localhost:8080/api/cottages');
-                const fetchedCustomers = await axios.get('http://localhost:8080/api/customers');
-                setCottage(fetchedCottages.data);
-                setCustomer(fetchedCustomers.data);
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-        fetchData();
+        axios.get('http://localhost:8080/api/cottages')
+            .then(res => {
+                setCottages(res.data);
+            }).catch(e => {
+                console.error('Error fetching cottages: ', e)
+            })
+        axios.get('http://localhost:8080/api/customers')
+            .then(res => {
+                setCustomers(res.data);
+            }).catch(e => {
+                console.error('Error fetching customers: ', e)
+            })
     }, []);
 
     useEffect(() => {
-        const filteredCottages = cottage.filter(cottage =>
+        const filteredCottages = cottages.filter(cottage =>
             cottage.name == null ? null :
             cottage.name.toLowerCase().includes(cottageSearchTerm.toLowerCase())
         );
         setSearchResults(filteredCottages);
        
-        const filteredCustomers = customer.filter(customer =>
+        const filteredCustomers = customers.filter(customer =>
             customer.email == null ? null :
             customer.email.toLowerCase().includes(customerSearchTerm.toLowerCase())
         );
         setCustomerResults(filteredCustomers);
-        if (filteredCottages.length != 0 && filteredCustomers.length != 0 && filteredCottages.length != cottage.length && filteredCustomers.length != customer.length) {
-            //setFormData({...formData, cottageId: filteredCottages[0].cottageId, customerId: filteredCustomers[0].customerId})
+        if (filteredCottages.length != 0 && filteredCustomers.length != 0 && filteredCottages.length != cottages.length && filteredCustomers.length != customers.length) {
+            setFormData({...formData, cottageId: filteredCottages[0].cottageId, customerId: filteredCustomers[0].customerId})
         }
-      }, [cottage, cottageSearchTerm, customer, customerSearchTerm]);
-/*
-
-
-    
-
-    useEffect(() => {
-        const fetchCottages = async () => {
-            try {
-                const fetchedCottages = await axios.get('http://localhost:8080/api/cottages');
-                setCottage(fetchedCottages.data);
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        fetchCottages();
-    }, []);
-
-    
-    useEffect(() => {
-
-        const filteredCustomers = customer.filter(customer =>
-            customer.email == null ? null :
-            customer.email.toLowerCase().includes(customerSearchTerm.toLowerCase())
-        );
-        setSearchResults(filteredCustomers);
-      }, [customer, customerSearchTerm]);
-
-      useEffect(() => {
-        const filteredCottages = cottage.filter(cottage =>
-            cottage.name == null ? null :
-            cottage.name.toLowerCase().includes(cottageSearchTerm.toLowerCase())
-        );
-        setSearchResults(filteredCottages);
-      }, [cottage, cottageSearchTerm]);
-
-*/
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [cottages, cottageSearchTerm, customers, customerSearchTerm]);
 
 
     return (
         <div>
             {
                 editing
-            ?
-                <form onSubmit={handleSubmit}>
-                <label htmlFor="sposti">Etsi asiakasta sähköpostiosoitteella:</label>
+                ?
+                <form onSubmit={handleEdit}>
+                    <label htmlFor="customerId">Etsi asiakasta sähköpostiosoitteella:</label>
                     <br />
                     <input type="text" value={customerSearchTerm} onChange={event => setCustomerSearchTerm(event.target.value)} />
                     <br />
@@ -155,91 +105,62 @@ const Reservation = ({reservation}) => {
                             <option key={customer.customerId} value={customer.customerId}>
                                 {customer.email}
                             </option>
-                        )).slice(0,8)}
+                        ))}
                     </select>
                     <br />
 
 
-                <label htmlFor="mokki">Etsi mökkiä nimellä:</label>
+                    <label htmlFor="cottageId">Etsi mökkiä nimellä:</label>
                     <br />
-                    <input
-                        value={cottageSearchTerm}
-                        onChange={event => setCottageSearchTerm(event.target.value)} />
+                    <input value={cottageSearchTerm} onChange={event => setCottageSearchTerm(event.target.value)} />
                     <br />
-                    <select
-                        id="cottageId"
-                        name="cottageId"
-                        value={formData.cottageId}
-                        onChange={handleChange}
-                    >
-                        {searchResults.map((cottage) => 
-                        {
-                            return(
-                            <option
-                                key={cottage.cottageId}
-                                value={cottage.cottageId}>
-                                    {cottage.name}
+                    <select id="cottageId" name="cottageId" value={formData.cottageId} onChange={handleChange}>
+                        {searchResults.map((cottage) => (
+                            <option key={cottage.cottageId} value={cottage.cottageId}>
+                                {cottage.name}
                             </option>
-                        )}).slice(0,5)}
+                        ))}
                     </select>
                     <br />
-                
-                
-                <label htmlFor="varausLuontiPvm">Varauksen luontipäivä:</label>
+                    
+                    
+                    <label htmlFor="reservationDate">Varauksen luontipäivä:</label>
                     <br />
-                    <input
-                        type="date"
-                        name="reservationCreationDate"
-                        value={formData.reservationCreationDate}
-                        onChange={handleChange}
-                    />
+                    <input type="date" id="reservationDate" name="reservationDate" value={formData.reservationDate} onChange={handleChange} />
                     <br />
                 
-                <label htmlFor="varausVahvistusPvm">Varauksen vahvistuspäivä:</label>
+                    <label htmlFor="confirmationDate">Varauksen vahvistuspäivä:</label>
                     <br />
-                    <input
-                        type="date"
-                        name="confirmationDate"
-                        value={formData.confirmationDate}
-                        onChange={handleChange}
-                    />
+                    <input type="date" id="confirmationDate" name="confirmationDate" value={formData.confirmationDate} onChange={handleChange} />
                     <br />
-               
-                
-                <label htmlFor="varausAlkuPvm">Varauksen alkamispäivä:</label>
+                   
+                    
+                    <label htmlFor="reservationStartingDate">Varauksen alkamispäivä:</label>
                     <br />
-                    <input
-                        type="date"
-                        name="startDate"
-                        value={formData.startDate}
-                        onChange={handleChange}
-                    />
+                    <input type="date" id="reservationStartingDate" name="reservationStartingDate" value={formData.reservationStartingDate} onChange={handleChange} />
+                    <br />
+    
+    
+                    <label htmlFor="reservationEndingDate">Varauksen päättymispäivä:</label>
+                    <br />
+                    <input type="date" id="reservationEndingDate" name="reservationEndingDate" value={formData.reservationEndingDate} onChange={handleChange} />
                     <br />
 
-
-                <label htmlFor="varausPäättyyPvm">Varauksen päättymispäivä:</label>
                     <br />
-                    <input
-                        type="date"
-                        name="endDate"
-                        value={formData.endDate}
-                        onChange={handleChange}
-                    />
+                    <button type="luo">Luo</button>
+                    <br />
                     <br />
 
-                <br />
+                    <button type="button" onClick={() => setEditing(!editing)}>
+                    Undo                        
+                    </button>
 
-                <button type="button" onClick={() => setEditing(!editing)}>
-                Undo                        
-                </button>
+                    <button type="luo">Luo</button>
+                    <br />
+                    <br />
 
-                <br />
-                <button type="luo">Luo</button>
-                <br />
-                <br />
 
-                </form>
-                
+                </form>     
                 :
                 <div key={reservation.reservationId}>
                     <p>
@@ -247,13 +168,13 @@ const Reservation = ({reservation}) => {
                         <br />
                         <b>Asiakkaan nimi: </b> {reservation.customer.firstname} {reservation.customer.lastname}
                         <br />
-                        <b>Varauksen luontipäivä: </b> {formattedCreationDate}
+                        <b>Varauksen luontipäivä: </b> {new Date(reservation.reservationDate).toISOString().split('T')[0]}
                         <br />
-                        <b>Varauksen vahvistuspäivä: </b> {formattedConfirmationDate}
+                        <b>Varauksen vahvistuspäivä: </b> {new Date(reservation.confirmationDate).toISOString().split('T')[0]}
                         <br />
-                        <b>Varauksen alkamispäivä: </b> {formattedStartDate}
+                        <b>Varauksen alkamispäivä: </b> {new Date(reservation.reservationStartingDate).toISOString().split('T')[0]}
                         <br />
-                        <b>Varauksen päättymispäivä: </b> {formattedEndDate}
+                        <b>Varauksen päättymispäivä: </b> {new Date(reservation.reservationEndingDate).toISOString().split('T')[0]}
                         <br />
                     </p>
 
