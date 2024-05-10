@@ -16,9 +16,9 @@ const Reservations = () => {
         cottageId: 0,
         customerId: 0,
         reservationDate: new Date().toISOString().split('T')[0],
-        confirmationDate: new Date().toISOString().split('T')[0],
-        reservationStartingDate: new Date().toISOString().split('T')[0],
-        reservationEndingDate: new Date().toISOString().split('T')[0]
+        confirmationDate: '',
+        reservationStartingDate: '',
+        reservationEndingDate: ''
     });
 
     const handleChange = (e) => {
