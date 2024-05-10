@@ -7,16 +7,17 @@ import postalcodes from "datasets-fi-postalcodes"
 const Customers = () => {
   const postals = Object.keys(postalcodes).map((key) => [key, postalcodes[key]]);
   const [customers, setCustomers] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [postalSearchTerm, setPostalSearchTerm] = useState("");
+  const [filteredPostalcodes, setFilteredPostalcodes] = useState([]); 
   const [formData, setFormData] = useState({
-    postalcode: 0,
+    postalcode: postals[0][0],
     firstname: "",
     lastname: "",
     address: "",
     email: "",
     phonenumber: ""
   });
-  console.log(customers)
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,18 +35,11 @@ const Customers = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-  };
   
   const handleSubmit = (e) => {
     e.preventDefault();
     const { postalcode, firstname, lastname, address, email, phonenumber } = formData;
     const position = postalcodes[postalcode];
-    console.log(formData)
-    console.log(postalcode)
-    console.log(position)
   if (position == null) {
     console.error("Given postalcode doesn't exist.")
 } else {
@@ -71,7 +65,7 @@ const Customers = () => {
                         }
                     ).then(() => {
                         setFormData({
-                          postalCode: "",
+                          postalCode: 0,
                           firstname: "",
                           lastname: "",
                           address: "",
@@ -108,7 +102,7 @@ const Customers = () => {
                     }
                 ).then(() => {
                     setFormData({
-                      postalCode: "",
+                      postalCode: 0,
                       firstname: "",
                       lastname: "",
                       address: "",
@@ -134,19 +128,39 @@ const Customers = () => {
 }
   };
 
-  const filteredCustomers = customers.filter(customer =>
-    (customer.firstname && customer.firstname.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (customer.lastname && customer.lastname.toLowerCase().includes(searchTerm.toLowerCase()))
-
-  );
+  useEffect(() => {
+    const filteredPostals = postals.filter(postal => 
+        postal[0].includes(postalSearchTerm)
+    );
+    setFilteredPostalcodes(filteredPostals);
+    if (filteredPostals.length != 0) {
+        setFormData({...formData, postalcode: filteredPostals[0][0]})
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [postalSearchTerm])
 
   return (
     <div>
       <h1>Create a Customer</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="postalcode">Postal Code:</label><br />
-        <input type="text" id="postalcode" name="postalcode" value={formData.postalcode} onChange={handleChange} /><br />
-
+      <label htmlFor="postalSearchTerm">Postalcode:</label><br/>
+                <input 
+                    type="number"
+                    id="postalSearchTerm" 
+                    value={postalSearchTerm} 
+                    onChange={event => setPostalSearchTerm(event.target.value)} 
+                /> <br/> 
+        <select id="postalcode" name="postalcode" value={formData.postalcode} onChange={handleChange}>
+                    {
+                        filteredPostalcodes.map((postalcode) => (
+                                <option key={postalcode[0]} value={postalcode[0]}>
+                                    {postalcode[0]} {postalcode[1]}
+                                </option>
+                            )
+                        )        
+                    }
+                </select>
+                    <br/>
         <label htmlFor="firstname">First Name:</label><br />
         <input type="text" id="firstname" name="firstname" value={formData.firstname} onChange={handleChange} /><br />
 
@@ -160,7 +174,7 @@ const Customers = () => {
         <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} /><br />
 
         <label htmlFor="phonenumber">Phone Number:</label><br />
-        <input type="tel" id="phonenumber" name="phonenumber" pattern="\d{7}" maxLength="7" value={formData.phonenumber} onChange={handleChange} /><br />
+        <input type="tel" id="phonenumber" name="phonenumber" value={formData.phonenumber} onChange={handleChange} /><br />
 
         <button type="submit">Create Customer</button>
       </form>
