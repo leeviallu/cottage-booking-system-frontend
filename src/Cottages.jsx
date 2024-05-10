@@ -12,7 +12,7 @@ const Cottages = () => {
     const [postalSearchTerm, setPostalSearchTerm] = useState("");
     const [filteredPostalcodes, setFilteredPostalcodes] = useState([]);    
     const [formData, setFormData] = useState({
-        areaId: '',
+        areaId: 0,
         postalcode: postals[0][0],
         name: '',
         address: '',
@@ -31,6 +31,8 @@ const Cottages = () => {
         e.preventDefault();
         const { areaId, postalcode, name, address, price, description, capacity, equipment } = formData;
         const position = postalcodes[postalcode];
+        console.log(formData)
+
         if (position == null) {
             console.error("Given postalcode doesn't exist.")
         } else {
@@ -60,8 +62,8 @@ const Cottages = () => {
                                 }
                             ).then(() => {
                                 setFormData({
-                                    areaId: '',
-                                    postalcode: 0,
+                                    areaId: areas[0].areaId,
+                                    postalcode: postals[0][0],
                                     name: '',
                                     address: '',
                                     price: 0,
@@ -103,8 +105,8 @@ const Cottages = () => {
                             }
                         ).then(() => {
                             setFormData({
-                                areaId: '',
-                                postalcode: 0,
+                                areaId: areas[0].areaId,
+                                postalcode: postals[0][0],
                                 name: '',
                                 address: '',
                                 price: 0,
