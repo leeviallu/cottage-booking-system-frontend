@@ -9,14 +9,36 @@ const Reservation = ({reservation}) => {
     const [cottageSearchTerm, setCottageSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [customerResults, setCustomerResults] = useState([]);
+
    
+    if (reservation.reservationDate && reservation.reservationDate != '') {
+        reservation.reservationDate = new Date(reservation.reservationDate).toISOString().split('T')[0]
+    } else {
+        reservation.reservationDate = ''
+    }
+    if (reservation.confirmationDate && reservation.confirmationDate != '') {
+        reservation.confirmationDate = new Date(reservation.confirmationDate).toISOString().split('T')[0]
+    } else {
+        reservation.confirmationDate = ''
+    }
+    if (reservation.reservationStartingDate && reservation.reservationStartingDate != '') {
+        reservation.reservationStartingDate = new Date(reservation.reservationStartingDate).toISOString().split('T')[0]
+    } else {
+        reservation.reservationStartingDate = ''
+    }
+    if (reservation.reservationEndingDate && reservation.reservationEndingDate != '') {
+        reservation.reservationEndingDate = new Date(reservation.reservationEndingDate).toISOString().split('T')[0]
+    } else {
+        reservation.reservationEndingDate = ''
+    }
+    
     const [formData, setFormData] = useState({
         cottageId: reservation.cottage.cottageId,
         customerId: reservation.customer.customerId,
-        reservationDate: new Date(reservation.reservationDate).toISOString().split('T')[0],
-        confirmationDate: new Date(reservation.confirmationDate).toISOString().split('T')[0],
-        reservationStartingDate: new Date(reservation.reservationStartingDate).toISOString().split('T')[0],
-        reservationEndingDate: new Date(reservation.reservationEndingDate).toISOString().split('T')[0]
+        reservationDate: reservation.reservationDate,
+        confirmationDate: reservation.confirmationDate,
+        reservationStartingDate: reservation.reservationStartingDate,
+        reservationEndingDate: reservation.reservationEndingDate
     });
 
     const handleChange = (e) => {
@@ -95,7 +117,6 @@ const Reservation = ({reservation}) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [cottages, cottageSearchTerm, customers, customerSearchTerm]);
 
-
     return (
         <div>
             {
@@ -163,20 +184,46 @@ const Reservation = ({reservation}) => {
                 </form>     
                 :
                 <div key={reservation.reservationId}>
-                    <p>
-                        <b>Mökin nimi: </b> {reservation.cottage.name}
-                        <br />
-                        <b>Asiakkaan nimi: </b> {reservation.customer.firstname} {reservation.customer.lastname}
-                        <br />
-                        <b>Varauksen luontipäivä: </b> {new Date(reservation.reservationDate).toISOString().split('T')[0]}
-                        <br />
-                        <b>Varauksen vahvistuspäivä: </b> {new Date(reservation.confirmationDate).toISOString().split('T')[0]}
-                        <br />
-                        <b>Varauksen alkamispäivä: </b> {new Date(reservation.reservationStartingDate).toISOString().split('T')[0]}
-                        <br />
-                        <b>Varauksen päättymispäivä: </b> {new Date(reservation.reservationEndingDate).toISOString().split('T')[0]}
-                        <br />
-                    </p>
+                    <div>
+                    
+                        <p><b>Mökin nimi: </b> {reservation.cottage.name}</p>
+
+                        <p><b>Asiakkaan nimi: </b> {reservation.customer.firstname} {reservation.customer.lastname}</p>
+                        {
+                            reservation.reservationDate
+                            ?
+                            <p><b>Varauksen luontipäivä: </b> {new Date(reservation.reservationDate).toISOString().split('T')[0]}</p>
+
+                            :            
+                            <p><b>Varauksen luontipäivä: </b> ei määritetty</p>
+                        }
+                        {
+                            reservation.confirmationDate
+                            ?
+                            <p><b>Varauksen vahvistuspäivä: </b> {new Date(reservation.confirmationDate).toISOString().split('T')[0]}</p>
+
+                            :            
+                            <p><b>Varauksen vahvistuspäivä: </b> ei määritetty</p>
+
+                        }
+                        {
+                            reservation.reservationStartingDate
+                            ?
+                            <p><b>Varauksen alkamispäivä: </b> {new Date(reservation.reservationStartingDate).toISOString().split('T')[0]}</p>
+
+                            :            
+                            <p><b>Varauksen alkamispäivä: </b> ei määritetty</p>
+                        }
+                        {
+                            reservation.reservationEndingDate
+                            ?
+                            <p><b>Varauksen päättymispäivä: </b> {new Date(reservation.reservationEndingDate).toISOString().split('T')[0]}</p>
+
+                            :            
+                            <p><b>Varauksen päättymispäivä: </b> ei määritetty</p>
+                        }
+                      
+                    </div>
 
                     <button onClick={() => setEditing(!editing)}>Muokkaa</button>
                     
