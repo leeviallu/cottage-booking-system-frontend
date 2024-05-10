@@ -39,8 +39,15 @@ const Reservation = ({reservation}) => {
             "confirmationDate": confirmationDate,
             "reservationStartingDate": reservationStartingDate,
             "reservationEndingDate": reservationEndingDate
-            }
-        )
+            })
+            .then(() => {
+                setCottageSearchTerm("")
+                setCustomerSearchTerm("")
+                setEditing(!editing)
+                window.location.reload();
+            }).catch(err => {
+                console.error('Error while editing cottage:', err);
+            })
     };
 
     const handleDelete = (event, id) => {
@@ -147,15 +154,8 @@ const Reservation = ({reservation}) => {
                     <br />
 
                     <br />
-                    <button type="luo">Luo</button>
-                    <br />
-                    <br />
-
-                    <button type="button" onClick={() => setEditing(!editing)}>
-                    Undo                        
-                    </button>
-
-                    <button type="luo">Luo</button>
+                    <button type="button" onClick={() => setEditing(!editing)}>Peruuta</button>
+                    <button type="submit">Luo</button>
                     <br />
                     <br />
 

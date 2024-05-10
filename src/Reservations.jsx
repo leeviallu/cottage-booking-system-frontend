@@ -27,7 +27,6 @@ const Reservations = () => {
 
     const handleSubmit = (event) => {
         const { cottageId, customerId, reservationDate, confirmationDate, reservationStartingDate, reservationEndingDate } = formData;
-        console.log(formData)
         event.preventDefault();
         axios.post('http://localhost:8080/api/reservations',
             {
@@ -42,14 +41,18 @@ const Reservations = () => {
                 "reservationStartingDate": reservationStartingDate,
                 "reservationEndingDate": reservationEndingDate
             }
-        )
-        setFormData({
-            cottageId: 0,
-            customerId: 0,
-            reservationDate: '',
-            confirmationDate: '',
-            reservationStartingDate: '',
-            reservationEndingDate: ''
+        ).then(() => {
+            setCottageSearchTerm("")
+            setCustomerSearchTerm("")
+            setFormData({
+                cottageId: cottages[0].cottageId,
+                customerId: customers[0].customerId,
+                reservationDate: new Date().toISOString().split('T')[0],
+                confirmationDate: new Date().toISOString().split('T')[0],
+                reservationStartingDate: new Date().toISOString().split('T')[0],
+                reservationEndingDate: new Date().toISOString().split('T')[0]
+            })
+            window.location.reload();
         })
     };
 
@@ -157,7 +160,7 @@ const Reservations = () => {
                 <br />
 
                 <br />
-                <button type="luo">Luo</button>
+                <button type="submit">Luo</button>
                 <br />
                 <br />
 
