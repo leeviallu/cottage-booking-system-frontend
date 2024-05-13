@@ -64,16 +64,16 @@ const Reservations = () => {
                             setFormData({...formData, cottageId: cottages[0].cottageId, customerId: customers[0].customerId})
                         }
                     }).catch(e => {
-                        console.error('Error fetching customers: ', e)
+                        console.error('Virhe asiakkaiden hakemisessa: ', e)
                     })
             }).catch(e => {
-                console.error('Error fetching cottages: ', e)
+                console.error('Virhe mökkien hakemisessa: ', e)
             })
         axios.get('http://localhost:8080/api/reservations')
             .then(res => {
                 setReservations(res.data);
             }).catch(e => {
-                console.error('Error fetching reservations: ', e)
+                console.error('Virhe varausten hakemisessa: ', e)
             })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

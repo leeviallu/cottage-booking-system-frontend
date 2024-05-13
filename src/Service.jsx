@@ -21,7 +21,7 @@ const handleDelete = async (event, id) => {
         axios.delete(`http://localhost:8080/api/services/${id}`);
         // fetchServices();
     } catch (error) {
-        console.error('Error deleting service:', error);
+        console.error('Virhe palvelun poistamisessa:', error);
     }
     window.location.reload();
 };
@@ -65,7 +65,7 @@ return(<div>
     <form onSubmit={handleEdit}>
     
         
-        <label htmlFor="items">Area:</label>
+        <label htmlFor="items">Alue:</label>
         <br />
         
         <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
@@ -77,40 +77,40 @@ return(<div>
         </select>
         <br />
 
-        <label htmlFor="name">Name:</label><br/>
+        <label htmlFor="name">Nimi:</label><br/>
         <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
         <br />
-        <label htmlFor="description">Description:</label><br/>
+        <label htmlFor="description">Kuvaus:</label><br/>
         <input type="text" id="description" name="description" value={formData.description} onChange={handleChange} />
         <br />
 
-        <label htmlFor="price">Price:</label><br/>
+        <label htmlFor="price">Hinta:</label><br/>
         <input type="number" id="price" name="price" value={formData.price} onChange={handleChange} />
         <br />
 
-        <button type="submit">Submit</button>
+        <button type="submit">Luo</button>
         <br/>
         <br/>
-        <button onClick={() => setEditing(!editing)}>Edit</button>
+        <button onClick={() => setEditing(!editing)}>Muokkaa</button>
 
-        <button onClick={(event) => handleDelete(event, service.serviceId)}>Remove</button>
+        <button onClick={(event) => handleDelete(event, service.serviceId)}>Poista</button>
         <br/>
     </form>
 
     :
     <div key={service.serviceId}>
         <p>
-        <b>Area:</b> {service.area.name}
+        <b>Alue:</b> {service.area.name}
         <br/>
-        <b>Name:</b> {service.name}
+        <b>Nimi:</b> {service.name}
         <br/>            
-        <b>Description:</b> {service.description}
+        <b>Kuvaus:</b> {service.description}
         <br/>
-        <b>Price:</b> {service.price}
+        <b>Hinta:</b> {service.price}
         <br/>
         </p>
-        <button onClick={() => setEditing(!editing)}>Edit</button>
-        <button onClick={(event) => handleDelete(event, service.serviceId)}>Remove</button>
+        <button onClick={() => setEditing(!editing)}>Muokkaa</button>
+        <button onClick={(event) => handleDelete(event, service.serviceId)}>Poista</button>
         <br/>
         <br/>
         <br/>

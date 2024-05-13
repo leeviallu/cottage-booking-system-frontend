@@ -27,7 +27,7 @@ const Billings=()=>{
             });
             fetchBillings();
         } catch (error) {
-            console.error('Error creating service:', error);
+            console.error('Virhe palvelun luonnissa:', error);
         }
         window.location.reload();
     }
@@ -37,39 +37,39 @@ const Billings=()=>{
             const fetchedBillings = await axios.get('http://localhost:8080/api/billings');
             setBillings(fetchedBillings.data);
         } catch (error) {
-            console.error('Error fetching Billings:', error);
+            console.error('Virhe laskujen haussa:', error);
         }
     };
 
     return (
         <div>
-            <h1>Create Billing</h1>
+            <h1>Luo laskutus</h1>
             <form onSubmit={handleCreate}>
                 <br />
                 <label>
-                    ReservationId:
+                    Varaus Id:
                     <input type="number" name="reservationId" value={formData.reservationId} onChange={handleChange} />
                 </label>
                 <br />
                 <label>
-                    Sum:
+                    Hinta:
                     <input type="number" name="sum" value={formData.sum} onChange={handleChange} />
                 </label>
                 <br />
                 <label>
-                    is Paid:
+                    Onko maksettu:
                     <input type="text " name="isPaid" value={formData.isPaid} onChange={handleChange} />
                 </label>
                 <br />
-                <button type="create">Create</button>
+                <button type="create">Luo</button>
             </form>
-            <h2>All billings</h2>
+            <h2>Kaikki laskutukset</h2>
             <ul>
                 {billings.map(billing => (
                     <li key={billing.id}>
-                        <p>ReservationId: {billing.reservationId}</p>
-                        <p>Sum: {billing.sum}</p>
-                        <p>Is Paid: {billing.isPaid}</p>
+                        <p>Varaus Id: {billing.reservationId}</p>
+                        <p>Hinta: {billing.sum}</p>
+                        <p>Onko maksettu: {billing.isPaid}</p>
                     </li>
                 ))}
             </ul>

@@ -50,7 +50,7 @@ const Reservation = ({reservation}) => {
                 window.location.reload();
             })
             .catch(err => {
-                console.error('Error while deleting cottage:', err);
+                console.error('Virhe mökin poistamisessa:', err);
             })
     }
 
@@ -60,13 +60,13 @@ const Reservation = ({reservation}) => {
             .then(res => {
                 setCottages(res.data);
             }).catch(e => {
-                console.error('Error fetching cottages: ', e)
+                console.error('Virhe mökkien hakemisessa: ', e)
             })
         axios.get('http://localhost:8080/api/customers')
             .then(res => {
                 setCustomers(res.data);
             }).catch(e => {
-                console.error('Error fetching customers: ', e)
+                console.error('Virhe asiakkaiden hakemisessa: ', e)
             })
     }, []);
 
@@ -152,7 +152,7 @@ const Reservation = ({reservation}) => {
                     <br />
 
                     <button type="button" onClick={() => setEditing(!editing)}>
-                    Undo                        
+                    Kumoa                        
                     </button>
 
                     <button type="luo">Luo</button>

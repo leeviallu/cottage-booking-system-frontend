@@ -16,7 +16,7 @@ const Customers = () => {
     email: "",
     phonenumber: ""
   });
-  console.log(customers)
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +24,7 @@ const Customers = () => {
         const response = await axios.get('http://localhost:8080/api/customers');
         setCustomers(response.data);
       } catch (error) {
-        console.error('Error fetching customers:', error);
+        console.error('Virhe asiakkaiden hakemisessa:', error);
       }
       
     };
@@ -47,7 +47,7 @@ const Customers = () => {
     console.log(postalcode)
     console.log(position)
   if (position == null) {
-    console.error("Given postalcode doesn't exist.")
+    console.error("Annettu postiosoite ei ole oikea.")
 } else {
     axios.get('http://localhost:8080/api/postal/' + postalcode)
         .then(response => {
@@ -83,15 +83,15 @@ const Customers = () => {
                                 setCustomers(res.data);
                             })
                             .catch(err => {
-                                console.error('Error while fetching customers:', err);
+                                console.error('Virhe asiakkaiden hakemisessa:', err);
                             })
                     })
                     .catch(err => {
-                        console.error("Error while posting customer", err)
+                        console.error("Virhe asiakkaan lähettämisessä", err)
                     })
                 })
                 .catch(err => {
-                    console.error("Error while posting postal", err)
+                    console.error("Virhe postiosoitteen lähettämisessä", err)
                 })
             }
             else {
@@ -120,16 +120,16 @@ const Customers = () => {
                             setCustomers(res.data);
                         })
                         .catch(err => {
-                            console.error('Error while fetching customers:', err);
+                            console.error('Virhe asiakkaiden hakemisessa:', err);
                         })
                 })
                 .catch(err => {
-                    console.error("Error while posting customer", err)
+                    console.error("Virhe asiakkaan lähettämisessä", err)
                 })
             }
         })
         .catch(err => {
-            console.error("Error while getting postalcode", err)
+            console.error("Virhe postiosoitteen hakemisessa", err)
         })
 }
   };
@@ -142,27 +142,28 @@ const Customers = () => {
 
   return (
     <div>
-      <h1>Create a Customer</h1>
+      <h1>Luo asiakas</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="postalcode">Postal Code:</label><br />
+        <label htmlFor="postalcode">Postiosoite:</label><br />
         <input type="text" id="postalcode" name="postalcode" value={formData.postalcode} onChange={handleChange} /><br />
 
-        <label htmlFor="firstname">First Name:</label><br />
+        <label htmlFor="firstname">Etunimi:</label><br />
         <input type="text" id="firstname" name="firstname" value={formData.firstname} onChange={handleChange} /><br />
 
-        <label htmlFor="lastname">Last Name:</label><br />
+        <label htmlFor="lastname">Sukunimi:</label><br />
         <input type="text" id="lastname" name="lastname" value={formData.lastname} onChange={handleChange} /><br />
 
-        <label htmlFor="address">Address:</label><br />
+        <label htmlFor="address">Osoite:</label><br />
         <input type="text" id="address" name="address" value={formData.address} onChange={handleChange} /><br />
 
-        <label htmlFor="email">Email:</label><br />
+        <label htmlFor="email">Sähköposti:</label><br />
         <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} /><br />
 
-        <label htmlFor="phonenumber">Phone Number:</label><br />
+        <label htmlFor="phonenumber">Puhelinnumero:</label><br />
         <input type="tel" id="phonenumber" name="phonenumber" pattern="\d{7}" maxLength="7" value={formData.phonenumber} onChange={handleChange} /><br />
 
-        <button type="submit">Create Customer</button>
+        <br />
+        <button type="submit">Luo asiakas</button>
       </form>
 
       <h1>Luodut asiakkaat</h1>

@@ -41,16 +41,16 @@ const ServiceReport = () => {
                 setFormData({...formData, areaId: res.data[0].areaId})
             })
             .catch((err) => {
-                console.error('Error fetching areas:', err);
+                console.error('Virhe alueiden hakemisessa:', err);
             })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
         <div>
-        <h1>Service Reports</h1>
+        <h1>Palveluiden raportit</h1>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="areaId">Area:</label>
+                <label htmlFor="areaId">Alue:</label>
                 <br />
                 <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
                     {areas.map((area) => (
@@ -60,16 +60,16 @@ const ServiceReport = () => {
                     ))}
                 </select>
                 <br />
-                <label htmlFor="startDate">Start Date:</label>
+                <label htmlFor="startDate">Alkamispäivä:</label>
                 <br />
                 <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} />
                 <br />
-                <label htmlFor="endDate">End Date:</label>
+                <label htmlFor="endDate">Päättymispäivä:</label>
                 <br />
                 <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} />
                 <br />
 
-                <button type="submit">Submit</button>
+                <button type="submit">Luo</button>
             </form>
             <br />
             <br />
@@ -93,14 +93,14 @@ const ServiceReport = () => {
                             <div key={service.serviceId}>
                                 <h3>{service.name}</h3>
                                 <p>{service.description}</p>
-                                <p>Sold services: {serviceCount}</p>
-                                <p>Total: {serviceTotal}</p>
+                                <p>Myydyt palvelut: {serviceCount}</p>
+                                <p>Yhteensä: {serviceTotal}</p>
                                 <br/>
                             </div>
                         )
                     })}
     
-                    <h3>Area Total: {total} €</h3>
+                    <h3>Alueen yhteenveto: {total} €</h3>
                 </div>
 
                 

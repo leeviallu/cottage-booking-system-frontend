@@ -21,7 +21,7 @@ const Area = ({area}) => {
             setAreaName('');
             window.location.reload();
         }).catch(err => {
-            console.error("Error while editing area: ", err)
+            console.error("Virhe alueen muokkauksessa: ", err)
         })
     };
 
@@ -32,7 +32,7 @@ const Area = ({area}) => {
                 window.location.reload();
             })
             .catch(err => {
-                console.error('Error deleting data:', err);
+                console.error('Virhe alueen poistossa:', err);
             })
     }
 
@@ -44,7 +44,7 @@ const Area = ({area}) => {
                 <div>
                     <div>
                         <form onSubmit={handlePut}>
-                            <label htmlFor="areaName">Area Name:</label>
+                            <label htmlFor="areaName">Alueen nimi:</label>
                             <br/>
                             <input 
                                 type="text" 
@@ -52,7 +52,7 @@ const Area = ({area}) => {
                                 name="areaName"
                                 value={areaName} 
                                 onChange={handleAreaNameChange} 
-                                onInvalid={e => e.target.setCustomValidity('Area name is required')} 
+                                onInvalid={e => e.target.setCustomValidity('Alueen nimi ei saa olla tyhjä!')} 
                                 onInput={e => e.target.setCustomValidity('')}
                                 required
                             />           
@@ -60,7 +60,7 @@ const Area = ({area}) => {
                             <button type="button" onClick={() => setEditing(!editing)}>
                             Undo                        
                             </button>
-                            <button type="submit">Submit</button>
+                            <button type="submit">Luo</button>
                         </form>
                         <br />
                     </div>
@@ -71,9 +71,9 @@ const Area = ({area}) => {
                     <br />
 
                     <button onClick={() => setEditing(!editing)}>
-                    Edit
+                    Muokkaa
                     </button>
-                    <button onClick={(event) => handleDelete(event, id)}>Remove</button>
+                    <button onClick={(event) => handleDelete(event, id)}>Poista</button>
                 </div>  
             }
         <br/>
