@@ -9,8 +9,8 @@ import {
 
   const styles = StyleSheet.create({
     page: {
-      backgroundColor: "#d11fb6",
-      color: "white",
+      backgroundColor: "white",
+      color: "black",
     },
     section: {
       margin: 10,
@@ -20,24 +20,91 @@ import {
       width: window.innerWidth-200,
       height: window.innerHeight-200,
     },
+    h1: {
+      fontSize: 40
+    }
   });
   
+import { useState } from "react";
 
 const PDFDocument = ({ bor, billingsOfReservation}) => {
-  console.log(bor);
-  console.log(billingsOfReservation);
+  const [showPDF, setShowPDF] = useState(false);
+
+    const reservation = bor[0];
+    const service = bor[1];
+    const billing = bor[2];
+    const sor = bor[3];
+
     return (
-      <PDFViewer style={styles.viewer}>
-        <Document>
-          <Page size="A4" style={styles.page}>
-            <View style={styles.section}>
-              <Text>
-                {bor[1].billingId}
-              </Text>
-            </View>
-          </Page>
-        </Document>
-      </PDFViewer>
+      <div key={bor[2].billingId}>
+          {
+              showPDF
+              ?
+              <div>
+                <PDFViewer style={styles.viewer}>
+                  <Document>
+                    <Page size="A4" style={styles.page}>
+                      <View style={styles.section}>
+                        <Text style={styles.h1}>Lasku</Text>
+                        <Text> </Text>
+          
+                        <Text>Asiakas:</Text>
+                        <Text>
+                        {reservation.customer.firstname} {reservation.customer.lastname}
+                        </Text>
+                        <Text>
+                        {reservation.customer.phonenumber} 
+                        </Text>
+                        <Text>
+                        {reservation.customer.email} 
+                        </Text>
+                        <Text>
+                        {reservation.customer.address}, {reservation.customer.postal.postalcode} {reservation.customer.postal.position} 
+                        </Text>
+                        <Text> </Text>
+          
+                        <Text>Varattu mökki:</Text>
+                        <Text>{reservation.cottage.name}</Text>
+                        <Text>{reservation.cottage.address}, {reservation.cottage.postal.postalcode} {reservation.cottage.postal.position}</Text>
+                        <Text>Hinta: {reservation.cottage.price}€</Text>
+                        <Text> </Text>
+          
+                        <Text>Ostetut palvelut:</Text>
+                        <Text> </Text>
+                        {
+                          billingsOfReservation.map(item => {
+                            if(item[1].reservationId == service.reservationId) {
+                              return (
+                                <View key={bor[1].serviceId}>
+                                  <Text>{sor.count} x {item[1].name}</Text>
+                                  <Text>Hinta: {sor.count * item[1].price}€</Text>
+                                  <Text> </Text>
+                                </View>
+                              )
+                            }
+                          })
+                        }
+
+                        <Text>Maksettava kokonaissumma:</Text>
+                        <Text>{billing.sum}€</Text>
+                        <Text> </Text>
+          
+          
+                      </View>
+                    </Page>
+                  </Document>
+                </PDFViewer>                  
+                <button type="button" onClick={() => setShowPDF(!showPDF)}>Sulje</button>
+              </div>
+              :
+              <button type="button" onClick={() => setShowPDF(!showPDF)}>Näytä PDF</button>
+          }
+        
+          <br />
+          <br />
+          <br />
+      </div>
+     
     );
   }
   
