@@ -47,9 +47,9 @@ const Reports = () => {
 
     return (
         <div>
-            <h1>Cottages Reports</h1>
+            <h1>Mökkien raportit</h1>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="areaId">Area:</label>
+                <label htmlFor="areaId">Alue:</label>
                 <br />
                 <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
                     {areas.map((area) => (
@@ -59,16 +59,16 @@ const Reports = () => {
                     ))}
                 </select>
                 <br />
-                <label htmlFor="startDate">Start Date:</label>
+                <label htmlFor="startDate">Alkamispäivä:</label>
                 <br />
                 <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} />
                 <br />
-                <label htmlFor="endDate">End Date:</label>
+                <label htmlFor="endDate">Päättymispäivä:</label>
                 <br />
                 <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} />
                 <br />
 
-                <button type="submit">Submit</button>
+                <button type="submit">Luo</button>
             </form>
             <br />
             <br />
@@ -76,7 +76,7 @@ const Reports = () => {
             {
                 reservations[0] && cottages[0] ? 
                 <div>
-                    <h2>{cottages[0].area.name} service report between {startDate} and {endDate}</h2>
+                    <h2>{cottages[0].area.name} palvelu raportti välillä {startDate} ja {endDate}</h2>
 
                     {cottages.map(cottage => {
                         let cottageTotal = 0;
@@ -95,14 +95,14 @@ const Reports = () => {
                             <div key={cottage.cottageId}>
                                 <h3>{cottage.name}</h3>
                                 <p>{cottage.address}</p>
-                                <p>Reserved cottages: {reservationCount}</p>
-                                <p>Total: {cottageTotal}</p>
+                                <p>Varatut mökit: {reservationCount}</p>
+                                <p>Yhteensä: {cottageTotal}</p>
                                 <br/>
                             </div>
                         )
                     })}
     
-                    <h3>Area Total: {total} €</h3>
+                    <h3>Alue yhteensä: {total} €</h3>
             
                 </div>                
                 :

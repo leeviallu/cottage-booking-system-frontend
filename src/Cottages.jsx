@@ -175,10 +175,10 @@ const Cottages = () => {
 
     return (
         <div>
-            <h1>Cottages</h1>
-            <h2>Create a cottage</h2>
+            <h1>Mökit</h1>
+            <h2>Luo mökki</h2>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="areaId">Area:</label>
+                <label htmlFor="areaId">Alue:</label>
                 <br />
                 <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
                     {areas.map((area) => (
@@ -190,7 +190,7 @@ const Cottages = () => {
                 <br />
                 <br />
 
-                <label htmlFor="name">Name:</label><br/>
+                <label htmlFor="name">Nimi:</label><br/>
                 <input 
                     type="text" 
                     id="name" 
@@ -203,7 +203,7 @@ const Cottages = () => {
                 />
                 <br />
 
-                <label htmlFor="address">Address:</label><br/>
+                <label htmlFor="address">Osoite:</label><br/>
                 <input 
                     type="text" 
                     id="address" 
@@ -215,7 +215,7 @@ const Cottages = () => {
                 />
                 <br />
                 
-                <label htmlFor="postalSearchTerm">Postalcode:</label><br/>
+                <label htmlFor="postalSearchTerm">Postiosoite:</label><br/>
                 <input 
                     type="number"
                     id="postalSearchTerm" 
@@ -235,7 +235,7 @@ const Cottages = () => {
                 </select>
                 <br />
 
-                <label htmlFor="description">Description:</label><br/>
+                <label htmlFor="description">Kuvaus:</label><br/>
                 <textarea 
                     type="text" 
                     id="description"
@@ -247,7 +247,7 @@ const Cottages = () => {
                 />
                 <br />
 
-                <label htmlFor="equipment">Equipment:</label><br/>
+                <label htmlFor="equipment">Lisäpalvelut:</label><br/>
                 <textarea 
                     type="text" 
                     id="equipment" 
@@ -260,7 +260,7 @@ const Cottages = () => {
                 <br />
                 <br />
 
-                <label htmlFor="capacity">Capacity:</label><br/>
+                <label htmlFor="capacity">Kapasiteetti:</label><br/>
                 <input 
                     type="number" 
                     id="capacity" 
@@ -275,7 +275,7 @@ const Cottages = () => {
                 />
                 <br />
 
-                <label htmlFor="price">Price:</label><br/>
+                <label htmlFor="price">Hinta:</label><br/>
                 <input 
                     type="number" 
                     id="price" 
@@ -291,12 +291,12 @@ const Cottages = () => {
                 <br />
                 <br />
 
-                <button type="submit">Submit</button>
+                <button type="submit">Luo</button>
             </form>
 
-            <h2>Search Cottage:</h2>
+            <h2>Etsi mökkiä:</h2>
             <input id="cottagesearchterm" value={cottageSearchTerm} onChange={event => setCottageSearchTerm(event.target.value)} />
-            <h3>Results:</h3>
+            <h3>Tulokset:</h3>
             <div>
                 {
                     cottageSearchResults.map(cottage => 

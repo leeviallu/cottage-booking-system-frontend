@@ -44,7 +44,7 @@ const Area = ({area}) => {
                 <div>
                     <div>
                         <form onSubmit={handlePut}>
-                            <label htmlFor="areaName">Area Name:</label>
+                            <label htmlFor="areaName">Alueen nimi:</label>
                             <br/>
                             <input 
                                 type="text" 
@@ -58,9 +58,9 @@ const Area = ({area}) => {
                             />           
                             <br />
                             <button type="button" onClick={() => setEditing(!editing)}>
-                            Undo                        
+                            Kumoa                        
                             </button>
-                            <button type="submit">Submit</button>
+                            <button type="submit">Luo</button>
                         </form>
                         <br />
                     </div>
@@ -71,9 +71,9 @@ const Area = ({area}) => {
                     <br />
 
                     <button onClick={() => setEditing(!editing)}>
-                    Edit
+                    Muokkaa
                     </button>
-                    <button onClick={(event) => handleDelete(event, id)}>Remove</button>
+                    <button onClick={(event) => handleDelete(event, id)}>Poista</button>
                 </div>  
             }
         <br/>
