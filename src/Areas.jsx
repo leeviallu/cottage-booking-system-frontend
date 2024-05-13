@@ -56,10 +56,10 @@ const Areas = () => {
 
     return (
         <div>
-            <h1>Areas</h1>
-            <h2>Create a area</h2>
+            <h1>Alueet</h1>
+            <h2>Luo alue</h2>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="areaName">Area Name:</label>
+                <label htmlFor="areaName">Alueen nimi:</label>
                 <br/>
                 <input 
                     type="text" 
@@ -72,13 +72,13 @@ const Areas = () => {
                     required
                 />                
                 <br />
-                <button type="submit">Submit</button>
+                <button type="submit">Luo</button>
             </form>
 
-            <h2>Areas:</h2>
+            <h2>Alueet:</h2>
             <input id="areasearchterm" value={areaSearchTerm} onChange={event => setAreaSearchTerm(event.target.value)} />
             <br />
-            <h3>Results:</h3>
+            <h3>Tulokset:</h3>
 
             <div>
                 {

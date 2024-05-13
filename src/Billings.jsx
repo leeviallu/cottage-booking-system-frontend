@@ -27,7 +27,7 @@ const Billings=()=>{
     };
     return (
         <div>
-            <h2>All billings</h2>
+            <h2>Kaikki laskutukset</h2>
             <div>
                 {
                     billingsOfReservation

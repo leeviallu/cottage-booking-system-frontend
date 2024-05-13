@@ -136,7 +136,7 @@ const Cottage = ({cottage}) => {
             ?
             <form onSubmit={handleSubmit}>
             
-                <label htmlFor="areaId">Area:</label>
+                <label htmlFor="areaId">Alue:</label>
                 <br />
                 <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
                     {areas.map((area) => (
@@ -148,7 +148,7 @@ const Cottage = ({cottage}) => {
                 <br />
                 <br />
 
-                <label htmlFor="name">Name:</label><br/>
+                <label htmlFor="name">Nimi:</label><br/>
                 <input 
                     type="text" 
                     id="name" 
@@ -161,7 +161,7 @@ const Cottage = ({cottage}) => {
                 />
                 <br />
 
-                <label htmlFor="address">Address:</label><br/>
+                <label htmlFor="address">Osoite:</label><br/>
                 <input 
                     type="text" 
                     id="address" 
@@ -173,7 +173,7 @@ const Cottage = ({cottage}) => {
                 />
                 <br />
 
-                <label htmlFor="postalSearchTerm">Postalcode:</label><br/>
+                <label htmlFor="postalSearchTerm">Postiosoite:</label><br/>
                 <input 
                     type="number"
                     id="postalSearchTerm" 
@@ -193,7 +193,7 @@ const Cottage = ({cottage}) => {
                 </select>
                 <br />
 
-                <label htmlFor="description">Description:</label><br/>
+                <label htmlFor="description">Kuvaus:</label><br/>
                 <textarea 
                     type="text" 
                     id="description"
@@ -205,7 +205,7 @@ const Cottage = ({cottage}) => {
                 />
                 <br />
 
-                <label htmlFor="equipment">Equipment:</label><br/>
+                <label htmlFor="equipment">Lisäpalvelut:</label><br/>
                 <textarea 
                     type="text" 
                     id="equipment" 
@@ -218,7 +218,7 @@ const Cottage = ({cottage}) => {
                 <br />
                 <br />
 
-                <label htmlFor="capacity">Capacity:</label><br/>
+                <label htmlFor="capacity">Kapasiteetti:</label><br/>
                 <input 
                     type="number" 
                     id="capacity" 
@@ -233,7 +233,7 @@ const Cottage = ({cottage}) => {
                 />
                 <br />
 
-                <label htmlFor="price">Price:</label><br/>
+                <label htmlFor="price">Hinta:</label><br/>
                 <input 
                     type="number" 
                     id="price" 
@@ -251,34 +251,34 @@ const Cottage = ({cottage}) => {
 
                     
                 <button type="button" onClick={() => setEditing(!editing)}>
-                Undo                        
+                Kumoa                        
                 </button>
 
-                <button type="submit">Submit</button>
+                <button type="submit">Luo</button>
                 <br/>
             </form>
 
             :
             <div key={cottage.cottageId}>
                 <p>
-                <b>Area:</b> {cottage.area.name}
+                <b>Alue:</b> {cottage.area.name}
                 <br/>
-                <b>Name:</b> {cottage.name}
+                <b>Nimi:</b> {cottage.name}
                 <br/>            
-                <b>Address:</b> {cottage.address}
+                <b>Osoite:</b> {cottage.address}
                 <br/>
-                <b>Description:</b> {cottage.description}
+                <b>Kuvaus:</b> {cottage.description}
                 <br/>
-                <b>Equipment:</b> {cottage.equipment}
+                <b>Lisäpalvelut:</b> {cottage.equipment}
                 <br/>
-                <b>Capacity:</b> {cottage.capacity}
+                <b>Kapasiteetti:</b> {cottage.capacity}
                 <br/>
-                <b>Price:</b> {cottage.price}
+                <b>Hinta:</b> {cottage.price}
                 <br/>
                 </p>
-                <button onClick={() => setEditing(!editing)}>Edit</button>
+                <button onClick={() => setEditing(!editing)}>Muokkaa</button>
 
-                <button onClick={(event) => handleDelete(event, cottage.cottageId)}>Remove</button>
+                <button onClick={(event) => handleDelete(event, cottage.cottageId)}>Poista</button>
                 <br/>
                 <br/>
                 <br/>
