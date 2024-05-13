@@ -85,9 +85,9 @@ const ServiceReport = () => {
                         let serviceTotal = 0;
                         let serviceCount = 0
                         servicesOfReservation.map(sor => {
-                            if(sor.service.serviceId == service.serviceId) {
-                                serviceTotal += sor.count * service.price;
-                                serviceCount += sor.count;
+                            if(sor[0].serviceId == service.serviceId) {
+                                serviceTotal += sor[1].count * service.price;
+                                serviceCount += sor[1].count;
                             }
                         })
                         total += serviceTotal;
@@ -96,16 +96,14 @@ const ServiceReport = () => {
                                 <h3>{service.name}</h3>
                                 <p>{service.description}</p>
                                 <p>Myydyt palvelut: {serviceCount}</p>
-                                <p>Yhteensä: {serviceTotal}</p>
+                                <p>Yhteensä: {serviceTotal}€</p>
                                 <br/>
                             </div>
                         )
                     })}
     
-                    <h3>Alue yhteensä: {total} €</h3>
+                    <h3>Alue yhteensä: {total}€</h3>
                 </div>
-
-                
                 :
                 null
             }
