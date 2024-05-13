@@ -21,18 +21,25 @@ import {
       height: window.innerHeight-200,
     },
   });
+  
 
-const PDFDocument = () => {
+const PDFDocument = ({ bor, billingsOfReservation}) => {
+  console.log(bor);
+  console.log(billingsOfReservation);
     return (
       <PDFViewer style={styles.viewer}>
         <Document>
           <Page size="A4" style={styles.page}>
             <View style={styles.section}>
-              <Text>Maksa laskut</Text>
+              <Text>
+                {bor[1].billingId}
+              </Text>
             </View>
           </Page>
         </Document>
       </PDFViewer>
     );
   }
+  
+
   export default PDFDocument;

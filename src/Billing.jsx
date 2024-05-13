@@ -4,6 +4,7 @@ const Billing = ({bor, billingsOfReservation}) => {
     const [billingServices, setBillingServices] = useState([]);
     const sor = bor[0];
     const billing = bor[1];
+    
 
     useEffect(() => {
         const updatedBillingServices = billingsOfReservation
@@ -41,7 +42,7 @@ const Billing = ({bor, billingsOfReservation}) => {
 
             }
 
-            <br/>
+         
         </div>
     )
 };
