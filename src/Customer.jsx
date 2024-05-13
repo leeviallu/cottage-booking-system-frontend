@@ -115,7 +115,7 @@ return (
     {editing ? (
       
       <form onSubmit={handleEdit}>
-      <label htmlFor="postalSearchTerm">Postalcode:</label><br/>
+      <label htmlFor="postalSearchTerm">Postiosoite:</label><br/>
                 <input 
                     type="number"
                     id="postalSearchTerm" 
@@ -133,35 +133,35 @@ return (
                     }
                 </select>
                     <br/>
-        <label htmlFor="firstname">First Name:</label><br />
+        <label htmlFor="firstname">Etunimi:</label><br />
         <input type="text" id="firstname" name="firstname" value={formData.firstname} onChange={handleChange} /><br />
 
-        <label htmlFor="lastname">Last Name:</label><br />
+        <label htmlFor="lastname">Sukunimi:</label><br />
         <input type="text" id="lastname" name="lastname" value={formData.lastname} onChange={handleChange} /><br />
 
-        <label htmlFor="address">Address:</label><br />
+        <label htmlFor="address">Osoite:</label><br />
         <input type="text" id="address" name="address" value={formData.address} onChange={handleChange} /><br />
 
-        <label htmlFor="email">Email:</label><br />
+        <label htmlFor="email">Sähköposti:</label><br />
         <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} /><br />
 
-        <label htmlFor="phonenumber">Phone Number:</label><br />
+        <label htmlFor="phonenumber">Puhelinnumero:</label><br />
         <input type="tel" id="phonenumber" name="phonenumber" value={formData.phonenumber} onChange={handleChange} /><br />
 
       
-        <button type="submit">Save</button>
-        <button onClick={() => setEditing(false)}>Cancel</button>
+        <button type="submit">Tallenna</button>
+        <button onClick={() => setEditing(false)}>Peru</button>
       </form>
     ) : (
       <div>
-        <p>Postal: {customer.postal.postalcode}</p>
-        <p>First Name: {customer.firstname}</p>
-        <p>Last Name: {customer.lastname}</p>
-        <p>Address: {customer.address}</p>
-        <p>Email: {customer.email}</p>
-        <p>Phone Number: {customer.phonenumber}</p>
-        <button onClick={() => setEditing(!editing)}>Edit</button>
-        <button onClick={(event) => handleDelete(event, customer.customerId)}>Remove</button>
+        <p>Postiosoite: {customer.postal.postalcode}</p>
+        <p>Etunimi: {customer.firstname}</p>
+        <p>Sukunimi: {customer.lastname}</p>
+        <p>Osoite: {customer.address}</p>
+        <p>Sähköposti: {customer.email}</p>
+        <p>Puhelinnumero: {customer.phonenumber}</p>
+        <button onClick={() => setEditing(!editing)}>Muokkaa</button>
+        <button onClick={(event) => handleDelete(event, customer.customerId)}>Poista</button>
       </div>
     )}
   </div>

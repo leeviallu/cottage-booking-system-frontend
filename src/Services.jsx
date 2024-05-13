@@ -65,10 +65,10 @@ const Services = () => {
 
     return (
         <div>
-            <h1>Create Service</h1>
+            <h1>Luo palvelu</h1>
             <form onSubmit={handleCreate}>
                 <label>
-                    Area:
+                    Alue:
                     <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
                         {areas.map((area) => (
                             <option key={area.areaId} value={area.areaId}>
@@ -79,23 +79,23 @@ const Services = () => {
                 </label>
                 <br />
                 <label>
-                    Name:
+                    Nimi:
                     <input type="text" name="name" value={formData.name} onChange={handleChange} />
                 </label>
                 <br />
                 <label>
-                    Description:
+                    Kuvaus:
                     <input type="text" name="description" value={formData.description} onChange={handleChange} />
                 </label>
                 <br />
                 <label>
-                    Price:
+                    Hinta:
                     <input type="number" name="price" value={formData.price} onChange={handleChange} />
                 </label>
                 <br />
-                <button type="create">Create</button>
+                <button type="create">Luo</button>
             </form>
-            <h2>All services</h2>
+            <h2>Kaikki palvelut</h2>
         <div>
                 {
                     services.map(service=>

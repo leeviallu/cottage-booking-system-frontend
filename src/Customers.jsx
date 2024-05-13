@@ -141,9 +141,9 @@ const Customers = () => {
 
   return (
     <div>
-      <h1>Create a Customer</h1>
+      <h1>Luo asiakas</h1>
       <form onSubmit={handleSubmit}>
-      <label htmlFor="postalSearchTerm">Postalcode:</label><br/>
+      <label htmlFor="postalSearchTerm">Postiosoite:</label><br/>
                 <input 
                     type="number"
                     id="postalSearchTerm" 
@@ -161,22 +161,23 @@ const Customers = () => {
                     }
                 </select>
                     <br/>
-        <label htmlFor="firstname">First Name:</label><br />
+        <label htmlFor="firstname">Etunimi:</label><br />
         <input type="text" id="firstname" name="firstname" value={formData.firstname} onChange={handleChange} /><br />
 
-        <label htmlFor="lastname">Last Name:</label><br />
+        <label htmlFor="lastname">Sukunimi:</label><br />
         <input type="text" id="lastname" name="lastname" value={formData.lastname} onChange={handleChange} /><br />
 
-        <label htmlFor="address">Address:</label><br />
+        <label htmlFor="address">Osoite:</label><br />
         <input type="text" id="address" name="address" value={formData.address} onChange={handleChange} /><br />
 
-        <label htmlFor="email">Email:</label><br />
+        <label htmlFor="email">Sähköposti:</label><br />
         <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} /><br />
 
-        <label htmlFor="phonenumber">Phone Number:</label><br />
+        <label htmlFor="phonenumber">Puhelinnumero:</label><br />
         <input type="tel" id="phonenumber" name="phonenumber" value={formData.phonenumber} onChange={handleChange} /><br />
 
-        <button type="submit">Create Customer</button>
+        <br/>
+        <button type="submit">Luo asiakas</button>
       </form>
 
       <h1>Luodut asiakkaat</h1>

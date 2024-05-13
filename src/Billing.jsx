@@ -30,14 +30,14 @@ const Billing = ({bor, billingsOfReservation}) => {
                     </div>
                 ))
             }
-            <p>Reservation between {new Date(sor.reservation.reservationStartingDate).toISOString().split('T')[0]} and {new Date(sor.reservation.reservationEndingDate).toISOString().split('T')[0]}</p>
+            <p>Varaus välillä {new Date(sor.reservation.reservationStartingDate).toISOString().split('T')[0]} ja {new Date(sor.reservation.reservationEndingDate).toISOString().split('T')[0]}</p>
             
             {
                 billing.isPaid
                 ?
-                <h3>maksettu</h3>
+                <h3>Maksettu</h3>
                 :
-                <h3>ei maksettu</h3>
+                <h3>Ei maksettu</h3>
 
             }
 
