@@ -65,7 +65,7 @@ const ServicesOfReservation = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reservations, services])
     return (
-        <div>
+        <div className="container">
             <h1>Varauksen palvelut</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="reservationId">Varaus:</label>

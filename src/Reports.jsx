@@ -3,7 +3,7 @@ import CottageReport from "./CottageReport"
 
 const Reports = () => {
     return (
-        <div>
+        <div className="container">
         <ServiceReport />
         <CottageReport />
         </div>

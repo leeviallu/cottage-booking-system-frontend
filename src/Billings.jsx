@@ -17,7 +17,7 @@ const Billings=()=>{
 
     
     return (
-        <div>
+        <div className="container">
             <h2>Kaikki laskutukset</h2>
             <div>
                 {

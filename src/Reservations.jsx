@@ -105,7 +105,7 @@ const Reservations = () => {
 
 
     return (
-        <div>
+        <div className='container'>
             <h1>Luo varaus</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="customerId">Etsi asiakasta sähköpostiosoitteella:</label>

@@ -70,7 +70,7 @@ const Services = () => {
     }, []);
 
     return (
-        <div>
+        <div className="container">
             <h1>Luo palvelu</h1>
             <form onSubmit={handleCreate}>
                 <label htmlFor="areaId">Alue:</label>
