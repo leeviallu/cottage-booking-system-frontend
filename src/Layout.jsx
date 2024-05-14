@@ -6,25 +6,28 @@ const Layout = () => {
       <nav>
         <ul className="navigation-menu">
           <li>
-            <Link to="/areas">Areas</Link>
+            <Link to="/areas">Alueet</Link>
           </li>
           <li>
-            <Link to="/cottages">Cottages</Link>
+            <Link to="/cottages">Mökit</Link>
           </li>
           <li>
-            <Link to="/reservations">Reservations</Link>
+            <Link to="/services">Palvelut</Link>
           </li>
           <li>
-            <Link to="/services">Services</Link>
+            <Link to="/customers">Asiakkaat</Link>
           </li>
           <li>
-            <Link to="/customers">Customers</Link>
+            <Link to="/reservations">Varaukset</Link>
           </li>
           <li>
-            <Link to="/billings">Billings</Link>
+            <Link to="/services-of-reservation">Varauksen palvelut</Link>
           </li>
           <li>
-            <Link to="/reports">Reports</Link>
+            <Link to="/billings">Laskut</Link>
+          </li>
+          <li>
+            <Link to="/reports">Raportit</Link>
           </li>
         </ul>
       </nav>
