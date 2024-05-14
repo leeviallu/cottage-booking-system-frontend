@@ -27,16 +27,10 @@ import {
   
 import { useState } from "react";
 
-const PDFDocument = ({ bor, billingsOfReservation}) => {
+const PDFDocument = ({billingsOfReservation, reservation, service, billing, sor}) => {
   const [showPDF, setShowPDF] = useState(false);
-
-    const reservation = bor[0];
-    const service = bor[1];
-    const billing = bor[2];
-    const sor = bor[3];
-
     return (
-      <div key={bor[2].billingId}>
+      <div key={billing.billingId}>
           {
               showPDF
               ?
@@ -75,7 +69,7 @@ const PDFDocument = ({ bor, billingsOfReservation}) => {
                           billingsOfReservation.map(item => {
                             if(item[1].reservationId == service.reservationId) {
                               return (
-                                <View key={bor[1].serviceId}>
+                                <View key={service.serviceId}>
                                   <Text>{sor.count} x {item[1].name}</Text>
                                   <Text>Hinta: {sor.count * item[1].price}€</Text>
                                   <Text> </Text>
