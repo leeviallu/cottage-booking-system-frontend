@@ -29,8 +29,6 @@ const Service = ({service}) => {
     };
 
     const handleEdit = async (event) => {
-        console.log(formData)
-        console.log(service.serviceId)
         const { areaId, name, description, price } = formData;
         const serviceid=service.serviceId
         event.preventDefault();
