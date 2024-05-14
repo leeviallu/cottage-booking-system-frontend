@@ -29,6 +29,8 @@ const Service = ({service}) => {
     };
 
     const handleEdit = async (event) => {
+        console.log(formData)
+        console.log(service.serviceId)
         const { areaId, name, description, price } = formData;
         const serviceid=service.serviceId
         event.preventDefault();
@@ -38,14 +40,14 @@ const Service = ({service}) => {
                 name: name,
                 description: description,
                 price: price,
-            }
+            })
             .then(() => {
                 window.location.reload();
             })
             .catch(e => {
                 console.error("Error while editing services: ",e)
             })
-            )
+            
     };
 
     useEffect(() => {
@@ -91,12 +93,8 @@ const Service = ({service}) => {
             <input type="number" id="price" name="price" value={formData.price} onChange={handleChange} />
             <br />
 
-            <button type="submit">Luo</button>
-            <br/>
-            <br/>
-            <button onClick={() => setEditing(!editing)}>Muokkaa</button>
-
-            <button onClick={(event) => handleDelete(event, service.serviceId)}>Poista</button>
+            <button onClick={() => setEditing(!editing)}>Peruuta</button>
+            <button type="submit">Valmis</button>
             <br/>
         </form>
 
