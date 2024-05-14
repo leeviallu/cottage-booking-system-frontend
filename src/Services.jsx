@@ -6,10 +6,10 @@ const Services = () => {
     const [areas, setAreas] = useState([]);
     const [services, setServices] = useState([]);
     const [formData, setFormData] = useState({
-        areaId: '',
+        areaId: 0,
         name: '',
         description: '',
-        price: '',
+        price: 0,
     });
 
     const handleChange = (e) => {
@@ -27,10 +27,10 @@ const Services = () => {
                 price: price,
             });
             setFormData({
-                areaId: '',
+                areaId: 0,
                 name: '',
                 description: '',
-                price: '',
+                price: 0,
             });
             fetchServices();
         } catch (error) {
@@ -50,63 +50,65 @@ const Services = () => {
     };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const fetchedAreas = await axios.get('http://localhost:8080/api/areas');
-                setAreas(fetchedAreas.data);
-                setFormData({ areaId: fetchedAreas.data[0].areaId });
-                fetchServices();
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-        fetchData();
+        axios.get('http://localhost:8080/api/areas')
+            .then(res => {
+                setAreas(res.data);
+                setFormData({...formData, areaId: res.data[0].areaId });
+            })
+            .catch(e => {
+                console.error("Error while fetching areas: ",e)
+            })
+        axios.get('http://localhost:8080/api/services')
+            .then(res => {
+                setServices(res.data);
+            })
+            .catch(e => {
+                console.error("Error while fetching services: ",e)
+            })
+            
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
         <div>
             <h1>Luo palvelu</h1>
             <form onSubmit={handleCreate}>
-                <label>
-                    Alue:
-                    <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
-                        {areas.map((area) => (
-                            <option key={area.areaId} value={area.areaId}>
-                                {area.name}
-                            </option>
-                        ))}
-                    </select>
-                </label>
+                <label htmlFor="areaId">Alue:</label>
                 <br />
-                <label>
-                    Nimi:
-                    <input type="text" name="name" value={formData.name} onChange={handleChange} />
-                </label>
+                <select id="areaId" name="areaId" value={formData.areaId} onChange={handleChange}>
+                    {areas.map((area) => (
+                        <option key={area.areaId} value={area.areaId}>
+                            {area.name}
+                        </option>
+                    ))}
+                </select>
                 <br />
-                <label>
-                    Kuvaus:
-                    <input type="text" name="description" value={formData.description} onChange={handleChange} />
-                </label>
+                <label htmlFor="name">Nimi:</label>
                 <br />
-                <label>
-                    Hinta:
-                    <input type="number" name="price" value={formData.price} onChange={handleChange} />
-                </label>
+                <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
+                <br />
+                <label htmlFor="description">Kuvaus:</label>
+                <br />
+                <input type="text" name="description" value={formData.description} onChange={handleChange} />
+                <br />
+                <label htmlFor="price">Hinta:</label>
+                <br />
+                <input type="number" name="price" value={formData.price} onChange={handleChange} />
                 <br />
                 <button type="create">Luo</button>
             </form>
             <h2>Kaikki palvelut</h2>
-        <div>
-                {
-                    services.map(service=>
-                        service.name !=null?
-                        <Service key={service.serviceId} service={service}/>
-                        :
-                        null
-                    )
-                }
+            <div>
+                    {
+                        services.map(service=>
+                            service.name !=null?
+                            <Service key={service.serviceId} service={service}/>
+                            :
+                            null
+                        )
+                    }
+            </div>
         </div>
-    </div>
     );
 };
 
