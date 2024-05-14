@@ -174,7 +174,7 @@ const Cottages = () => {
     }, [cottages, cottageSearchTerm])
 
     return (
-        <div>
+        <div className="container">
             <h1>Mökit</h1>
             <h2>Luo mökki</h2>
             <form onSubmit={handleSubmit}>

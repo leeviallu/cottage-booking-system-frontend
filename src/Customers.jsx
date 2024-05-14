@@ -140,7 +140,7 @@ const Customers = () => {
   }, [postalSearchTerm])
 
   return (
-    <div>
+    <div className="container">
       <h1>Luo asiakas</h1>
       <form onSubmit={handleSubmit}>
       <label htmlFor="postalSearchTerm">Postiosoite:</label><br/>

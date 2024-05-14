@@ -61,3 +61,128 @@
 .navigation-menu li a:hover {
   color: #0074D9;
 }
+
+
+/* styles.css */
+html, body {
+  background-color: #7c7272;
+  font-weight: bold;
+  text-shadow: -1px 0 black, 0 2px black, 2px 0 black, 0 -1px black;
+  min-height: 100vh;
+  background-image: url("../public/mökkikuvaOTI.jpeg");
+  background-color: #7397b6;
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: Arial, sans-serif;
+  color: #efefee;
+}
+
+
+
+
+h1, h2, h3 {
+  font-weight: bold;
+  text-align: center;
+  text-shadow: -1px 0 black, 0 2px black, 2px 0 black, 0 -1px black;
+}
+
+form, .area-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+button:default {
+  margin: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #625959;
+  color: #fff;
+}
+
+select {
+  
+  background-color: #625959;
+  color: #fff;
+ 
+}
+
+input, textarea {
+  font-weight: bold;
+  margin: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #555;
+  color: #fff;
+}
+
+
+
+button:hover {
+  background-color: #66a9b2;
+}
+
+.area-container {
+  background-color: #555;
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid #555;
+}
+
+.area-container div {
+  margin: 5px;
+}
+
+
+.invoice-container {
+  background-color: rgba(68, 68, 68, 0.8); /* Läpinäkyvä tausta */
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px auto;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid #555;
+}
+
+.invoice-container p {
+  margin: 5px 0;
+}
+
+/* Taustakuvat eri näkymille */
+.container {
+  background-color: #7c7272c5;
+  background-size: cover;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.mokit-view {
+  background: url('../images/mokit-bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  height: 100vh;
+  padding: 20px;
+}
+
+.palvelut-view {
+  background: url('../images/palvelut-bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  height: 100vh;
+  padding: 20px;
+}
+
+.varauksen-palvelut-view {
+  background: url('../images/varauksen-palvelut-bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  height: 100vh;
+  padding: 20px;
+}
