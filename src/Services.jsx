@@ -67,6 +67,18 @@ const Services = () => {
             
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    useEffect(() => {
+        let filteredServices;
+        if (areaSearchTerm == "") {
+            filteredServices = services;
+        } else {
+        filteredServices = services.filter(service =>
+            service.area.name.toLowerCase().includes(areaSearchTerm.toLowerCase()) 
+        );
+    }
+        setAreaSearchResults(filteredServices);
+    }, [areas, areaSearchTerm]);
+
 
     useEffect(() => {
         const filteredServices = services.filter(service =>
@@ -91,17 +103,35 @@ const Services = () => {
                 <br />
                 <label htmlFor="name">Nimi:</label>
                 <br />
-                <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
+                <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    value={formData.name} onChange={handleChange}
+                    onInvalid={e => e.target.setCustomValidity('Nimi ei voi olla tyhjä')} 
+                    onInput={e => e.target.setCustomValidity('')}
+                    required 
+                />
+                
                 <br />
                 <label htmlFor="description">Kuvaus:</label>
                 <br />
-                <input type="text" name="description" value={formData.description} onChange={handleChange} />
+                <input type="text" name="description" value={formData.description} onChange={handleChange} 
+                onInvalid={e => e.target.setCustomValidity('Kuvaus ei voi olla tyhjä')} 
+                onInput={e => e.target.setCustomValidity('')}
+                required/>
                 <br />
                 <label htmlFor="price">Hinta:</label>
                 <br />
-                <input type="number" name="price" value={formData.price} onChange={handleChange} />
+                <input type="number" name="price" value={formData.price} onChange={handleChange} 
+                 onInvalid={e => e.target.setCustomValidity('Hinta ei voi olla 0')} 
+                 onInput={e => e.target.setCustomValidity('')} 
+                 min="1" 
+                 max="1000000000" 
+                 required />
                 <br />
                 <button type="create">Luo</button>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
             </form>
             <h2>Hae palveluita alueen nimellä:</h2>
             <input id="servicesearchterm" value={serviceSearchTerm} onChange={event => setServiceSearchTerm(event.target.value)} />
@@ -115,7 +145,8 @@ const Services = () => {
                             null
                         )
                     }
-            </div>
+            </div>      
+            
         </div>
     );
 };
