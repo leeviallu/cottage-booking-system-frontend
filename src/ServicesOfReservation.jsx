@@ -37,18 +37,6 @@ const ServicesOfReservation = () => {
                             console.error('Error while creating Services of Reservation: ', e);
                         });
                 }
-                axios.put('http://localhost:8080/api/sor',
-                    {
-                        'serviceId': serviceId,
-                        'reservationId': reservationId,
-                        'count': count
-                    }
-                ).then(() => {
-                    window.location.reload();
-                })
-                    .catch(e => {
-                        console.error('Error while editing Services of Reservation: ', e);
-                    });
             })
             .catch(e => {
                 console.error('Error while creating Services of Reservation: ', e);
@@ -112,9 +100,9 @@ const ServicesOfReservation = () => {
                             <option key={reservation.reservationId} value={reservation.reservationId}>
                                 {reservation.customer.email}
                                 {', '}
-                                {new Date(reservation.reservationStartingDate).toISOString().split('T')[0]}
-                            -
-                                {new Date(reservation.reservationEndingDate).toISOString().split('T')[0]}
+                                {new Date(reservation.reservationStartingDate).getDate() + '.' + (new Date(reservation.reservationStartingDate).getMonth() + 1) + '.' + new Date(reservation.reservationStartingDate).getFullYear()}
+                                {'-'}
+                                {new Date(reservation.reservationEndingDate).getDate() + '.' + (new Date(reservation.reservationEndingDate).getMonth() + 1) + '.' + new Date(reservation.reservationEndingDate).getFullYear()}
                             </option>
                         );
                     })}
@@ -154,7 +142,7 @@ const ServicesOfReservation = () => {
                 <button className='btn' type="submit">Lisää</button>
             </form>
 
-            <h2>Hae Varauksen palveluja</h2>
+            <h2>Hae varaukseen liitettyjä palveluita</h2>
             <div>
                 <form onSubmit={searchSor} >
                     <select id="reservationId" name="reservationId" value={reservationId} onChange={handleCustChange}>
@@ -163,9 +151,9 @@ const ServicesOfReservation = () => {
                                 <option key={reservation.reservationId} value={reservation.reservationId}>
                                     {reservation.customer.email}
                                     {', '}
-                                    {new Date(reservation.reservationStartingDate).toISOString().split('T')[0]}
-                            -
-                                    {new Date(reservation.reservationEndingDate).toISOString().split('T')[0]}
+                                    {new Date(reservation.reservationStartingDate).getDate() + '.' + (new Date(reservation.reservationStartingDate).getMonth() + 1) + '.' + new Date(reservation.reservationStartingDate).getFullYear()}
+                                    {'-'}
+                                    {new Date(reservation.reservationEndingDate).getDate() + '.' + (new Date(reservation.reservationEndingDate).getMonth() + 1) + '.' + new Date(reservation.reservationEndingDate).getFullYear()}
                                 </option>
                             );
                         })}

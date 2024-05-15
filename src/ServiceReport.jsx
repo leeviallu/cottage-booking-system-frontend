@@ -83,7 +83,7 @@ const ServiceReport = () => {
             {
                 services[0] && servicesOfReservation[0] ?
                     <div className='item-container'>
-                        <h2>{services[0].area.name} palvelu raportti välillä {startDate} ja {endDate}</h2>
+                        <h2>{services[0].area.name} palvelu raportti välillä {new Date(startDate).getDate()+'.'+(new Date(startDate).getMonth() + 1)+'.'+new Date(startDate).getFullYear()} - {new Date(endDate).getDate()+'.'+(new Date(endDate).getMonth() + 1)+'.'+new Date(endDate).getFullYear()}</h2>
 
                         {services.map(service => {
                             let serviceTotal = 0;

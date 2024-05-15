@@ -44,7 +44,7 @@ const Billings=()=>{
             <br />
             <div>
                 {
-                    billingsOfReservation[0] && <h2>Vahvistuspäivä ennen {dateShown}</h2>
+                    billingsOfReservation[0] && <h2>Vahvistuspäivä ennen {new Date(dateShown).getDate() + '.' + (new Date(dateShown).getMonth() + 1) + '.' + new Date(dateShown).getFullYear()}</h2>
 
                 }
 
@@ -59,7 +59,7 @@ const Billings=()=>{
                             return (
                                 <div className="item-container" key={bor[2].billingId}>
                                     <p>{bor[0].customer.email}</p>
-                                    <p>{new Date(bor[0].reservationStartingDate).toISOString().split('T')[0]} - {new Date(bor[0].reservationEndingDate).toISOString().split('T')[0]}</p>
+                                    <p>{new Date(bor[0].reservationStartingDate).getDate() + '.' + (new Date(bor[0].reservationStartingDate).getMonth() + 1) + '.' + new Date(reservation.reservationStartingDate).getFullYear()}</p>
                                     {
                                         bor[2].isPaid
                                             ?

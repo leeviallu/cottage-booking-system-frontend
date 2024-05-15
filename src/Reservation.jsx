@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 
@@ -192,7 +193,7 @@ const Reservation = ({reservation}) => {
                             {
                                 reservation.reservationDate
                                     ?
-                                    <p><b>Varauksen luontipäivä: </b> {new Date(reservation.reservationDate).toISOString().split('T')[0]}</p>
+                                    <p><b>Varauksen luontipäivä: </b> {new Date(reservation.reservationDate).getDate() + '.' + (new Date(reservation.reservationDate).getMonth() + 1) + '.' + new Date(reservation.reservationDate).getFullYear()}</p>
 
                                     :
                                     <p><b>Varauksen luontipäivä: </b> ei määritetty</p>
@@ -200,7 +201,7 @@ const Reservation = ({reservation}) => {
                             {
                                 reservation.confirmationDate
                                     ?
-                                    <p><b>Varauksen vahvistuspäivä: </b> {new Date(reservation.confirmationDate).toISOString().split('T')[0]}</p>
+                                    <p><b>Varauksen vahvistuspäivä: </b> {new Date(reservation.confirmationDate).getDate() + '.' + (new Date(reservation.confirmationDate).getMonth() + 1) + '.' + new Date(reservation.confirmationDate).getFullYear()}</p>
 
                                     :
                                     <p><b>Varauksen vahvistuspäivä: </b> ei määritetty</p>
@@ -209,7 +210,8 @@ const Reservation = ({reservation}) => {
                             {
                                 reservation.reservationStartingDate
                                     ?
-                                    <p><b>Varauksen alkamispäivä: </b> {new Date(reservation.reservationStartingDate).toISOString().split('T')[0]}</p>
+                                    <p><b>Varauksen alkamispäivä: </b>
+                                    {new Date(reservation.   reservationStartingDate).getDate() + '.' + (new Date(reservation.reservationStartingDate).getMonth() + 1) + '.' + new Date(reservation.reservationStartingDate).getFullYear()}</p>
 
                                     :
                                     <p><b>Varauksen alkamispäivä: </b> ei määritetty</p>
@@ -217,7 +219,9 @@ const Reservation = ({reservation}) => {
                             {
                                 reservation.reservationEndingDate
                                     ?
-                                    <p><b>Varauksen päättymispäivä: </b> {new Date(reservation.reservationEndingDate).toISOString().split('T')[0]}</p>
+                                    <p><b>Varauksen päättymispäivä: </b>
+                                        {new Date(reservation.reservationEndingDate).getDate() + '.' + (new Date(reservation.reservationEndingDate).getMonth() + 1) + '.' + new Date(reservation.reservationEndingDate).getFullYear()}
+                                    </p>
 
                                     :
                                     <p><b>Varauksen päättymispäivä: </b> ei määritetty</p>
