@@ -162,16 +162,30 @@ const Customers = () => {
                 </select>
                     <br/>
         <label htmlFor="firstname">Etunimi:</label><br />
-        <input type="text" id="firstname" name="firstname" value={formData.firstname} onChange={handleChange} /><br />
+        <input type="text" id="firstname" name="firstname" value={formData.firstname} onChange={handleChange} 
+        onInvalid={e => e.target.setCustomValidity('Nimi ei voi olla tyhjä')} 
+        onInput={e => e.target.setCustomValidity('')}
+        required/>
+        <br />
 
         <label htmlFor="lastname">Sukunimi:</label><br />
-        <input type="text" id="lastname" name="lastname" value={formData.lastname} onChange={handleChange} /><br />
+        <input type="text" id="lastname" name="lastname" value={formData.lastname} onChange={handleChange}
+        onInvalid={e => e.target.setCustomValidity('Sukunimi ei voi olla tyhjä')} 
+        onInput={e => e.target.setCustomValidity('')}
+        required /><br />
 
         <label htmlFor="address">Osoite:</label><br />
-        <input type="text" id="address" name="address" value={formData.address} onChange={handleChange} /><br />
+        <input type="text" id="address" name="address" value={formData.address} onChange={handleChange}
+        onInvalid={e => e.target.setCustomValidity('Osoite ei voi olla tyhjä')} 
+        onInput={e => e.target.setCustomValidity('')}
+        required /><br />
 
         <label htmlFor="email">Sähköposti:</label><br />
-        <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} /><br />
+        <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} 
+        onInvalid={e => e.target.setCustomValidity('Sähköposti ei voi olla tyhjä')} 
+        onInput={e => e.target.setCustomValidity('')}
+        required/>
+        <br />
 
         <label htmlFor="phonenumber">Puhelinnumero:</label><br />
         <input type="tel" id="phonenumber" name="phonenumber" value={formData.phonenumber} onChange={handleChange} /><br />

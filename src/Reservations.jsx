@@ -144,19 +144,28 @@ const Reservations = () => {
             
                 <label htmlFor="confirmationDate">Varauksen vahvistuspäivä:</label>
                 <br />
-                <input type="date" id="confirmationDate" name="confirmationDate" value={formData.confirmationDate} onChange={handleChange} />
+                <input type="date" id="confirmationDate" name="confirmationDate" value={formData.confirmationDate} onChange={handleChange} 
+                onInvalid={e => e.target.setCustomValidity('Valitse vahvistuspäivämäärä')} 
+                onInput={e => e.target.setCustomValidity('')}
+                required/>
                 <br />
                
                 
                 <label htmlFor="reservationStartingDate">Varauksen alkamispäivä:</label>
                 <br />
-                <input type="date" id="reservationStartingDate" name="reservationStartingDate" value={formData.reservationStartingDate} onChange={handleChange} />
+                <input type="date" id="reservationStartingDate" name="reservationStartingDate" value={formData.reservationStartingDate} onChange={handleChange}
+                onInvalid={e => e.target.setCustomValidity('Valitse varauksen alkamispäivämäärä')} 
+                onInput={e => e.target.setCustomValidity('')}
+                required />
                 <br />
 
 
                 <label htmlFor="reservationEndingDate">Varauksen päättymispäivä:</label>
                 <br />
-                <input type="date" id="reservationEndingDate" name="reservationEndingDate" value={formData.reservationEndingDate} onChange={handleChange} />
+                <input type="date" id="reservationEndingDate" name="reservationEndingDate" value={formData.reservationEndingDate} onChange={handleChange} 
+                onInvalid={e => e.target.setCustomValidity('Valitse varauksen päättymispäivämäärä')} 
+                onInput={e => e.target.setCustomValidity('')}
+                required/>
                 <br />
 
                 <br />
