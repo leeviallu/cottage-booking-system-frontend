@@ -94,7 +94,7 @@ const PDFDocument = ({billingsOfReservation, reservation, billing}) => {
                         <View>
                           {servicesOfReservation.map((sor) => {
                             return billingsOfReservation.map((bor) => {
-                              if (sor[1] && bor[1] && sor.serviceId === bor[1].serviceId && sor.reservationId === bor[0].reservationId) {
+                              if (sor && bor[1] && sor.serviceId === bor[1].serviceId && sor.reservationId === bor[0].reservationId) {
                                 return (
                                   <View key={bor[1].serviceId}>
                                     <Text>{bor[3].count} x {bor[1].name}</Text>

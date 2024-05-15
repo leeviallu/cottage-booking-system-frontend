@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Reservation from "./Reservation";
-
 const ServicesOfReservation = () => {
     const [reservations, setReservations] = useState([])
     const [services, setServices] = useState([])
@@ -10,8 +8,8 @@ const ServicesOfReservation = () => {
         serviceId: "",
         count: 0,
     });
-    const[sorSearchResult, setSorSearchResult] = useState([])
-    const[reservationId, setReservationId]=useState(0)
+    const [sorSearchResult, setSorSearchResult] = useState([])
+    const [reservationId, setReservationId] = useState(0)
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -72,15 +70,16 @@ const ServicesOfReservation = () => {
         axios.get(`http://localhost:8080/api/sor/${reservationId}`)
             .then(res => {
                 setSorSearchResult(res.data);
-                console.log(res.data)
             }).catch(e => {
                 console.error('Error fetching services: ', e)
             })
     }
+
     useEffect(() => {
         axios.get('http://localhost:8080/api/reservations')
             .then(res => {
                 setReservations(res.data);
+                setReservationId(res.data[0].reservationId);
             }).catch(e => {
                 console.error('Error fetching reservations: ', e)
             })
@@ -88,22 +87,16 @@ const ServicesOfReservation = () => {
     }, [])
 
     useEffect(() => {
-        axios.get('http://localhost:8080/api/reservations')
-            .then(res => {
-                setReservations(res.data);
-            }).catch(e => {
-                console.error('Error fetching reservations: ', e)
-            })
         axios.get('http://localhost:8080/api/services')
             .then(res => {
                 setServices(res.data);
             }).catch(e => {
                 console.error('Error fetching services: ', e)
-            })
-            
+            }) 
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
     useEffect(() => {
         if(reservations[0] && services[0]) {
             setFormData({...formData, reservationId: reservations[0].reservationId, serviceId: services[0].serviceId})
