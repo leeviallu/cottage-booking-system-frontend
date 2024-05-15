@@ -61,11 +61,17 @@ const Reports = () => {
                 <br />
                 <label htmlFor="startDate">Alkamispäivä:</label>
                 <br />
-                <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} />
+                <input type="date" name="startDate" value={formData.startDate} onChange={handleChange}
+                onInvalid={e => e.target.setCustomValidity('Aste alkamispäivä')} 
+                onInput={e => e.target.setCustomValidity('')} 
+                required />
                 <br />
                 <label htmlFor="endDate">Päättymispäivä:</label>
                 <br />
-                <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} />
+                <input type="date" name="endDate" value={formData.endDate} onChange={handleChange}
+                onInvalid={e => e.target.setCustomValidity('Aste päättymispäivä')} 
+                onInput={e => e.target.setCustomValidity('')} 
+                required  />
                 <br />
 
                 <button type="submit">Luo</button>
