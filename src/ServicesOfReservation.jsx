@@ -102,7 +102,7 @@ const ServicesOfReservation = () => {
     }, [reservations, services]);
     return (
         <div className="container">
-            <h1>Varauksen palvelut</h1>
+            <h1>Lisää varaukseen palvelu</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="reservationId">Varaus:</label>
                 <br />
@@ -151,7 +151,7 @@ const ServicesOfReservation = () => {
                     required
                 />
                 <br />
-                <button className='btn' type="submit">Lisää varaukseen</button>
+                <button className='btn' type="submit">Lisää</button>
             </form>
 
             <h2>Hae Varauksen palveluja</h2>
