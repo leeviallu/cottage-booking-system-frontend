@@ -31,6 +31,18 @@ import { useEffect, useState } from "react";
 const PDFDocument = ({billingsOfReservation, reservation, billing}) => {
   const [servicesOfReservation, setServicesOfReservation] = useState([])
 
+  const handlePayment = (e) => {
+    e.preventDefault();
+    const reservationId = reservation.reservationId;
+    axios.put(`http://localhost:8080/api/billings/paid/${reservationId}`)
+      .then(() => {
+        window.location.reload();
+      })
+      .catch(e => {
+        console.error("Error while editing: ", e)
+      })
+  }
+
   useEffect(() => {
     const id = reservation.reservationId;
     axios.get(`http://localhost:8080/api/sor/${id}`)
@@ -109,7 +121,11 @@ const PDFDocument = ({billingsOfReservation, reservation, billing}) => {
                 <button type="button" onClick={() => setShowPDF(!showPDF)}>Sulje</button>
               </div>
               :
-              <button type="button" onClick={() => setShowPDF(!showPDF)}>Näytä PDF</button>
+              <div>
+                <button type="button" onClick={handlePayment}>Merkitse maksetuksi</button>
+                <button type="button" onClick={() => setShowPDF(!showPDF)}>Näytä PDF</button>
+              </div>
+              
           }
         
           <br />
