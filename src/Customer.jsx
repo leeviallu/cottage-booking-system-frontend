@@ -148,19 +148,19 @@ const Customer = ({ customer }) => {
                     <input type="tel" id="phonenumber" name="phonenumber" value={formData.phonenumber} onChange={handleChange} /><br />
 
 
-                    <button type="submit">Tallenna</button>
-                    <button onClick={() => setEditing(false)}>Peru</button>
+                    <button className='btn' type="submit">Tallenna</button>
+                    <button className='btn' onClick={() => setEditing(false)}>Peru</button>
                 </form>
             ) : (
-                <div>
-                    <p>Postiosoite: {customer.postal.postalcode}</p>
+                <div className='item-container'>
                     <p>Etunimi: {customer.firstname}</p>
                     <p>Sukunimi: {customer.lastname}</p>
-                    <p>Osoite: {customer.address}</p>
                     <p>Sähköposti: {customer.email}</p>
                     <p>Puhelinnumero: {customer.phonenumber}</p>
-                    <button onClick={() => setEditing(!editing)}>Muokkaa</button>
-                    <button onClick={(event) => handleDelete(event, customer.customerId)}>Poista</button>
+                    <p>Osoite: {customer.address}</p>
+                    <p>Postiosoite: {customer.postal.postalcode}</p>
+                    <button className='btn' onClick={() => setEditing(!editing)}>Muokkaa</button>
+                    <button className='btn' onClick={(event) => handleDelete(event, customer.customerId)}>Poista</button>
                 </div>
             )}
         </div>

@@ -175,15 +175,15 @@ const Reservation = ({reservation}) => {
                         <br />
 
                         <br />
-                        <button type="button" onClick={() => setEditing(!editing)}>Peruuta</button>
-                        <button type="submit">Luo</button>
+                        <button className='btn' type="reset" onClick={() => setEditing(!editing)}>Peruuta</button>
+                        <button className='btn' type="submit">Luo</button>
                         <br />
                         <br />
 
 
                     </form>
                     :
-                    <div key={reservation.reservationId}>
+                    <div className='item-container' key={reservation.reservationId}>
                         <div>
 
                             <p><b>Mökin nimi: </b> {reservation.cottage.name}</p>
@@ -225,9 +225,9 @@ const Reservation = ({reservation}) => {
 
                         </div>
 
-                        <button onClick={() => setEditing(!editing)}>Muokkaa</button>
+                        <button className='btn' onClick={() => setEditing(!editing)}>Muokkaa</button>
 
-                        <button onClick={(event) => handleDelete(event, reservation.reservationId)}>Poista</button>
+                        <button className='btn' onClick={(event) => handleDelete(event, reservation.reservationId)}>Poista</button>
                         <br />
                         <br />
                         <br />

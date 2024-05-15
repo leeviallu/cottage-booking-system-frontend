@@ -91,13 +91,13 @@ const Service = ({service}) => {
                     <input type="number" id="price" name="price" value={formData.price} onChange={handleChange} />
                     <br />
 
-                    <button onClick={() => setEditing(!editing)}>Peruuta</button>
-                    <button type="submit">Valmis</button>
+                    <button className='btn'type="reset" onClick={() => setEditing(!editing)}>Peruuta</button>
+                    <button className='btn' type="submit">Valmis</button>
                     <br/>
                 </form>
 
                 :
-                <div key={service.serviceId}>
+                <div key={service.serviceId} className='item-container'>
                     <p>
                         <b>Alue:</b> {service.area.name}
                         <br/>
@@ -108,8 +108,8 @@ const Service = ({service}) => {
                         <b>Hinta:</b> {service.price}
                         <br/>
                     </p>
-                    <button onClick={() => setEditing(!editing)}>Muokkaa</button>
-                    <button onClick={(event) => handleDelete(event)}>Poista</button>
+                    <button className='btn' onClick={() => setEditing(!editing)}>Muokkaa</button>
+                    <button className='btn' onClick={(event) => handleDelete(event)}>Poista</button>
                     <br/>
                     <br/>
                     <br/>

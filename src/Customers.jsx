@@ -175,14 +175,14 @@ const Customers = () => {
                 <input type="tel" id="phonenumber" name="phonenumber" value={formData.phonenumber} onChange={handleChange} /><br />
 
                 <br/>
-                <button type="submit">Luo asiakas</button>
+                <button className='btn' type="submit">Luo asiakas</button>
             </form>
 
             <form onSubmit={searchCustomer}>
                 <label htmlFor="email"><h2>Asiakkaan email:</h2></label><br />
                 <input type="text" id="email" name="email" value={searchEmail} onChange={event => setSearchEmail(event.target.value)} />
                 <br />
-                <button type="submit">Hae</button>
+                <button className='btn' type="submit">Hae</button>
             </form>
             {
                 searchResult

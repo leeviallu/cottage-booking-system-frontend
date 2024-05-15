@@ -124,11 +124,14 @@ const Services = () => {
                     max="1000000000"
                     required />
                 <br />
-                <button type="create">Luo</button>
+                <button className='btn' type="create">Luo</button>
             </form>
-            <h2>Hae palveluita alueen nimellä:</h2>
-            <input id="servicesearchterm" value={serviceSearchTerm} onChange={event => setServiceSearchTerm(event.target.value)} />
-            <br />
+            <form>
+                <h2>Hae palveluita alueen nimellä:</h2>
+                <input id="servicesearchterm" value={serviceSearchTerm} onChange={event => setServiceSearchTerm(event.target.value)} />
+                <br />
+            </form>
+
             <div>
                 {
                     serviceSearchResults.map(service=>

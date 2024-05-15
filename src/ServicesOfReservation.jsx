@@ -151,7 +151,7 @@ const ServicesOfReservation = () => {
                     required
                 />
                 <br />
-                <button type="submit">Lisää varaukseen</button>
+                <button className='btn' type="submit">Lisää varaukseen</button>
             </form>
 
             <h2>Hae Varauksen palveluja</h2>
@@ -170,17 +170,17 @@ const ServicesOfReservation = () => {
                             );
                         })}
                     </select>
-                    <button type="submit">Hae</button>
+                    <button className='btn' type="submit">Hae</button>
                 </form>
                 {sorSearchResult.map((sor) => {
                     const matchedService = services.find(service => service.serviceId === sor.serviceId);
                     return (
-                        <div key={sor.serviceId}>
+                        <div className='item-container' key={sor.serviceId}>
                             {matchedService && (
                                 <p>{matchedService.name}</p>
                             )}
                             <p>Määrä: {sor.count}</p>
-                            <button onClick={() => handleDelete(sor.serviceId, sor.reservationId)}>Poista</button>
+                            <button className='btn' onClick={() => handleDelete(sor.serviceId, sor.reservationId)}>Poista</button>
 
                         </div>
                     );

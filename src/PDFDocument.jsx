@@ -118,18 +118,18 @@ const PDFDocument = ({billingsOfReservation, reservation, billing}) => {
                                 </Page>
                             </Document>
                         </PDFViewer>
-                        <button type="button" onClick={() => setShowPDF(!showPDF)}>Sulje</button>
+                        <button className='btn' type="button" onClick={() => setShowPDF(!showPDF)}>Sulje</button>
                     </div>
                     :
                     <div>
                         {billing.isPaid
                             ?
-                            <button type="button" onClick={handlePayment}>Merkitse maksamattomaksi</button>
+                            <button className='btn' type="button" onClick={handlePayment}>Merkitse maksamattomaksi</button>
                             :
-                            <button type="button" onClick={handlePayment}>Merkitse maksetuksi</button>
+                            <button className='btn' type="button" onClick={handlePayment}>Merkitse maksetuksi</button>
 
                         }
-                        <button type="button" onClick={() => setShowPDF(!showPDF)}>Näytä PDF</button>
+                        <button className='btn' type="button" onClick={() => setShowPDF(!showPDF)}>Näytä PDF</button>
                     </div>
 
             }

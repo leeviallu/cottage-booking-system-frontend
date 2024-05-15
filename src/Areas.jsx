@@ -57,8 +57,7 @@ const Areas = () => {
 
     return (
         <div className="container"> {/* Lisää areas-view luokka */}
-            <h1>Alueet</h1>
-            <h2>Luo alue</h2>
+            <h1>Luo alue</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="areaName">Alueen nimi:</label>
                 <br/>
@@ -73,13 +72,16 @@ const Areas = () => {
                     required
                 />
                 <br />
-                <button type="submit">Luo</button>
+                <button className='btn' type="submit">Luo</button>
+            </form>
+            <form>
+                <h2>Alueet:</h2>
+                <input id="areasearchterm" value={areaSearchTerm} onChange={event => setAreaSearchTerm(event.target.value)} />
+                <br />
+
             </form>
 
-            <h2>Alueet:</h2>
-            <input id="areasearchterm" value={areaSearchTerm} onChange={event => setAreaSearchTerm(event.target.value)} />
-            <br />
-            <h3>Tulokset:</h3>
+            <h3>Alueet:</h3>
 
             <div>
                 {

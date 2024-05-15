@@ -129,7 +129,7 @@ const Cottage = ({cottage}) => {
     }, []);
 
     return (
-        <div className="area-container">
+        <div>
             {
                 editing
                     ?
@@ -248,17 +248,13 @@ const Cottage = ({cottage}) => {
                         <br />
                         <br />
 
-
-                        <button type="button" onClick={() => setEditing(!editing)}>
-                Kumoa
-                        </button>
-
-                        <button type="submit">Luo</button>
+                        <button className='btn' type='reset' onClick={() => setEditing(!editing)}>Kumoa</button>
+                        <button className='btn' type="submit">Luo</button>
                         <br/>
                     </form>
 
                     :
-                    <div key={cottage.cottageId}>
+                    <div className='item-container' key={cottage.cottageId}>
                         <p>
                             <b>Alue:</b> {cottage.area.name}
                             <br/>
@@ -275,9 +271,9 @@ const Cottage = ({cottage}) => {
                             <b>Hinta:</b> {cottage.price}
                             <br/>
                         </p>
-                        <button onClick={() => setEditing(!editing)}>Muokkaa</button>
+                        <button className='btn' onClick={() => setEditing(!editing)}>Muokkaa</button>
 
-                        <button onClick={(event) => handleDelete(event, cottage.cottageId)}>Poista</button>
+                        <button className='btn' onClick={(event) => handleDelete(event, cottage.cottageId)}>Poista</button>
                         <br/>
                         <br/>
                         <br/>

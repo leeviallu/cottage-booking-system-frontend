@@ -37,7 +37,7 @@ const Area = ({area}) => {
     };
 
     return (
-        <div className="area-container">
+        <div>
             {
                 editing
                     ?
@@ -56,21 +56,21 @@ const Area = ({area}) => {
                                 required
                             />
                             <br />
-                            <button type="button" onClick={() => setEditing(!editing)}>
+                            <button className='btn' type="reset" onClick={() => setEditing(!editing)}>
                         Kumoa
                             </button>
-                            <button type="submit">Luo</button>
+                            <button className='btn' type="submit">Luo</button>
                         </form>
                         <br />
                     </div>
                     :
-                    <div>
+                    <div className='item-container'>
                         <div>{name}</div>
                         <div>
-                            <button onClick={() => setEditing(!editing)}>
-                        Muokkaa
+                            <button className='btn' onClick={() => setEditing(!editing)}>
+                                Muokkaa
                             </button>
-                            <button onClick={(event) => handleDelete(event, id)}>Poista</button>
+                            <button className='btn' onClick={(event) => handleDelete(event, id)}>Poista</button>
                         </div>
                     </div>
             }

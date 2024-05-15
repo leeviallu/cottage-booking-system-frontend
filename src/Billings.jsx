@@ -38,7 +38,7 @@ const Billings=()=>{
                     required
                 />
                 <br />
-                <button type="submit">Hae</button>
+                <button className='btn' type="submit">Hae</button>
             </form>
 
             <br />
@@ -57,7 +57,7 @@ const Billings=()=>{
                             const service = bor[1];
                             const billing = bor[2];
                             return (
-                                <div key={bor[2].billingId}>
+                                <div className="item-container" key={bor[2].billingId}>
                                     <p>{bor[0].customer.email}</p>
                                     <p>{new Date(bor[0].reservationStartingDate).toISOString().split('T')[0]} - {new Date(bor[0].reservationEndingDate).toISOString().split('T')[0]}</p>
                                     {

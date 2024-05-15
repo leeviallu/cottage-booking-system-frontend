@@ -184,7 +184,7 @@ const Reservations = () => {
                 <br />
 
                 <br />
-                <button type="submit">Luo</button>
+                <button className='btn' type="submit">Luo</button>
                 {errorMsg != '' && <h2 style={{'color': 'red'}}>{errorMsg}</h2>}
 
                 <br />

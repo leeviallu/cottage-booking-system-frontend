@@ -75,14 +75,14 @@ const ServiceReport = () => {
                     required/>
                 <br />
                 <br />
-                <button type="submit">Luo</button>
+                <button className='btn' type="submit">Luo</button>
             </form>
             <br />
             <br />
 
             {
                 services[0] && servicesOfReservation[0] ?
-                    <div>
+                    <div className='item-container'>
                         <h2>{services[0].area.name} palvelu raportti välillä {startDate} ja {endDate}</h2>
 
                         {services.map(service => {

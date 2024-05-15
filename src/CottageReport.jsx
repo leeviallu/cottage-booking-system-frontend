@@ -74,14 +74,14 @@ const Reports = () => {
                     required  />
                 <br />
 
-                <button type="submit">Luo</button>
+                <button className='btn' type="submit">Luo</button>
             </form>
             <br />
             <br />
 
             {
                 reservations[0] && cottages[0] ?
-                    <div>
+                    <div className='item-container'>
                         <h2>{cottages[0].area.name} palvelu raportti välillä {startDate} ja {endDate}</h2>
 
                         {cottages.map(cottage => {

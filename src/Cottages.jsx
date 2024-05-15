@@ -173,8 +173,7 @@ const Cottages = () => {
 
     return (
         <div className="container">
-            <h1>Mökit</h1>
-            <h2>Luo mökki</h2>
+            <h1>Luo mökki</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="areaId">Alue:</label>
                 <br />
@@ -289,7 +288,7 @@ const Cottages = () => {
                 <br />
                 <br />
 
-                <button type="submit">Luo</button>
+                <button className='btn' type="submit">Luo</button>
             </form>
 
             <h2>Etsi mökkiä:</h2>
