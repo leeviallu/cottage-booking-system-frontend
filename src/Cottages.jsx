@@ -140,6 +140,10 @@ const Cottages = () => {
             .catch(err => {
                 console.error('Error while fetching areas:', err);
             });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
         axios.get('http://localhost:8080/api/cottages')
             .then(res => {
                 setCottages(res.data);
@@ -147,7 +151,6 @@ const Cottages = () => {
             .catch(err => {
                 console.error('Error while fetching cottages:', err);
             });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {

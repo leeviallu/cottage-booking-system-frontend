@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Area from './Area';
-import './App.css';  // Tuo CSS-tiedosto
+import './App.css';
 
 const Areas = () => {
     const [areas, setAreas] = useState([]);
@@ -21,20 +21,16 @@ const Areas = () => {
             }
         ).then(() => {
             setAreaName('');
-            fetchData();
+            axios.get('http://localhost:8080/api/areas')
+                .then((res) => {
+                    setAreas(res.data);
+                })
+                .catch((err) => {
+                    console.error('Error fetching areas:', err);
+                });
         })
             .catch(err => {
                 console.error('Error while submitting area:', err);
-            });
-    };
-
-    const fetchData = async () => {
-        axios.get('http://localhost:8080/api/areas')
-            .then((res) => {
-                setAreas(res.data);
-            })
-            .catch((err) => {
-                console.error('Error fetching areas:', err);
             });
     };
 
@@ -51,12 +47,18 @@ const Areas = () => {
 
 
     useEffect(() => {
-        fetchData();
+        axios.get('http://localhost:8080/api/areas')
+            .then((res) => {
+                setAreas(res.data);
+            })
+            .catch((err) => {
+                console.error('Error fetching areas:', err);
+            });
     }, []);
 
 
     return (
-        <div className="container"> {/* Lisää areas-view luokka */}
+        <div className="container">
             <h1>Luo alue</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="areaName">Alueen nimi:</label>
