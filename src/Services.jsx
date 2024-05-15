@@ -67,23 +67,17 @@ const Services = () => {
             
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    
+
     useEffect(() => {
         let filteredServices;
-        if (areaSearchTerm == "") {
+        if (serviceSearchTerm == "") {
             filteredServices = services;
         } else {
         filteredServices = services.filter(service =>
-            service.area.name.toLowerCase().includes(areaSearchTerm.toLowerCase()) 
-        );
-    }
-        setAreaSearchResults(filteredServices);
-    }, [areas, areaSearchTerm]);
-
-
-    useEffect(() => {
-        const filteredServices = services.filter(service =>
             service.area.name.toLowerCase().includes(serviceSearchTerm.toLowerCase()) 
         );
+    }
         setServiceSearchResults(filteredServices);
     }, [services, serviceSearchTerm]);
 
@@ -131,7 +125,6 @@ const Services = () => {
                  required />
                 <br />
                 <button type="create">Luo</button>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
             </form>
             <h2>Hae palveluita alueen nimellä:</h2>
             <input id="servicesearchterm" value={serviceSearchTerm} onChange={event => setServiceSearchTerm(event.target.value)} />
