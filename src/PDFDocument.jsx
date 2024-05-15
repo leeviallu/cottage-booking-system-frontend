@@ -6,6 +6,7 @@ import {
     StyleSheet,
     PDFViewer,
   } from "@react-pdf/renderer";
+import axios from "axios";
 
   const styles = StyleSheet.create({
     page: {
@@ -25,9 +26,23 @@ import {
     }
   });
   
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const PDFDocument = ({billingsOfReservation, reservation, service, billing}) => {
+const PDFDocument = ({billingsOfReservation, reservation, billing}) => {
+  const [servicesOfReservation, setServicesOfReservation] = useState([])
+
+  useEffect(() => {
+    const id = reservation.reservationId;
+    axios.get(`http://localhost:8080/api/sor/${id}`)
+      .then(res => {
+        setServicesOfReservation(res.data);
+      })
+      .catch(e => {
+        console.error(e);
+      })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const [showPDF, setShowPDF] = useState(false);
     return (
       <div key={billing.billingId}>
@@ -64,20 +79,24 @@ const PDFDocument = ({billingsOfReservation, reservation, service, billing}) => 
                         <Text> </Text>
           
                         <Text>Ostetut palvelut:</Text>
+
+                        <View>
+                          {servicesOfReservation.map((sor) => {
+                            return billingsOfReservation.map((bor) => {
+                              if (sor.serviceId === bor[1].serviceId && sor.reservationId === bor[0].reservationId) {
+                                return (
+                                  <View key={bor[1].serviceId}>
+                                    <Text>{bor[3].count} x {bor[1].name}</Text>
+                                    <Text>Hinta: {bor[3].count * bor[1].price}€</Text>
+                                  </View>
+                                );
+                              }
+                              return null;
+                            });
+                          })}
+                        </View>
+
                         <Text> </Text>
-                        {
-                          billingsOfReservation.map(bor => {
-                            if(bor[1].reservationId == service.reservationId) {
-                              return (
-                                <View key={service.serviceId}>
-                                  <Text>{bor[3].count} x {bor[1].name}</Text>
-                                  <Text>Hinta: {bor[3].count * bor[1].price}€</Text>
-                                  <Text> </Text>
-                                </View>
-                              )
-                            }
-                          })
-                        }
 
                         <Text>Maksettava kokonaissumma:</Text>
                         <Text>{billing.sum}€</Text>
