@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-
+import './App.css';  // Import the CSS file
 
 const Area = ({area}) => {
     const {name, areaId: id} = area;
@@ -37,46 +37,43 @@ const Area = ({area}) => {
     }
 
     return (
-        <div>
+        <div className="area-container">
             {
                 editing 
                 ?
                 <div>
-                    <div>
-                        <form onSubmit={handlePut}>
-                            <label htmlFor="areaName">Alueen nimi:</label>
-                            <br/>
-                            <input 
-                                type="text" 
-                                id="areaName"
-                                name="areaName"
-                                value={areaName} 
-                                onChange={handleAreaNameChange} 
-                                onInvalid={e => e.target.setCustomValidity('Area name is required')} 
-                                onInput={e => e.target.setCustomValidity('')}
-                                required
-                            />           
-                            <br />
-                            <button type="button" onClick={() => setEditing(!editing)}>
-                            Kumoa                        
-                            </button>
-                            <button type="submit">Luo</button>
-                        </form>
+                    <form onSubmit={handlePut}>
+                        <label htmlFor="areaName">Alueen nimi:</label>
+                        <br/>
+                        <input 
+                            type="text" 
+                            id="areaName"
+                            name="areaName"
+                            value={areaName} 
+                            onChange={handleAreaNameChange} 
+                            onInvalid={e => e.target.setCustomValidity('Area name is required')} 
+                            onInput={e => e.target.setCustomValidity('')}
+                            required
+                        />           
                         <br />
-                    </div>
+                        <button type="button" onClick={() => setEditing(!editing)}>
+                        Kumoa                        
+                        </button>
+                        <button type="submit">Luo</button>
+                    </form>
+                    <br />
                 </div>
                 :
                 <div>
-                    {name} 
-                    <br />
-
-                    <button onClick={() => setEditing(!editing)}>
-                    Muokkaa
-                    </button>
-                    <button onClick={(event) => handleDelete(event, id)}>Poista</button>
+                    <div>{name}</div>
+                    <div>
+                        <button onClick={() => setEditing(!editing)}>
+                        Muokkaa
+                        </button>
+                        <button onClick={(event) => handleDelete(event, id)}>Poista</button>
+                    </div>
                 </div>  
             }
-        <br/>
         </div>
     );
 };

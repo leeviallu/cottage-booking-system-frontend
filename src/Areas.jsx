@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Area from "./Area";
+import './App.css';  // Tuo CSS-tiedosto
 
 const Areas = () => {
     const [areas, setAreas] = useState([]);
@@ -55,7 +56,7 @@ const Areas = () => {
 
 
     return (
-        <div>
+        <div className="container"> {/* Lisää areas-view luokka */}
             <h1>Alueet</h1>
             <h2>Luo alue</h2>
             <form onSubmit={handleSubmit}>
@@ -98,6 +99,5 @@ const Areas = () => {
         </div>
     );
 };
-
 
 export default Areas;

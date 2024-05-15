@@ -130,7 +130,7 @@ const Cottage = ({cottage}) => {
     }, []);
 
     return (
-        <div>
+        <div className="area-container">
             {
                 editing
             ?

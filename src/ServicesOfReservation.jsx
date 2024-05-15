@@ -17,18 +17,38 @@ const ServicesOfReservation = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const {serviceId, reservationId, count} = formData;
-        axios.post('http://localhost:8080/api/sor', 
-            {
-                "serviceId": serviceId,
-                "reservationId": reservationId,
-                "count": count
-            }
-        ).then(() => {
-            window.location.reload();
-        })
-        .catch(e => {
-            console.error("Error while creating Services of Reservation: ", e)
-        })
+        axios.get(`http://localhost:8080/api/sor/${reservationId}/${serviceId}`)
+            .then(res => {
+                if(res.data == "") {
+                    axios.post('http://localhost:8080/api/sor', 
+                        {
+                            "serviceId": serviceId,
+                            "reservationId": reservationId,
+                            "count": count
+                        }
+                    ).then(() => {
+                        window.location.reload();
+                    })
+                    .catch(e => {
+                        console.error("Error while creating Services of Reservation: ", e)
+                    })
+                }
+                axios.put('http://localhost:8080/api/sor', 
+                    {
+                        "serviceId": serviceId,
+                        "reservationId": reservationId,
+                        "count": count
+                    }
+                ).then(() => {
+                    window.location.reload();
+                })
+                .catch(e => {
+                    console.error("Error while editing Services of Reservation: ", e)
+                })            
+            })
+            .catch(e => {
+                console.error("Error while creating Services of Reservation: ", e)
+            })
     }
 
 
@@ -65,7 +85,7 @@ const ServicesOfReservation = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reservations, services])
     return (
-        <div>
+        <div className="container">
             <h1>Varauksen palvelut</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="reservationId">Varaus:</label>

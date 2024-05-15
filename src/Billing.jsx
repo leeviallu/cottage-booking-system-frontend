@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import './App.css';
 
 const Billing = ({bor, billingsOfReservation}) => {
     const [billingServices, setBillingServices] = useState([]);
@@ -16,7 +17,7 @@ const Billing = ({bor, billingsOfReservation}) => {
     
 
     return (
-        <div key={billing.billingId}>
+        <div className="invoice-container" key={billing.billingId}>
             <p>{sor.reservation.customer.firstname} {sor.reservation.customer.lastname}</p>
             <p>{sor.reservation.customer.email}</p>
             <p>{sor.reservation.customer.phonenumber}</p>

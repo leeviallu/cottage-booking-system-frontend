@@ -5,9 +5,8 @@ import Service from "./Service";
 const Services = () => {
     const [areas, setAreas] = useState([]);
     const [services, setServices] = useState([]);
-    const [areaSearchTerm, setAreaSearchTerm] = useState('');
-    const [areaSearchResults, setAreaSearchResults] = useState([]);
-    const [error, setError] = useState(null);
+    const [serviceSearchTerm, setServiceSearchTerm] = useState('');
+    const [serviceSearchResults, setServiceSearchResults] = useState([]);
     const [formData, setFormData] = useState({
         areaId: 0,
         name: '',
@@ -22,34 +21,31 @@ const Services = () => {
     const handleCreate = async (e) => {
         e.preventDefault();
         const { areaId, name, description, price } = formData;
-        try {
-            await axios.post('http://localhost:8080/api/services', {
-                area: { areaId: areaId },
-                name: name,
-                description: description,
-                price: price,
-            });
-            setFormData({
-                areaId: 0,
-                name: '',
-                description: '',
-                price: 0,
-            });
-            fetchServices();
-        } catch (error) {
-            console.error('Error creating service:', error);
-        }
-        window.location.reload();
-    };
-
-
-    const fetchServices = async () => {
-        try {
-            const fetchedServices = await axios.get('http://localhost:8080/api/services');
-            setServices(fetchedServices.data);
-        } catch (error) {
-            console.error('Error fetching services:', error);
-        }
+        axios.post('http://localhost:8080/api/services', {
+            area: { areaId: areaId },
+            name: name,
+            description: description,
+            price: price,
+            })
+            .then(() => {
+                setFormData({
+                    areaId: 0,
+                    name: '',
+                    description: '',
+                    price: 0,
+                });
+                axios.get('http://localhost:8080/api/services')
+                    .then(res => {
+                        setServices(res.data);
+                        window.location.reload();
+                    })
+                    .catch(e => {
+                        console.error('Error fetching services:', e);
+                    })
+            })
+            .catch(e => {
+                console.error('Error posting services:', e);
+            })
     };
 
     useEffect(() => {
@@ -84,8 +80,15 @@ const Services = () => {
     }, [areas, areaSearchTerm]);
 
 
+    useEffect(() => {
+        const filteredServices = services.filter(service =>
+            service.area.name.toLowerCase().includes(serviceSearchTerm.toLowerCase()) 
+        );
+        setServiceSearchResults(filteredServices);
+    }, [services, serviceSearchTerm]);
+
     return (
-        <div>
+        <div className="container">
             <h1>Luo palvelu</h1>
             <form onSubmit={handleCreate}>
                 <label htmlFor="areaId">Alue:</label>
@@ -130,14 +133,12 @@ const Services = () => {
                 <button type="create">Luo</button>
                 {error && <p style={{ color: 'red' }}>{error}</p>}
             </form>
-    
-            <h2>Hae palveluita alueittain</h2>
-            <input id="areasearchterm" value={areaSearchTerm} onChange={event => setAreaSearchTerm(event.target.value)} />
-            <br />
+            <h2>Hae palveluita alueen nimellä:</h2>
+            <input id="servicesearchterm" value={serviceSearchTerm} onChange={event => setServiceSearchTerm(event.target.value)} />
             <br />
             <div>
                     {
-                        areaSearchResults.map(service=>
+                        serviceSearchResults.map(service=>
                             service.name !=null?
                             <Service key={service.serviceId} service={service}/>
                             :
