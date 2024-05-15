@@ -4,7 +4,7 @@ import Reservation from './Reservation';
 
 
 const Reservations = () => {
-  
+    const [errorMsg, setErrorMsg] = useState("");
     const [cottageSearchTerm, setCottageSearchTerm] = useState("");
     const [customerSearchTerm, setCustomerSearchTerm] = useState("");
     const [customerResults, setCustomerResults] = useState([]);
@@ -28,32 +28,48 @@ const Reservations = () => {
     const handleSubmit = (event) => {
         const { cottageId, customerId, reservationDate, confirmationDate, reservationStartingDate, reservationEndingDate } = formData;
         event.preventDefault();
-        axios.post('http://localhost:8080/api/reservations',
-            {
-                "customer": {
-                        "customerId": customerId,
-                    },
-                "cottage": {
-                        "cottageId": cottageId,
-                    },
-                "reservationDate": reservationDate,
-                "confirmationDate": confirmationDate,
-                "reservationStartingDate": reservationStartingDate,
-                "reservationEndingDate": reservationEndingDate
+        axios.get(`http://localhost:8080/api/reservations/between/${cottageId}?startDate=${reservationStartingDate}&endDate=${reservationEndingDate}
+        `)
+        .then(res => {
+            if (res.data == "") {
+                axios.post('http://localhost:8080/api/reservations',
+                {
+                    "customer": {
+                            "customerId": customerId,
+                        },
+                    "cottage": {
+                            "cottageId": cottageId,
+                        },
+                    "reservationDate": reservationDate,
+                    "confirmationDate": confirmationDate,
+                    "reservationStartingDate": reservationStartingDate,
+                    "reservationEndingDate": reservationEndingDate
+                }
+                ).then(() => {
+                    setCottageSearchTerm("")
+                    setCustomerSearchTerm("")
+                    setFormData({
+                        cottageId: cottages[0].cottageId,
+                        customerId: customers[0].customerId,
+                        reservationDate: new Date().toISOString().split('T')[0],
+                        confirmationDate: new Date().toISOString().split('T')[0],
+                        reservationStartingDate: new Date().toISOString().split('T')[0],
+                        reservationEndingDate: new Date().toISOString().split('T')[0]
+                    })
+                    window.location.reload();
+                })
+            } else {
+                setErrorMsg("Mökille on tehty jo varaus tälle ajankohdalle.")
+                setTimeout(() => {
+                    setErrorMsg("")
+                }, 4000);
+                console.log(res.data);
             }
-        ).then(() => {
-            setCottageSearchTerm("")
-            setCustomerSearchTerm("")
-            setFormData({
-                cottageId: cottages[0].cottageId,
-                customerId: customers[0].customerId,
-                reservationDate: new Date().toISOString().split('T')[0],
-                confirmationDate: new Date().toISOString().split('T')[0],
-                reservationStartingDate: new Date().toISOString().split('T')[0],
-                reservationEndingDate: new Date().toISOString().split('T')[0]
-            })
-            window.location.reload();
         })
+        .catch(e => {
+            console.error("Error while fetching reservations: ",e)
+        })
+       
     };
 
     useEffect(() => {
@@ -170,6 +186,8 @@ const Reservations = () => {
 
                 <br />
                 <button type="submit">Luo</button>
+                {errorMsg != "" && <h2 style={{"color": "red"}}>{errorMsg}</h2>}
+
                 <br />
                 <br />
 
