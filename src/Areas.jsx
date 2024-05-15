@@ -6,6 +6,7 @@ import './App.css';
 const Areas = () => {
     const [areas, setAreas] = useState([]);
     const [areaName, setAreaName] = useState('');
+    const [creationMsg, setCreationMsg] = useState('');
     const [areaSearchTerm, setAreaSearchTerm] = useState('');
     const [areaSearchResults, setAreaSearchResults] = useState([]);
 
@@ -24,6 +25,10 @@ const Areas = () => {
             axios.get('http://localhost:8080/api/areas')
                 .then((res) => {
                     setAreas(res.data);
+                    setCreationMsg('Alue luotu.');
+                    setTimeout(() => {
+                        setCreationMsg('');
+                    }, 4000);
                 })
                 .catch((err) => {
                     console.error('Error fetching areas:', err);
@@ -75,6 +80,7 @@ const Areas = () => {
                 />
                 <br />
                 <button className='btn' type="submit">Luo</button>
+                {creationMsg != '' && <h3 style={{'color': 'green'}}>{creationMsg}</h3>}
             </form>
             <form>
                 <h2>Alueet:</h2>

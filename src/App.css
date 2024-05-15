@@ -67,7 +67,6 @@
 html, body {
   background-color: #7c7272;
   font-weight: bold;
-  text-shadow: -1px 0 black, 0 2px black, 2px 0 black, 0 -1px black;
   min-height: 100vh;
   background-image: url("./assets//mökkikuvaOTI.jpeg");
   background-color: #7397b6;
@@ -83,7 +82,6 @@ html, body {
 h1, h2, h3 {
   font-weight: bold;
   text-align: center;
-  text-shadow: -1px 0 black, 0 2px black, 2px 0 black, 0 -1px black;
 }
 
 form, .area-container {
