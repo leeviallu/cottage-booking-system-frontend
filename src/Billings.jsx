@@ -1,25 +1,54 @@
 import axios from "axios";
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import PDFDocument from "./PDFDocument";
 
 const Billings=()=>{
     const [billingsOfReservation, setBillingsOfReservation] = useState([]);
+    const [date, setDate] = useState('')
+    const [dateShown, setDateShown] = useState('')
 
-    useEffect(() => {
-        axios.get(`http://localhost:8080/api/billings/reservation?confirmationDate=${new Date().toISOString().split('T')[0]}`)
+    const searchBillings = (event) => {
+        event.preventDefault();
+        axios.get(`http://localhost:8080/api/billings/reservation?confirmationDate=${date}`)
             .then(res => {
                 setBillingsOfReservation(res.data);
+                setDateShown(date);
             })
             .catch(e => {
                 console.error('Error fetching billingsOfReservation: ',e);
             })
-    }, []);
+    }
 
+ 
     
     return (
         <div className="container">
-            <h2>Kaikki laskutukset</h2>
+            <h2>Laskut</h2>
+            <form onSubmit={searchBillings}>
+                <label htmlFor="date">Varauksen vahvistuspäivä:</label>
+                <br />
+                <input 
+                    type="date" 
+                    id="date" 
+                    name="date" 
+                    value={date} 
+                    onChange={e => setDate(e.target.value)} 
+                    onInvalid={e => e.target.setCustomValidity('Valitse vahvistuspäivämäärä')} 
+                    onInput={e => e.target.setCustomValidity('')}
+                    required
+                />
+                <br />
+                <button type="submit">Hae</button>
+            </form>
+            
+            <br />
             <div>
+                {
+                    billingsOfReservation[0] && <h2>Vahvistuspäivä ennen {dateShown}</h2>
+
+                }
+                
+
                 {
                     billingsOfReservation
                         .filter((bor, index, self) => self.findIndex(b => b[2].billingId === bor[2].billingId) === index)
