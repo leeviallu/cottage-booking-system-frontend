@@ -7,10 +7,10 @@ const Cottages = () => {
     const postals = Object.keys(postalcodes).map((key) => [key, postalcodes[key]]);
     const [areas, setAreas] = useState([]);
     const [cottages, setCottages] = useState([]);
-    const [cottageSearchTerm, setCottageSearchTerm] = useState("");
+    const [cottageSearchTerm, setCottageSearchTerm] = useState('');
     const [cottageSearchResults, setCottageSearchResults] = useState([]);
-    const [postalSearchTerm, setPostalSearchTerm] = useState("");
-    const [filteredPostalcodes, setFilteredPostalcodes] = useState([]);    
+    const [postalSearchTerm, setPostalSearchTerm] = useState('');
+    const [filteredPostalcodes, setFilteredPostalcodes] = useState([]);
     const [formData, setFormData] = useState({
         areaId: 0,
         postalcode: postals[0][0],
@@ -31,34 +31,33 @@ const Cottages = () => {
         e.preventDefault();
         const { areaId, postalcode, name, address, price, description, capacity, equipment } = formData;
         const position = postalcodes[postalcode];
-        console.log(formData)
 
         if (position == null) {
-            console.error("Given postalcode doesn't exist.")
+            console.error('Given postalcode doesn\'t exist.');
         } else {
             axios.get('http://localhost:8080/api/postal/' + postalcode)
                 .then(response => {
-                    if(response.data == "") {
-                        axios.post('http://localhost:8080/api/postal', 
-                                    {
-                                        "postalcode": postalcode,
-                                        "position": position
-                                    }
+                    if(response.data == '') {
+                        axios.post('http://localhost:8080/api/postal',
+                            {
+                                'postalcode': postalcode,
+                                'position': position
+                            }
                         ).then(() => {
                             axios.post('http://localhost:8080/api/cottages',
                                 {
-                                    "description": description,
-                                    "address": address,
-                                    "postal": {
-                                                "postalcode": postalcode
-                                            },
-                                    "name": name,
-                                    "price": price,
-                                    "equipment": equipment,
-                                    "area": {
-                                                "areaId": areaId
-                                            },
-                                    "capacity": capacity
+                                    'description': description,
+                                    'address': address,
+                                    'postal': {
+                                        'postalcode': postalcode
+                                    },
+                                    'name': name,
+                                    'price': price,
+                                    'equipment': equipment,
+                                    'area': {
+                                        'areaId': areaId
+                                    },
+                                    'capacity': capacity
                                 }
                             ).then(() => {
                                 setFormData({
@@ -77,31 +76,30 @@ const Cottages = () => {
                                     })
                                     .catch(err => {
                                         console.error('Error while fetching cottages:', err);
-                                    })
+                                    });
                             })
+                                .catch(err => {
+                                    console.error('Error while posting cottage', err);
+                                });
+                        })
                             .catch(err => {
-                                console.error("Error while posting cottage", err)
-                            })
-                        })
-                        .catch(err => {
-                            console.error("Error while posting postal", err)
-                        })
-                    }
-                    else {
+                                console.error('Error while posting postal', err);
+                            });
+                    } else {
                         axios.post('http://localhost:8080/api/cottages',
                             {
-                                "description": description,
-                                "address": address,
-                                "postal": {
-                                            "postalcode": postalcode
-                                        },
-                                "name": name,
-                                "price": price,
-                                "equipment": equipment,
-                                "area": {
-                                            "areaId": areaId
-                                        },
-                                "capacity": capacity
+                                'description': description,
+                                'address': address,
+                                'postal': {
+                                    'postalcode': postalcode
+                                },
+                                'name': name,
+                                'price': price,
+                                'equipment': equipment,
+                                'area': {
+                                    'areaId': areaId
+                                },
+                                'capacity': capacity
                             }
                         ).then(() => {
                             setFormData({
@@ -120,16 +118,16 @@ const Cottages = () => {
                                 })
                                 .catch(err => {
                                     console.error('Error while fetching cottages:', err);
-                                })
+                                });
                         })
-                        .catch(err => {
-                            console.error("Error while posting cottage", err)
-                        })
+                            .catch(err => {
+                                console.error('Error while posting cottage', err);
+                            });
                     }
                 })
                 .catch(err => {
-                    console.error("Error while getting postalcode", err)
-                })
+                    console.error('Error while getting postalcode', err);
+                });
         }
     };
 
@@ -137,41 +135,41 @@ const Cottages = () => {
         axios.get('http://localhost:8080/api/areas')
             .then(res => {
                 setAreas(res.data);
-                setFormData({...formData, areaId: res.data[0].areaId})
+                setFormData({...formData, areaId: res.data[0].areaId});
             })
             .catch(err => {
                 console.error('Error while fetching areas:', err);
-            })
+            });
         axios.get('http://localhost:8080/api/cottages')
             .then(res => {
                 setCottages(res.data);
             })
             .catch(err => {
                 console.error('Error while fetching cottages:', err);
-            })   
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
-        const filteredPostals = postals.filter(postal => 
+        const filteredPostals = postals.filter(postal =>
             postal[0].includes(postalSearchTerm)
         );
         setFilteredPostalcodes(filteredPostals);
         if (filteredPostals.length != 0) {
-            setFormData({...formData, postalcode: filteredPostals[0][0]})
+            setFormData({...formData, postalcode: filteredPostals[0][0]});
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [postalSearchTerm])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [postalSearchTerm]);
 
     useEffect(() => {
-        const filteredCottages = cottages.filter(cottage => 
-            cottage.name != null 
-            ?
-            cottage.name.toLowerCase().includes(cottageSearchTerm.toLowerCase())
-            : null
+        const filteredCottages = cottages.filter(cottage =>
+            cottage.name != null
+                ?
+                cottage.name.toLowerCase().includes(cottageSearchTerm.toLowerCase())
+                : null
         );
         setCottageSearchResults(filteredCottages);
-    }, [cottages, cottageSearchTerm])
+    }, [cottages, cottageSearchTerm]);
 
     return (
         <div className="container">
@@ -191,102 +189,102 @@ const Cottages = () => {
                 <br />
 
                 <label htmlFor="name">Nimi:</label><br/>
-                <input 
-                    type="text" 
-                    id="name" 
-                    name="name" 
-                    value={formData.name} 
-                    onChange={handleChange}  
-                    onInvalid={e => e.target.setCustomValidity('Name required')} 
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    onInvalid={e => e.target.setCustomValidity('Name required')}
                     onInput={e => e.target.setCustomValidity('')}
                     required
                 />
                 <br />
 
                 <label htmlFor="address">Osoite:</label><br/>
-                <input 
-                    type="text" 
-                    id="address" 
-                    name="address" 
-                    value={formData.address} 
-                    onChange={handleChange} 
-                    onInvalid={e => e.target.setCustomValidity('Address required')} onInput={e => e.target.setCustomValidity('')} 
+                <input
+                    type="text"
+                    id="address"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    onInvalid={e => e.target.setCustomValidity('Address required')} onInput={e => e.target.setCustomValidity('')}
                     required
                 />
                 <br />
-                
+
                 <label htmlFor="postalSearchTerm">Postiosoite:</label><br/>
-                <input 
+                <input
                     type="number"
-                    id="postalSearchTerm" 
-                    value={postalSearchTerm} 
-                    onChange={event => setPostalSearchTerm(event.target.value)} 
+                    id="postalSearchTerm"
+                    value={postalSearchTerm}
+                    onChange={event => setPostalSearchTerm(event.target.value)}
                 />
                 <br />
                 <select id="postalcode" name="postalcode" value={formData.postalcode} onChange={handleChange}>
                     {
                         filteredPostalcodes.map((postalcode) => (
-                                <option key={postalcode[0]} value={postalcode[0]}>
-                                    {postalcode[0]} {postalcode[1]}
-                                </option>
-                            )
-                        )        
+                            <option key={postalcode[0]} value={postalcode[0]}>
+                                {postalcode[0]} {postalcode[1]}
+                            </option>
+                        )
+                        )
                     }
                 </select>
                 <br />
 
                 <label htmlFor="description">Kuvaus:</label><br/>
-                <textarea 
-                    type="text" 
+                <textarea
+                    type="text"
                     id="description"
-                    name="description" 
-                    value={formData.description} 
-                    onChange={handleChange} 
-                    cols="30" 
-                    rows="5" 
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                    cols="30"
+                    rows="5"
                 />
                 <br />
 
                 <label htmlFor="equipment">Lisäpalvelut:</label><br/>
-                <textarea 
-                    type="text" 
-                    id="equipment" 
-                    name="equipment" 
-                    value={formData.equipment} 
-                    onChange={handleChange} 
-                    cols="30" 
-                    rows="5" 
+                <textarea
+                    type="text"
+                    id="equipment"
+                    name="equipment"
+                    value={formData.equipment}
+                    onChange={handleChange}
+                    cols="30"
+                    rows="5"
                 />
                 <br />
                 <br />
 
                 <label htmlFor="capacity">Kapasiteetti:</label><br/>
-                <input 
-                    type="number" 
-                    id="capacity" 
-                    name="capacity" 
-                    value={formData.capacity} 
-                    onChange={handleChange} 
-                    onInvalid={e => e.target.setCustomValidity('Capacity must be bigger than 0.')} 
-                    onInput={e => e.target.setCustomValidity('')} 
-                    min="1" 
-                    max="100000" 
-                    required 
+                <input
+                    type="number"
+                    id="capacity"
+                    name="capacity"
+                    value={formData.capacity}
+                    onChange={handleChange}
+                    onInvalid={e => e.target.setCustomValidity('Capacity must be bigger than 0.')}
+                    onInput={e => e.target.setCustomValidity('')}
+                    min="1"
+                    max="100000"
+                    required
                 />
                 <br />
 
                 <label htmlFor="price">Hinta:</label><br/>
-                <input 
-                    type="number" 
-                    id="price" 
-                    name="price" 
-                    value={formData.price} 
-                    onChange={handleChange} 
-                    onInvalid={e => e.target.setCustomValidity('Price must be bigger than 0.')} 
-                    onInput={e => e.target.setCustomValidity('')} 
-                    min="1" 
-                    max="100000" 
-                    required 
+                <input
+                    type="number"
+                    id="price"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleChange}
+                    onInvalid={e => e.target.setCustomValidity('Price must be bigger than 0.')}
+                    onInput={e => e.target.setCustomValidity('')}
+                    min="1"
+                    max="100000"
+                    required
                 />
                 <br />
                 <br />
@@ -299,12 +297,12 @@ const Cottages = () => {
             <h3>Tulokset:</h3>
             <div>
                 {
-                    cottageSearchResults.map(cottage => 
-                        cottage.name != null 
-                            ?    
+                    cottageSearchResults.map(cottage =>
+                        cottage.name != null
+                            ?
                             <Cottage key={cottage.cottageId} cottage={cottage} />
                             :
-                            null   
+                            null
                     )
                 }
             </div>

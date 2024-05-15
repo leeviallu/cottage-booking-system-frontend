@@ -1,13 +1,13 @@
-import ServiceReport from "./ServiceReport";
-import CottageReport from "./CottageReport"
+import ServiceReport from './ServiceReport';
+import CottageReport from './CottageReport';
 
 const Reports = () => {
     return (
         <div className="container">
-        <ServiceReport />
-        <CottageReport />
+            <ServiceReport />
+            <CottageReport />
         </div>
-    )
+    );
 };
 
 export default Reports;

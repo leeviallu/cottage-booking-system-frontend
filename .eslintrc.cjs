@@ -12,6 +12,13 @@ module.exports = {
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "quotes": ["error", "single"],
+    "brace-style": ["error", "1tbs"], 
+    "no-var": "error", 
+    "no-trailing-spaces": "error",
+    'semi': ['error'],
+    "indent": ["error", 4],
     'react/jsx-no-target-blank': 'off',
     'react-refresh/only-export-components': [
       'warn',

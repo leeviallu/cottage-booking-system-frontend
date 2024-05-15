@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import './App.css';
 
 const Billing = ({bor, billingsOfReservation}) => {
     const [billingServices, setBillingServices] = useState([]);
     const sor = bor[0];
     const billing = bor[1];
-    
+
 
     useEffect(() => {
         const updatedBillingServices = billingsOfReservation
             .filter(bor => bor[1].billingId === billing.billingId)
             .map(bor => bor[0].service);
-    
+
         setBillingServices(updatedBillingServices);
     }, [billingsOfReservation, billing.billingId]);
-    
+
 
     return (
         <div className="invoice-container" key={billing.billingId}>
@@ -23,7 +23,7 @@ const Billing = ({bor, billingsOfReservation}) => {
             <p>{sor.reservation.customer.phonenumber}</p>
             <p>{sor.reservation.cottage.name}</p>
             <p>EI TOIMI {billing.sum}</p>
-            
+
             {
                 billingServices.map(service => (
                     <div key={service.serviceId}>
@@ -33,18 +33,18 @@ const Billing = ({bor, billingsOfReservation}) => {
                 ))
             }
             <p>Varaus välillä {new Date(sor.reservation.reservationStartingDate).toISOString().split('T')[0]} ja {new Date(sor.reservation.reservationEndingDate).toISOString().split('T')[0]}</p>
-            
+
             {
                 billing.isPaid
-                ?
-                <h3>Maksettu</h3>
-                :
-                <h3>Ei maksettu</h3>
+                    ?
+                    <h3>Maksettu</h3>
+                    :
+                    <h3>Ei maksettu</h3>
 
             }
 
-         
+
         </div>
-    )
+    );
 };
 export default Billing;

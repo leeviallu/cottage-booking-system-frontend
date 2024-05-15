@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 import { useState } from 'react';
-import PDFDocument from "./PDFDocument";
+import PDFDocument from './PDFDocument';
 
 const Billings=()=>{
     const [billingsOfReservation, setBillingsOfReservation] = useState([]);
-    const [date, setDate] = useState('')
-    const [dateShown, setDateShown] = useState('')
+    const [date, setDate] = useState('');
+    const [dateShown, setDateShown] = useState('');
 
     const searchBillings = (event) => {
         event.preventDefault();
@@ -16,44 +16,43 @@ const Billings=()=>{
             })
             .catch(e => {
                 console.error('Error fetching billingsOfReservation: ',e);
-            })
-    }
+            });
+    };
 
- 
-    
+
+
     return (
         <div className="container">
             <h2>Laskut</h2>
             <form onSubmit={searchBillings}>
                 <label htmlFor="date">Varauksen vahvistuspäivä:</label>
                 <br />
-                <input 
-                    type="date" 
-                    id="date" 
-                    name="date" 
-                    value={date} 
-                    onChange={e => setDate(e.target.value)} 
-                    onInvalid={e => e.target.setCustomValidity('Valitse vahvistuspäivämäärä')} 
+                <input
+                    type="date"
+                    id="date"
+                    name="date"
+                    value={date}
+                    onChange={e => setDate(e.target.value)}
+                    onInvalid={e => e.target.setCustomValidity('Valitse vahvistuspäivämäärä')}
                     onInput={e => e.target.setCustomValidity('')}
                     required
                 />
                 <br />
                 <button type="submit">Hae</button>
             </form>
-            
+
             <br />
             <div>
                 {
                     billingsOfReservation[0] && <h2>Vahvistuspäivä ennen {dateShown}</h2>
 
                 }
-                
+
 
                 {
                     billingsOfReservation
                         .filter((bor, index, self) => self.findIndex(b => b[2].billingId === bor[2].billingId) === index)
-                        .map(bor =>
-                            {
+                        .map(bor => {
                             const reservation = bor[0];
                             const service = bor[1];
                             const billing = bor[2];
@@ -63,17 +62,18 @@ const Billings=()=>{
                                     <p>{new Date(bor[0].reservationStartingDate).toISOString().split('T')[0]} - {new Date(bor[0].reservationEndingDate).toISOString().split('T')[0]}</p>
                                     {
                                         bor[2].isPaid
-                                        ?
-                                        <p>Maksettu</p>
-                                        :
-                                        <p>Ei maksettu</p>
+                                            ?
+                                            <p>Maksettu</p>
+                                            :
+                                            <p>Ei maksettu</p>
                                     }
-                                    
+
                                     <PDFDocument billingsOfReservation={billingsOfReservation} reservation={reservation} service={service} billing={billing} />
                                 </div>
-                            )}
+                            );
+                        }
                         )
-                        
+
                 }
             </div>
         </div>
