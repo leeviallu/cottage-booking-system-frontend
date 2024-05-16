@@ -101,8 +101,8 @@ const Reports = () => {
                                 <div key={cottage.cottageId}>
                                     <h3>{cottage.name}</h3>
                                     <p>{cottage.address}</p>
-                                    <p>Varatut mökit: {reservationCount}€</p>
-                                    <p>Yhteensä: {cottageTotal}</p>
+                                    <p>Varatut mökit: {reservationCount}</p>
+                                    <p>Yhteensä: {cottageTotal}€</p>
                                     <br/>
                                 </div>
                             );
